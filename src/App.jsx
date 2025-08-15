@@ -4,7 +4,7 @@ import Home from "./pages/Home"
 import AboutUs from "./pages/AboutUs"
 import Books from "./pages/Books"
 import ContactUs from "./pages/ContactUs"
-import Blogs from "./pages/blogs"
+import Blogs from "./pages/Blogs"
 import NotFound from "./pages/NotFound"
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
