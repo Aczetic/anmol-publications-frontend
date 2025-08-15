@@ -1,0 +1,110 @@
+@import 'tailwindcss';
+
+@font-face {
+    font-family: 'Bernard';
+    src: url(./assets/fonts/BagnardSans.otf);
+}
+
+
+html,body{
+    width:100%;
+    padding:0 ; margin:0;
+    box-sizing:border-box;
+    font-size:18px;
+    /* overflow-x:hidden; TODO this needs to be added because aos causes overflow and width increase */
+}
+
+
+
+body {
+    background-color:rgb(255, 255, 255);
+    /* background-image:
+    radial-gradient(at 9% 39%, hsla(14,0%,100%,1) 0px, transparent 50%),
+    radial-gradient(at 57% 21%, hsla(0,0%,100%,1) 0px, transparent 50%),
+    radial-gradient(at 89% 8%, hsla(0,72%,86%,1) 0px, transparent 50%),
+    radial-gradient(at 100% 56%, hsla(0,0%,100%,1) 0px, transparent 50%),
+    radial-gradient(at 12% 87%, hsla(0,0%,100%,1) 0px, transparent 50%),
+    radial-gradient(at 96% 91%, hsla(0,0%,100%,1) 0px, transparent 50%),
+    radial-gradient(at 17% 0%, hsla(0,78%,76%,1) 0px, transparent 50%),
+    radial-gradient(at 81% 100%, rgb(248, 204, 204) 0px, transparent 50%); */
+    background-size:300%;
+    background-position:50%;
+    background-repeat:no-repeat;
+}
+/* 
+body.dark{
+    background-image:url('./assets/bg-dark.png');
+	background-size: 180% 180%;
+
+
+} */
+
+
+@keyframes moveNoise {
+    0% {
+        background-position: 10% 50%;
+	}
+	50% {
+        background-position: 100% 50%;
+	}
+	100% {
+        background-position: 1% 50%;
+	}
+}
+
+#hero{
+    font-family:'Bernard';
+    font-weight:bolder;
+}
+
+
+.btn-primary{
+    padding:0.5rem 0.8rem;
+    background-color:#f33333;
+    color:white;
+    height:fit-content;
+    width:fit-content;
+    border-radius:5px;
+    cursor:pointer;
+    user-select:none;
+}
+.btn-secondary{
+    padding:0.5rem 0.8rem;
+    background-color:#3e1212;
+    color:white;
+    height:fit-content;
+    width:fit-content;
+    border-radius:5px;
+    cursor:pointer;
+    user-select:none;
+}
+
+.marquee-child{
+    animation:marquee;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+}
+
+.marquee-child img{
+    object-fit:contain;
+    max-width:none;
+}
+
+
+@keyframes marquee{
+    from {
+        transform:translateX(0%);
+    }
+    to{
+        transform:translateX(-100%);
+    }
+}
+
+@keyframes marqueeRev{
+    from {
+        transform:translateX(-100%);
+    }
+    to{
+        transform:translateX(0%);
+    }
+}
