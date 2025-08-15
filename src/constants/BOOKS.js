@@ -7,6 +7,7 @@ const Books = [
     { id:231434 , name : "Social Science" , img : bookCovers.sst },
     { id:231434 , name : "General Knowledge" , img : bookCovers.gk },
     { id:2315634 , name : "Hindi Grammar" , img : bookCovers.hindi_grammar },
+    { id:2315634 , name : "English Grammar" , img : bookCovers.eng_grammar },
     { id:2315634 , name : "Hindi Literature" , img : bookCovers.hindi_lit },
     { id:27887 , name : "Computer" , img : bookCovers.computer },
     { id:26567 , name : "Sanskrit" , img : bookCovers.sanskrit },
