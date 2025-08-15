@@ -266,7 +266,7 @@ const Home = () => {
   // TODO: implement the numbers to start from 0 and then go full
 
   return <>
-    <div id = 'hero' data-aos = 'fade' className = 'w-full min-h-[820px] flex flex-col items-center justify-start overflow-x-hidden' style = {{backgroundImage:`url(${heroImage})` , backgroundSize:'cover' , backgroundPosition:'50% 70%'}}>
+    <div id = 'hero' data-aos = 'fade' data-aos-delay = '300' className = 'w-full min-h-[820px] flex flex-col items-center justify-start overflow-x-hidden' style = {{backgroundImage:`url(${heroImage})` , backgroundSize:'cover' , backgroundPosition:'50% 70%'}}>
       
       <div className = 'w-full flex flex-col gap-1 items-center relative border-box top-[5rem]'>
         <h1 data-aos = 'zoom-in' className = 'text-[#ff4141] text-4xl leading-9 md:leading-18 sm:text-[3rem] text-wrap md:text-[4rem] p-2 text-center'>Anmol Publications</h1>
