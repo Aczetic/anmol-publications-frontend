@@ -159,7 +159,7 @@ const Features = ()=>{
 
 const Book = ({data})=>{
   // TODO: implement the button
-   return <div className = 'w-30 h-42 md:w-35 md:h-52 flex flex-col gap-2 bg-red-50 p-1'>
+   return <div className = 'w-30 h-42 md:w-35 md:h-52 flex flex-col gap-2 p-1'>
         <div className = 'w-full h-35 flex justify-center items-center'>
           <img src = {data.img} className = 'w-20 md:w-25 h-full' style = {{objectFit : 'cover'}}/>
         </div>

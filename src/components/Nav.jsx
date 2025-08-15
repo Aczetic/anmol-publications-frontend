@@ -122,26 +122,26 @@ const Nav = () => {
         </div>
         <div className = 'text-white w-fit h-fit p-4 flex flex-col gap-4 relative top-10 '>
           <h1 className = 'font-bold'>Company</h1>
-          <NavLink to = '/home' > Home </NavLink>  
-          <NavLink to = '/about-us' > About Us </NavLink>  
-          <NavLink to = '/our-mission' > Our Mission </NavLink>  
-          <NavLink to = '/contact-us' > Contact Us </NavLink>  
+          <NavLink className = 'text-red-50' to = '/home' > Home </NavLink>  
+          <NavLink className = 'text-red-50' to = '/about-us' > About Us </NavLink>  
+          <NavLink className = 'text-red-50' to = '/our-mission' > Our Mission </NavLink>  
+          <NavLink className = 'text-red-50' to = '/contact-us' > Contact Us </NavLink>  
         </div>
         {/* TODO: connect these links */}
         <div className = 'text-white w-fit h-fit p-4 flex flex-col gap-4 relative top-10'>
           <h1 className = 'font-bold'>Product / Resources</h1>
-          <NavLink to = '/books' > Books </NavLink>  
-          <NavLink to = '/testpaper-generator' > Testpaper Generator </NavLink>  
-          <NavLink to = '/home' >Support</NavLink>  
-          <NavLink to = '/home' > NEP Guidelines</NavLink>  
+          <NavLink className = 'text-red-50' to = '/books' > Books </NavLink>  
+          <NavLink className = 'text-red-50' to = '/testpaper-generator' > Testpaper Generator </NavLink>  
+          <NavLink className = 'text-red-50' to = '/home' >Support</NavLink>  
+          <NavLink className = 'text-red-50' to = '/home' > NEP Guidelines</NavLink>  
         </div>
         {/* TODO: connect these links */}
         <div className = 'text-white w-fit h-fit p-4 flex flex-col gap-4 relative top-10'>
           <h1 className = 'font-bold'>Discover</h1>
-          <NavLink to = '/home' > Blogs </NavLink>  
-          <NavLink to = '/home' > Careers </NavLink>  
-          <NavLink to = '/home' > Terms and Conditions </NavLink>  
-          <NavLink to = '/faq' > FAQs </NavLink>  
+          <NavLink className = 'text-red-50' to = '/home' > Blogs </NavLink>  
+          <NavLink className = 'text-red-50' to = '/home' > Careers </NavLink>  
+          <NavLink className = 'text-red-50' to = '/home' > Terms and Conditions </NavLink>  
+          <NavLink className = 'text-red-50' to = '/faq' > FAQs </NavLink>  
         </div>
       </footer>
     </>
