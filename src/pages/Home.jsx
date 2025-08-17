@@ -35,7 +35,7 @@ const School = ({src})=>{
 
 
 const Features = ()=>{
-  return <div className = 'flex flex-col gap-10 p-2 w-full items-center'>
+  return <div className = 'flex flex-col gap-10 p-2 w-full items-center overflow-hidden'>
     
     <div data-aos = 'fade' className = 'flex flex-col gap-1 p-2'>
       <h1 className = 'font-bold text-3xl text-center'> Features</h1>
@@ -291,7 +291,7 @@ const Home = () => {
         </div>
       </div>
     </section>
-    <div  data-aos = 'fade-up' className = 'w-full min-h-[10rem] h-fit flex flex-col gap-4 mt-[2rem] pt-[2rem]'>
+    <div  data-aos = 'fade-up' className = 'w-full min-h-[10rem] h-fit flex flex-col gap-4 mt-[2rem] pt-[2rem] overflow-x-hidden'>
         <div className = 'flex flex-col gap-1 p-2'>
           <h1 className = 'font-bold text-3xl text-center'> Our Partners</h1>
           <h2 className = 'text-sm text-center'> Schools running our books</h2>

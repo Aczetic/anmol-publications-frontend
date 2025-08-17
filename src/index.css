@@ -11,7 +11,7 @@ html,body{
     padding:0 ; margin:0;
     box-sizing:border-box;
     font-size:18px;
-    overflow-x:hidden; /* TODO this needs to be added because aos causes overflow and width increase */
+    /* overflow-x:hidden; TODO this needs to be added because aos causes overflow and width increase */
 }
 
 #root-overlay{
