@@ -99,7 +99,7 @@ const Nav = () => {
       <main className = 'w-full h-fit relative z-0 top-16'><Outlet/></main>
 
       {/* TODO: implement the email and phone to open mail app and phone app */}
-      <footer className = 'w-full h-fit  flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-10 justify-around relative top-16 bg-black text-xs md:text-sm'>
+      <footer data-aos = 'fade-up' className = 'w-full h-fit  flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-11 justify-around relative top-16 bg-black text-xs md:text-sm'>
         <div className = 'w-full max-w-100 flex flex-col gap-4 p-4'> 
           <NavLink to = '/' className = 'flex gap-2 px-2' > 
             <img src = {logo} alt = 'Anmol Publications logo' className = 'w-15 h-full'/>

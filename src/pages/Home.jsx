@@ -266,12 +266,12 @@ const Home = () => {
   // TODO: implement the numbers to start from 0 and then go full
 
   return <>
-    <div id = 'hero' data-aos = 'fade' data-aos-delay = '300' className = 'w-full min-h-[820px] flex flex-col items-center justify-start overflow-x-hidden' style = {{backgroundImage:`url(${heroImage})` , backgroundSize:'cover' , backgroundPosition:'50% 70%'}}>
+    <section role = 'banner' id = 'hero' data-aos = 'fade' data-aos-delay = '300' className = 'w-full min-h-[820px] flex flex-col items-center justify-start overflow-x-hidden' style = {{backgroundImage:`url(${heroImage})` , backgroundSize:'cover' , backgroundPosition:'50% 70%'}}>
       
       <div className = 'w-full flex flex-col gap-1 items-center relative border-box top-[5rem]'>
-        <h1 data-aos = 'zoom-in' className = 'text-[#ff4141] text-4xl leading-9 md:leading-18 sm:text-[3rem] text-wrap md:text-[4rem] p-2 text-center'>Anmol Publications</h1>
+        <h1 data-aos = 'zoom-in' className = 'text-[#ff4141] text-4xl leading-9 md:leading-18 sm:text-[3rem] break-words md:text-[4rem] p-2 text-center'>Anmol Publications</h1>
         <h1 data-aos = 'zoom-in' className = 'text-white text-2xl sm:text-[2rem] font-light leading-6 md:leading-8 text-center p-4 md:p-2'>Where Education Meets Excellence</h1>
-        <img data-aos = 'fade-up' src = {logo} alt = 'Anmol Publications logo' className = 'w-15 h-15 md:w-20 md:h-20'/>
+        <img data-aos = 'fade-up' src = {logo} aria-label = 'Anmol Publications logo' alt = 'Anmol Publications Logo' className = 'w-15 h-15 md:w-20 md:h-20'/>
       </div>
       <div data-aos = 'zoom-out' className = 'w-full max-w-[300px] md:max-w-[500px] h-10 p-2 text-white relative top-[7rem] flex justify-around'> 
         <div className = 'flex flex-col gap-1 text-center'>
@@ -290,7 +290,7 @@ const Home = () => {
           <p className = 'font-extralight'>Subjects</p>
         </div>
       </div>
-    </div>
+    </section>
     <div  data-aos = 'fade-up' className = 'w-full min-h-[10rem] h-fit flex flex-col gap-4 mt-[2rem] pt-[2rem]'>
         <div className = 'flex flex-col gap-1 p-2'>
           <h1 className = 'font-bold text-3xl text-center'> Our Partners</h1>
