@@ -5,8 +5,8 @@ import aboutus from '../assets/about_us.png';
 const AboutUs = () => {
   return (
     <div className = 'w-full h-fit flex flex-col'>
-        <div data-aos = 'fade' className = 'w-full flex justify-center h-20 md:h-100' style = {{backgroundImage : `url(${aboutus})`, backgroundPosition:'center',backgroundSize:'100%', backgroundRepeat:'no-repeat'}}>
-          <p data-aos = 'zoom-in' className = 'text-red-50 text-[2.5rem] md:text-[4rem] text-center font-bold relative h-fit top-8 md:top-10'>About Us</p>
+        <div data-aos = 'fade' className = 'w-full flex justify-center h-40 md:h-100' style = {{backgroundImage : `url(${aboutus})`, backgroundPosition:'center',backgroundSize:'100%', backgroundRepeat:'no-repeat'}}>
+          <p data-aos = 'zoom-in' className = 'text-red-50 text-[2.5rem] md:text-[4rem] text-center font-bold relative h-fit top-6 md:top-10'>About Us</p>
         </div>
         <div data-aos = 'fade-up' className = 'w-full h-fit p-2 flex flex-col items-center mt-0 md:mt-10'>
           <p className = 'w-full text-xs md:text-sm ld:text-xl max-w-[800px] p-3 '>
