@@ -11,7 +11,7 @@ import NextIcon from '@mui/icons-material/ArrowForwardIos';
 
 
 const Testimonial = ({data})=>{
-    return <div className = 'border-3 border-solid border-red-100 rounded-sm w-full max-w-[600px] h-fit m-auto'>
+    return <div className = 'border-3 border-solid border-red-100 rounded-sm w-full max-w-[600px] h-fit m-auto cursor-pointer'>
         <div className = 'w-full h-full min-h-50 flex flex-col justify-between'>
             <div className = 'flex gap-2 w-full bg-red-100 h-[5rem] px-3 py-1 justify-start items-center'>
                 <img src = {data.img} className = 'w-10 h-10 rounded-full border-solid border-3 border-red-400' style = {{objectFit : 'cover'}}/>
@@ -66,8 +66,8 @@ function Testimonials() {
                 }
             </Swiper>
             <div className = 'flex gap-2 w-full justify-center p-3'>
-                <button className = 'test-prev text-red-300 bg-red-50 rounded-full p-2 border-1 border-solid border-red-400'><PrevIcon/></button>
-                <button className = 'test-next text-red-300 bg-red-50 rounded-full p-2 border-1 border-solid border-red-400 '><NextIcon/></button>
+                <button className = 'test-prev text-red-300 bg-red-50 rounded-full p-2 border-1 border-solid border-red-400 cursor-pointer'><PrevIcon/></button>
+                <button className = 'test-next text-red-300 bg-red-50 rounded-full p-2 border-1 border-solid border-red-400 cursor-pointer'><NextIcon/></button>
             </div>
         </div>
     </div>
