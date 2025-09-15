@@ -30,32 +30,8 @@ body {
     background-image:url('./assets/pat.png');
     background-size:35rem;
     background-repeat:repeat;
-    /* animation:meshShift 60s linear infinite; */
   }
 
-@keyframes meshShift {
-   0%{
-    background-position:0% 0%;
-   }
-   25%{
-    background-position:30% 100%;
-   }
-   75%{
-    background-position:0% 70%;
-   }
-   100%{
-    background-position:0% 0%;
-   }
-
-  }
-
-/* 
-body.dark{
-    background-image:url('./assets/bg-dark.png');
-	background-size: 180% 180%;
-
-
-} */
 
 
 
@@ -116,3 +92,29 @@ body.dark{
         transform:translateX(0%);
     }
 }
+
+.breathing {
+    animation: breathing 3s ease-in-out infinite;
+  }
+  
+  @keyframes breathing {
+    0%, 100% {
+      box-shadow: 0 0 30px white, 0 0 10px white;
+    }
+    50% {
+      box-shadow: 0 0 40px white, 0 0 50px white;
+    }
+  }
+
+  .right-arrow-nudge {
+    animation: arrow-bounce 3s ease-in-out infinite;
+  }
+  
+  @keyframes arrow-bounce {
+    0%   { transform: translateX(0); }
+    10%  { transform: translateX(10px); }
+    15%  { transform: translateX(0); }
+    20%  { transform: translateX(10px); }
+    25%  { transform: translateX(0); }
+    100% { transform: translateX(0); } /* pause */
+  }

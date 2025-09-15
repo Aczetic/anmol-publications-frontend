@@ -15,6 +15,7 @@ import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook';
 import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import Testimonial from '../components/Testimonials.jsx';
+import RightArrowIcon from '@mui/icons-material/East';
 
 // swiper dependencies
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -30,7 +31,7 @@ import BOOKS from '../constants/BOOKS.js';
 import { useEffect, useRef } from 'react';
 
 const School = ({src})=>{
-  return <img src = {src} className = 'h-[5rem]' style = {{mixBlendMode:'multiply'}}/>
+  return <img src = {src} className = 'h-[3.5rem] md:h-[5rem]' style = {{mixBlendMode:'multiply'}}/>
 }
 
 
@@ -39,7 +40,7 @@ const Features = ()=>{
     
     <div data-aos = 'fade' className = 'flex flex-col gap-1 p-2'>
       <h1 className = 'font-bold text-3xl text-center'> Features</h1>
-      <h2 className = 'text-sm text-center'> Why we are ahead</h2>
+      <h2 className = 'text-sm text-center'> Why we are ahead of others</h2>
     </div>
     <div className = 'flex flex-col gap-25 w-full p-1 max-w-[400px] md:max-w-[600px] lg:max-w-[800px] items-center'>
         <div className = 'flex flex-col md:flex-row gap-5 items-center md:items-start'>
@@ -95,7 +96,7 @@ const Features = ()=>{
                   </div>
                   <div className = 'flex gap-1 text-sm'>
                     <TestGeneratorIcon className = 'text-green-400'/>
-                    <p>AI powered test generator</p>
+                    <p>AI powered test paper generator</p>
                   </div>
                   <div className = 'flex gap-1 text-sm'>
                     <BotIcon className = 'text-green-400'/>
@@ -174,11 +175,11 @@ const OurBooks = ()=>{
   return <div data-aos = 'fade-up' className = 'w-full h-fit mt-[5rem] flex flex-col gap-4'>
       <div data-aos = 'fade' className = 'flex flex-col gap-1 p-2'>
           <h1 className = 'font-bold text-3xl text-center'> Our Books</h1>
-          <h2 className = 'text-sm text-center'> See for yourself</h2>
+          <h2 className = 'text-sm text-center'> Try some books</h2>
       </div>
     <div className = 'w-full flex flex-col gap-15'>
-      <Marquee width = '1100px' List = {BOOKS.map((book,index)=> <Book key = {book.id} data = {book}/> )}/>
-      <Marquee width = '1100px' List = {BOOKS.map((book,index)=> <Book key = {book.id} data = {book}/> )} dir = {-1}/>
+      <Marquee width = '1100px' List = {BOOKS.map((book)=> <Book key = {book.id} data = {book}/> )}/>
+      <Marquee width = '1100px' List = {BOOKS.map((book)=> <Book key = {book.id} data = {book}/> )} dir = {-1}/>
     </div>
   </div>
 }
@@ -216,14 +217,18 @@ const Contact = ()=>{
         >
             {
                 Object.values(contactImages).map((t,index)=><SwiperSlide key = {index} className = 'flex items-center justify-center' >
-                    <img src = {t} className = 'w-full h-full' style = {{objectFit:'cover'}}/>
-                    <div className = 'w-full z-1000 h-full bg-[#00000055] absolute top-0 left-0 flex justify-center flex-col items-center'>
-                      <h1 data-aos = 'zoom-out' className = 'text-white font-bold text-6xl w-full md:w-200 text-center relative bottom-10'>{LINES[index]}</h1>
-                      <button data-aos = 'zoom-in' className = 'bg-black rounded-sm text-white px-3 py-1 text-xl [box-shadow:_0_0_50px_white,_0_0_10px_white]'><NavLink to = 'contact-us'>Contact Us</NavLink></button>
+                    <img src = {t} className = 'w-full h-full' style = {{objectFit:'cover' , objectSize:'120%'}}/>
+                    <div className = 'w-full z-1000 h-full bg-[#00000095] absolute top-0 left-0 flex justify-center flex-col items-center'>
+                      <h1 data-aos = 'zoom-out' className = 'text-white font-bold px-4 md:px-0 text-4xl md:text-6xl w-full md:w-200 text-center relative bottom-10'>{LINES[index]}</h1>
                     </div>
                 </SwiperSlide>)
             }
         </Swiper>
+                      <button data-aos = 'zoom-in' className = 'breathing bg-black rounded-md text-white px-3 py-1 text-xl absolute bottom-50 z-1000'>
+                        <NavLink to = '/contact-us' className = 'flex items-center gap-1'>
+                          Get In Touch <RightArrowIcon className = 'right-arrow-nudge scale-[0.8]'/> 
+                        </NavLink>
+                      </button>
       </div>
    </div>
 }
@@ -262,18 +267,19 @@ const NumCard = ({target , style = {} , className = ''})=>{
   return <p ref = {elemRef} className = {className} style = {{style}}></p>
 }
 
+const SchoolList = [cms,rlb,dav,dps,xavier];
+
 const Home = () => {
-  // TODO: implement the numbers to start from 0 and then go full
 
   return <>
-    <section role = 'banner' id = 'hero' data-aos = 'fade' data-aos-delay = '300' className = 'w-full min-h-[820px] flex flex-col items-center justify-start overflow-x-hidden' style = {{backgroundImage:`url(${heroImage})` , backgroundSize:'cover' , backgroundPosition:'50% 70%'}}>
+    <section role = 'banner' id = 'hero' data-aos = 'fade' data-aos-delay = '300' className = 'w-full min-h-[820px] flex flex-col items-center justify-start overflow-x-hidden' style = {{backgroundImage:`url(${heroImage})` , backgroundSize:'cover' , backgroundPosition:'50% 60%'}}>
       
-      <div className = 'w-full flex flex-col gap-1 items-center relative border-box top-[5rem]'>
-        <h1 data-aos = 'zoom-in' className = 'text-[#ff4141] text-4xl leading-9 md:leading-18 sm:text-[3rem] break-words md:text-[4rem] p-2 text-center'>Anmol Publications</h1>
+      <div className = 'w-full flex flex-col gap-1 items-center relative border-box top-[4rem] md:top-[5rem]'>
+        <h1 data-aos = 'zoom-in' className = 'text-[#ff4141] text-4xl leading-9 md:leading-18 sm:text-[3rem] break-words md:text-[4rem] px-2 text-center'>Anmol Educational Books</h1>
         <h1 data-aos = 'zoom-in' className = 'text-white text-2xl sm:text-[2rem] font-light leading-6 md:leading-8 text-center p-4 md:p-2'>Where Education Meets Excellence</h1>
-        <img data-aos = 'fade-up' src = {logo} aria-label = 'Anmol Publications logo' alt = 'Anmol Publications Logo' className = 'w-15 h-15 md:w-20 md:h-20'/>
+        <img data-aos = 'fade-up' src = {logo} aria-label = 'Anmol Publications logo' alt = 'Anmol Publications Logo' className = 'w-18 h-18 md:w-30 md:h-30'/>
       </div>
-      <div data-aos = 'zoom-out' className = 'w-full max-w-[300px] md:max-w-[500px] h-10 p-2 text-white relative top-[7rem] flex justify-around'> 
+      <div data-aos = 'zoom-out' className = 'w-full text-sm md:text-md max-w-[300px] md:max-w-[500px] h-10 p-2 text-white relative top-[5rem] md:top-[5rem] flex justify-around'> 
         <div className = 'flex flex-col gap-1 text-center'>
           <BooksIcon className = 'm-auto'/>
           <NumCard target = {50} />
@@ -296,7 +302,7 @@ const Home = () => {
           <h1 className = 'font-bold text-3xl text-center'> Our Partners</h1>
           <h2 className = 'text-sm text-center'> Schools running our books</h2>
         </div>
-          <Marquee List = {[<School src = {cms}/>,<School src = {rlb}/>,<School src = {dav}/>,<School src = {dps}/>,<School src = {xavier}/>]}/>
+          <Marquee List = {SchoolList.map((school,index)=><School key = {index} src = {school}/>)}/>
     </div>
     <div className = 'flex flex-col gap-4 mt-20 px-2'>
     <Features/>

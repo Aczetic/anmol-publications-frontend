@@ -10,6 +10,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import XIcon from '@mui/icons-material/X';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import AddressIcon from '@mui/icons-material/Business';
 
 const Nav = () => {
   const [drawerOpen , setDrawerOpen] = useState(false);
@@ -22,23 +23,26 @@ const Nav = () => {
       drawerRef.current.style.transform = 'translateX(100%)';
       setDrawerOpen(!drawerOpen);
   },[drawerOpen])
+
   const handleOpen = useCallback(()=>{
     drawerRef.current.style.transform = 'translateX(0)';
     setDrawerOpen(!drawerOpen);
 },[drawerOpen])
+
   return (
     <>
       <header
         className="z-9999 fixed top-0 w-full bg-red-50 h-18 backdrop-blur-sm flex justify-between p-2 align-center">
 
         <NavLink to = '/' className = 'flex gap-2 px-2' > 
-          <img src = {logo} alt = 'Anmol Publications logo' className = 'w-15 h-full'/>
-          <span className = 'flex flex-col justify-center leading-0'>
-            <p className = 'font-bold text-xl'>ANMOL</p>
-            <p className = 'font-bold text-sm'>Publications</p>
+          <img src = {logo} alt = 'Anmol Publications logo' className = 'w-13 h-full'/>
+          <span className = 'flex flex-col justify-center leading-0 gap-0'>
+            <p className = 'font-bold text-xs leading-4'>Anmol</p>
+            <p className = 'font-bold text-xs leading-4'>Educational</p>
+            <p className = 'font-bold text-xs leading-4'>Books</p>
           </span>
         </NavLink>
-        <div className='hidden w-fit h-full margin-auto lg:flex gap-4 items-center'>
+        <div className='hidden w-fit h-full margin-auto lg:flex gap-8 items-center'>
           <NavLink className = {({isActive})=>isActive? 'font-bold':''} to="/"> Home </NavLink>
           <NavLink className = {({isActive})=>isActive? 'font-bold':''}  to="/books"> Books </NavLink>
           <NavLink className = {({isActive})=>isActive? 'font-bold':''} to="/blogs"> Blogs </NavLink>
@@ -98,25 +102,27 @@ const Nav = () => {
       </header>
       <main className = 'w-full h-fit relative z-0 top-16'><Outlet/></main>
 
-      {/* TODO: implement the email and phone to open mail app and phone app */}
+      {/* TODO: connect the social media links only facebook is connected and ask to change the contact info in those pages to match correctly not gmail */}
       <footer data-aos = 'fade-up' className = 'w-full h-fit  flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-12 justify-around relative top-16 bg-black text-xs md:text-sm'>
         <div className = 'w-full max-w-100 flex flex-col gap-4 p-4'> 
           <NavLink to = '/' className = 'flex gap-2 px-2' > 
-            <img src = {logo} alt = 'Anmol Publications logo' className = 'w-15 h-full'/>
-            <span className = 'flex flex-col justify-center leading-0'>
-              <p className = 'font-bold text-xl text-white'>ANMOL</p>
-              <p className = 'font-bold text-sm text-white'>Publications</p>
-            </span>
+            <img src = {logo} alt = 'company-logo' className = 'w-15 h-full'/>
+            <span className = 'flex flex-col justify-center leading-0 gap-0 text-white'>
+              <p className = 'font-bold text-xs leading-4'>Anmol</p>
+              <p className = 'font-bold text-xs leading-4'>Educational</p>
+              <p className = 'font-bold text-xs leading-4'>Books</p>
+          </span>
           </NavLink>
           <p className = 'text-white w-full'>We offer NEP-certified, high-quality educational solutions for Indian schools. Our textbooks come with AI-powered digital services that extend learning beyond the classroom and enhance teaching outcomes.</p>
           <div className = 'flex flex-col gap-2'>
-            <p className = 'text-white flex gap-2'><EmailIcon className = 'text-white' />contact@anmolpublications.com</p>
-            <p className = 'text-white flex gap-2'><LocalPhoneIcon className = 'text-white' />+91 1234567890</p>
+            <a target = '_blank' href = 'https://google.com/maps?q=8/276, Sitapur Rd, Sector 8, Sector 9, Jankipuram Vistar, Khargapur Jagir, Lucknow, Uttar Pradesh 226021' className = 'text-white flex gap-2'><AddressIcon className = 'text-white' />Plot No. 95/3, S.NN. Villa, New Friends Colony, Sector-6 Jankipuram Vistar, 226021, Lucknow</a>
+            <a href = 'mailto:contact@anmoleducationalbooks.com' className = 'text-white flex gap-2'><EmailIcon className = 'text-white' />contact@anmoleducationalbooks.com</a>
+            <p className = 'text-white flex gap-2'><LocalPhoneIcon className = 'text-white' /><a href = 'tel:+919839314703'>+91 9839314703</a>  &nbsp; <a href = 'tel:+917905401629'>+91 7905401629</a></p>
             <div className = 'text-white flex gap-3'>
-              <a href = 'https://facebook.com'><FacebookIcon /></a>
-              <a href = 'https://instagram.com'><InstagramIcon /></a>
-              <a href = 'https://x.com'><XIcon /></a>
-              <a href = 'https://linkedin.com'><LinkedInIcon /></a>
+              <a target = '_blank' href = 'https://www.facebook.com/p/Anmol-Educational-Books-100064159837773/'><FacebookIcon /></a>
+              <a target = '_blank' href = 'https://www.instagram.com/anmoleducationalbooks/'><InstagramIcon /></a>
+              <a target = '_blank' href = 'https://x.com/AnmolBooks'><XIcon /></a>
+              <a target = '_blank' href = 'https://linkedin.com'><LinkedInIcon /></a>
             </div>
           </div>
         </div>

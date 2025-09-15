@@ -11,8 +11,8 @@ import NextIcon from '@mui/icons-material/ArrowForwardIos';
 
 
 const Testimonial = ({data})=>{
-    return <div className = 'border-3 border-solid border-red-100 rounded-sm w-full max-w-[600px] h-fit m-auto cursor-pointer'>
-        <div className = 'w-full h-full min-h-50 flex flex-col justify-between'>
+    return <div className = 'border-3 border-solid border-red-100 rounded-sm w-full max-w-[600px] h-fit m-auto cursor-grabbing'>
+        <div className = 'w-full h-full min-h-55 flex flex-col justify-between'>
             <div className = 'flex gap-2 w-full bg-red-100 h-[5rem] px-3 py-1 justify-start items-center'>
                 <img src = {data.img} className = 'w-10 h-10 rounded-full border-solid border-3 border-red-400' style = {{objectFit : 'cover'}}/>
                 <div className = 'flex flex-col text-xs'>
@@ -34,12 +34,13 @@ const Testimonial = ({data})=>{
 }
 
 function Testimonials() {
+    //TODO:this should come from an api request
   return (
     <>
     <div data-aos = 'fade-up' className = 'w-full h-fit flex flex-col gap-4 px-2 mt-25'>
         <div data-aos = 'fade' className = 'flex flex-col gap-1 p-2'>
             <h1 className = 'font-bold text-3xl text-center'> Testimonials</h1>
-            <h2 className = 'text-sm text-center'> See what our customers saying about us</h2>
+            <h2 className = 'text-sm text-center'> {"Don't Listen to us. See what our clients are saying"}</h2>
         </div>
         <div className = 'w-full h-fit'>
             <Swiper
@@ -60,7 +61,7 @@ function Testimonials() {
                 className="mySwiper w-full max-w-[600px] overflow-x-hidden m-auto"
             >
                 {
-                    TESTIMONIALS.map((t,index)=><SwiperSlide key = {t.id} >
+                    TESTIMONIALS.map((t)=><SwiperSlide key = {t.id} >
                         <Testimonial data = {t}/>
                     </SwiperSlide>)
                 }
