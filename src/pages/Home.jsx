@@ -31,7 +31,7 @@ import BOOKS from '../constants/BOOKS.js';
 import { useEffect, useRef } from 'react';
 
 const School = ({src})=>{
-  return <img src = {src} className = 'h-[3.5rem] md:h-[5rem]' style = {{mixBlendMode:'multiply'}}/>
+  return <img src = {src} className = 'h-[3.5rem] md:h-[5rem]' style = {{mixBlendMode:'multiply'}} loading = "lazy"/>
 }
 
 
@@ -44,7 +44,7 @@ const Features = ()=>{
     </div>
     <div className = 'flex flex-col gap-25 w-full p-1 max-w-[400px] md:max-w-[600px] lg:max-w-[800px] items-center'>
         <div className = 'flex flex-col md:flex-row gap-5 items-center md:items-start'>
-          <img data-aos = 'fade-right' src = {nep_guidelines} className = 'w-full h-50 md:w-45 md:h-55 md:mt-2' style = {{objectFit:'cover'}} alt = 'NEP certified books'/>
+          <img data-aos = 'fade-right' src = {nep_guidelines} className = 'w-full h-50 md:w-45 md:h-55 md:mt-2' style = {{objectFit:'cover'}} alt = 'NEP certified books' loading = "lazy"/>
           <div className = 'flex flex-col gap-3 px-2'>
             <div data-aos ='zoom-out' className = 'flex flex-col'>
               <h1 data-aos-offset = '50'  className = 'font-bold text-[1.5rem] bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 bg-clip-text text-transparent inline-block'>NEP-Certified Quality</h1>
@@ -80,7 +80,7 @@ const Features = ()=>{
         </div>
         {/* feature 1 ends here  */}
         <div className = 'flex flex-col md:flex-row gap-5 items-center md:items-start'>
-          <img data-aos = 'fade-left' src = {ai_powered} className = 'order-0 md:order-2 w-full h-50 md:w-45 md:h-55 md:mt-2' style = {{objectFit:'cover'}} alt = 'NEP certified books'/>
+          <img data-aos = 'fade-left' src = {ai_powered} className = 'order-0 md:order-2 w-full h-50 md:w-45 md:h-55 md:mt-2' style = {{objectFit:'cover'}} alt = 'NEP certified books' loading = "lazy"/>
           <div className = 'flex flex-col gap-3 px-2 md:max-w-[450px]'>
             <div data-aos ='zoom-out' className = 'flex flex-col'>
               <h1 data-aos-offset = '50'  className = 'font-bold text-[1.5rem] bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 bg-clip-text text-transparent inline-block'>Beyond Books: Full Learning Suite</h1>
@@ -116,7 +116,7 @@ const Features = ()=>{
         </div>
         {/* feature 2 ends here */}
         <div className = 'flex flex-col md:flex-row gap-5 items-center md:items-start'>
-          <img data-aos = 'fade-right' src = {everything} className = 'w-full h-50 md:w-45 md:h-55 md:mt-2' style = {{objectFit:'cover'}} alt = 'NEP certified books'/>
+          <img data-aos = 'fade-right' src = {everything} className = 'w-full h-50 md:w-45 md:h-55 md:mt-2' style = {{objectFit:'cover'}} alt = 'NEP certified books' loading = "lazy"/>
           <div className = 'flex flex-col gap-3 px-2 md:max-w-[450px]'>
             <div data-aos ='zoom-out' className = 'flex flex-col'>
               <h1 data-aos-offset = '50'  className = 'font-bold text-[1.5rem] bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 bg-clip-text text-transparent inline-block'>Teacher’s Ally, Classroom Ready</h1>
@@ -162,7 +162,7 @@ const Book = ({data})=>{
   // TODO: implement the button
    return <div className = 'w-30 h-42 md:w-35 md:h-52 flex flex-col gap-2 p-1'>
         <div className = 'w-full h-35 flex justify-center items-center'>
-          <img src = {data.img} className = 'w-20 md:w-25 h-full' style = {{objectFit : 'cover'}}/>
+          <img src = {data.img} className = 'w-20 md:w-25 h-full' style = {{objectFit : 'cover'}} loading = "lazy"/>
         </div>
         <div className = 'w-full flex flex-col justify-center items-center gap-1 px-2'>
           <p className = 'text-xs font-bold md:text-sm text-center'>{data.name}</p>
@@ -217,7 +217,7 @@ const Contact = ()=>{
         >
             {
                 Object.values(contactImages).map((t,index)=><SwiperSlide key = {index} className = 'flex items-center justify-center' >
-                    <img src = {t} className = 'w-full h-full' style = {{objectFit:'cover' , objectSize:'120%'}}/>
+                    <img src = {t} className = 'w-full h-full' style = {{objectFit:'cover' , objectSize:'120%'}} loading = "lazy"/>
                     <div className = 'w-full z-1000 h-full bg-[#00000095] absolute top-0 left-0 flex justify-center flex-col items-center'>
                       <h1 data-aos = 'zoom-out' className = 'text-white font-bold px-4 md:px-0 text-4xl md:text-6xl w-full md:w-200 text-center relative bottom-10'>{LINES[index]}</h1>
                     </div>
@@ -277,7 +277,7 @@ const Home = () => {
       <div className = 'w-full flex flex-col gap-1 items-center relative border-box top-[4rem] md:top-[5rem]'>
         <h1 data-aos = 'zoom-in' className = 'text-[#ff4141] text-4xl leading-9 md:leading-18 sm:text-[3rem] break-words md:text-[4rem] px-2 text-center'>Anmol Educational Books</h1>
         <h1 data-aos = 'zoom-in' className = 'text-white text-2xl sm:text-[2rem] font-light leading-6 md:leading-8 text-center p-4 md:p-2'>Where Education Meets Excellence</h1>
-        <img data-aos = 'fade-up' src = {logo} aria-label = 'Anmol Publications logo' alt = 'Anmol Publications Logo' className = 'w-18 h-18 md:w-30 md:h-30'/>
+        <img data-aos = 'fade-up' src = {logo} aria-label = 'Anmol Publications logo' alt = 'Anmol Publications Logo' className = 'w-18 h-18 md:w-30 md:h-30' loading = "lazy"/>
       </div>
       <div data-aos = 'zoom-out' className = 'w-full text-sm md:text-md max-w-[300px] md:max-w-[500px] h-10 p-2 text-white relative top-[5rem] md:top-[5rem] flex justify-around'> 
         <div className = 'flex flex-col gap-1 text-center'>

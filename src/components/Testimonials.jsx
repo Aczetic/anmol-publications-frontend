@@ -14,7 +14,7 @@ const Testimonial = ({data})=>{
     return <div className = 'border-3 border-solid border-red-100 rounded-sm w-full max-w-[600px] h-fit m-auto cursor-grabbing'>
         <div className = 'w-full h-full min-h-55 flex flex-col justify-between'>
             <div className = 'flex gap-2 w-full bg-red-100 h-[5rem] px-3 py-1 justify-start items-center'>
-                <img src = {data.img} className = 'w-10 h-10 rounded-full border-solid border-3 border-red-400' style = {{objectFit : 'cover'}}/>
+                <img src = {data.img} className = 'w-10 h-10 rounded-full border-solid border-3 border-red-400' style = {{objectFit : 'cover'}} loading = "lazy"/>
                 <div className = 'flex flex-col text-xs'>
                     <div className = 'flex gap-1'>
                         <p className = 'font-bold'>{data.name},</p>

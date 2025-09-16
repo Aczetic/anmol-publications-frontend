@@ -35,7 +35,7 @@ const Nav = () => {
         className="z-9999 fixed top-0 w-full bg-red-50 h-18 backdrop-blur-sm flex justify-between p-2 align-center">
 
         <NavLink to = '/' className = 'flex gap-2 px-2' > 
-          <img src = {logo} alt = 'Anmol Publications logo' className = 'w-13 h-full'/>
+          <img src = {logo} alt = 'Anmol Publications logo' className = 'w-13 h-full' loading = 'lazy'/>
           <span className = 'flex flex-col justify-center leading-0 gap-0'>
             <p className = 'font-bold text-xs leading-4'>Anmol</p>
             <p className = 'font-bold text-xs leading-4'>Educational</p>
@@ -106,7 +106,7 @@ const Nav = () => {
       <footer data-aos = 'fade-up' className = 'w-full h-fit  flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-12 justify-around relative top-16 bg-black text-xs md:text-sm'>
         <div className = 'w-full max-w-100 flex flex-col gap-4 p-4'> 
           <NavLink to = '/' className = 'flex gap-2 px-2' > 
-            <img src = {logo} alt = 'company-logo' className = 'w-15 h-full'/>
+            <img src = {logo} alt = 'company-logo' className = 'w-15 h-full' loading = "lazy"/>
             <span className = 'flex flex-col justify-center leading-0 gap-0 text-white'>
               <p className = 'font-bold text-xs leading-4'>Anmol</p>
               <p className = 'font-bold text-xs leading-4'>Educational</p>
