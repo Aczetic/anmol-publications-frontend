@@ -235,6 +235,7 @@ const Contact = ()=>{
 
 const NumCard = ({target , style = {} , className = ''})=>{
   const elemRef = useRef();
+  const intervalRef = useRef(null);
   const handleScroll = ()=>{
 
     const rect = elemRef.current.getBoundingClientRect();
@@ -244,13 +245,12 @@ const NumCard = ({target , style = {} , className = ''})=>{
       window.removeEventListener( 'scroll' , handleScroll); // remove after the element is visible
 
       let val = 0;
-      console.log('entered')
-      const interval = setInterval(()=>{ // start the counter
+          intervalRef.current = setInterval(()=>{ // start the counter
           val += Math.ceil(target/40);
 
           if(val >= target){
              elemRef.current.innerText = target+'+';
-             clearInterval(interval); // stop the interval
+             clearInterval(intervalRef.current); // stop the interval
              return;
           }
 
@@ -261,8 +261,11 @@ const NumCard = ({target , style = {} , className = ''})=>{
   }
   useEffect(()=>{
       window.addEventListener('scroll' , handleScroll);
-      handleScroll();
-      return ()=>window.removeEventListener('scroll' , handleScroll);
+      handleScroll(); // call it when the component has mounted because the top most element cant' detect scroll
+      return ()=>{
+        clearInterval(intervalRef.current); // this is done to stop the counter when the comp is unmounted before completion
+        window.removeEventListener('scroll' , handleScroll);
+      }
   })
   return <p ref = {elemRef} className = {className} style = {{style}}></p>
 }

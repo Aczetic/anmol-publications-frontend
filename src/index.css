@@ -27,9 +27,10 @@ html,body{
 
 body {
     background-color:hsla(0,13%,86%,1);
-    background-image:url('./assets/pat.png');
+    background-image:url('./assets/pat.jpg');
     background-size:35rem;
     background-repeat:repeat;
+    font-family:'Urbanist';
   }
 
 

@@ -32,7 +32,7 @@ const Nav = () => {
   return (
     <>
       <header
-        className="z-9999 fixed top-0 w-full bg-red-50 h-18 backdrop-blur-sm flex justify-between p-2 align-center">
+        className="z-9999 fixed top-0 w-full min-w-[300px] bg-red-50 h-18 backdrop-blur-sm flex justify-between p-2 align-center">
 
         <NavLink to = '/' className = 'flex gap-2 px-2' > 
           <img src = {logo} alt = 'Anmol Publications logo' className = 'w-13 h-full' loading = 'lazy'/>
@@ -81,11 +81,11 @@ const Nav = () => {
           <CloseIcon className = 'p-1 relative left-1 top-2 text-xl cursor-pointer select-none' style = {{width:'2rem' , height:'2rem'}} onClick = {handleClose}/>
           
           <div className='flex flex-col w-full h-fit margin-auto gap-4 items-start px-3 py-3'>
-            <NavLink className = {({isActive})=>isActive ? 'font-bold':''} to="/"> Home </NavLink>
-            <NavLink className = {({isActive})=>isActive ? 'font-bold':''}  to="/books"> Books </NavLink>
-            <NavLink className = {({isActive})=>isActive ? 'font-bold':''} to="/blogs"> Blogs </NavLink>
-            <NavLink className = {({isActive})=>isActive ? 'font-bold':''} to="/contact-us"> Contact Us </NavLink>
-            <NavLink className = {({isActive})=>isActive ? 'font-bold':''} to="/about-us"> About Us </NavLink>
+            <NavLink className = {({isActive})=>isActive ? 'font-bold':''} onClick = {handleClose} to="/"> Home </NavLink>
+            <NavLink className = {({isActive})=>isActive ? 'font-bold':''} onClick = {handleClose} to="/books"> Books </NavLink>
+            <NavLink className = {({isActive})=>isActive ? 'font-bold':''} onClick = {handleClose} to="/blogs"> Blogs </NavLink>
+            <NavLink className = {({isActive})=>isActive ? 'font-bold':''} onClick = {handleClose} to="/contact-us"> Contact Us </NavLink>
+            <NavLink className = {({isActive})=>isActive ? 'font-bold':''} onClick = {handleClose} to="/about-us"> About Us </NavLink>
           </div>
           {
             authenticated?  
@@ -100,10 +100,10 @@ const Nav = () => {
           }
         </div>
       </header>
-      <main className = 'w-full h-fit relative z-0 top-16'><Outlet/></main>
+      <main className = 'w-full min-w-[300px] h-fit relative z-0 top-16'><Outlet/></main>
 
       {/* TODO: connect the social media links only facebook is connected and ask to change the contact info in those pages to match correctly not gmail */}
-      <footer data-aos = 'fade-up' className = 'w-full h-fit  flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-12 justify-around relative top-16 bg-black text-xs md:text-sm'>
+      <footer data-aos = 'fade-up' className = 'w-full h-fit min-w-[300px] flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-12 justify-around relative top-16 bg-black text-xs md:text-sm'>
         <div className = 'w-full max-w-100 flex flex-col gap-4 p-4'> 
           <NavLink to = '/' className = 'flex gap-2 px-2' > 
             <img src = {logo} alt = 'company-logo' className = 'w-15 h-full' loading = "lazy"/>
@@ -115,8 +115,10 @@ const Nav = () => {
           </NavLink>
           <p className = 'text-white w-full'>We offer NEP-certified, high-quality educational solutions for Indian schools. Our textbooks come with AI-powered digital services that extend learning beyond the classroom and enhance teaching outcomes.</p>
           <div className = 'flex flex-col gap-2'>
-            <a target = '_blank' href = 'https://google.com/maps?q=8/276, Sitapur Rd, Sector 8, Sector 9, Jankipuram Vistar, Khargapur Jagir, Lucknow, Uttar Pradesh 226021' className = 'text-white flex gap-2'><AddressIcon className = 'text-white' />Plot No. 95/3, S.NN. Villa, New Friends Colony, Sector-6 Jankipuram Vistar, 226021, Lucknow</a>
-            <a href = 'mailto:contact@anmoleducationalbooks.com' className = 'text-white flex gap-2'><EmailIcon className = 'text-white' />contact@anmoleducationalbooks.com</a>
+              <a target = '_blank' href = 'https://google.com/maps?q=8/276, Sitapur Rd, Sector 8, Sector 9, Jankipuram Vistar, Khargapur Jagir, Lucknow, Uttar Pradesh 226021' className = 'text-white flex gap-2'>
+                <AddressIcon className = 'text-white' />Plot No. 95/3, S.NN. Villa, New Friends Colony, Sector-6 Jankipuram Vistar, 226021, Lucknow UP
+              </a>
+            <a target = "_blank" href = 'mailto:contact@anmoleducationalbooks.com' className = 'text-white flex gap-2'><EmailIcon className = 'text-white' />contact@anmoleducationalbooks.com</a>
             <p className = 'text-white flex gap-2'><LocalPhoneIcon className = 'text-white' /><a href = 'tel:+919839314703'>+91 9839314703</a>  &nbsp; <a href = 'tel:+917905401629'>+91 7905401629</a></p>
             <div className = 'text-white flex gap-3'>
               <a target = '_blank' href = 'https://www.facebook.com/p/Anmol-Educational-Books-100064159837773/'><FacebookIcon /></a>
@@ -128,7 +130,7 @@ const Nav = () => {
         </div>
         <div className = 'text-white w-fit h-fit p-4 flex flex-col gap-4 relative top-10 '>
           <h1 className = 'font-bold'>Company</h1>
-          <NavLink className = 'text-red-50' to = '/home' > Home </NavLink>  
+          <NavLink className = 'text-red-50' to = '/' > Home </NavLink>  
           <NavLink className = 'text-red-50' to = '/about-us' > About Us </NavLink>  
           <NavLink className = 'text-red-50' to = '/our-mission' > Our Mission </NavLink>  
           <NavLink className = 'text-red-50' to = '/contact-us' > Contact Us </NavLink>  
