@@ -10,7 +10,7 @@ const AboutUs = () => {
         </div>
         <div data-aos = 'fade-up' className = 'w-full h-fit p-2 flex flex-col items-center mt-0 md:mt-10'>
           <p className = 'w-full text-xs md:text-sm ld:text-xl max-w-[800px] p-3 '>
-          At Anmol Publications, we combine academic rigor with innovation to deliver NEP 2020-certified educational solutions that empower schools, teachers, and students alike. Serving 100+ schools with 50+ books across 40+ subjects, we are a trusted partner in shaping modern education in India.
+          At Anmol Educational Books, we combine academic rigor with innovation to deliver NEP 2020-certified educational solutions that empower schools, teachers, and students alike. Serving 100+ schools with 50+ books across 40+ subjects, we are a trusted partner in shaping modern education in India.
           We go beyond traditional publishing to provide a complete learning suite that blends high-quality printed materials with cutting-edge digital resources.
           </p>
           <h1 className = 'w-full max-w-[800px] font-bold text-[1.5rem] p-3'>Why Schools Choose Us!</h1>

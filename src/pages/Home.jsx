@@ -219,7 +219,7 @@ const Contact = ()=>{
                 Object.values(contactImages).map((t,index)=><SwiperSlide key = {index} className = 'flex items-center justify-center' >
                     <img src = {t} className = 'w-full h-full' style = {{objectFit:'cover' , objectSize:'120%'}} loading = "lazy"/>
                     <div className = 'w-full z-1000 h-full bg-[#00000095] absolute top-0 left-0 flex justify-center flex-col items-center'>
-                      <h1 data-aos = 'zoom-out' className = 'text-white font-bold px-4 md:px-0 text-4xl md:text-6xl w-full md:w-200 text-center relative bottom-10'>{LINES[index]}</h1>
+                      <h1 data-aos = 'zoom-out' className = 'text-white font-bold px-4 md:px-4 text-4xl md:text-6xl w-full lg:w-200 text-center relative bottom-10'>{LINES[index]}</h1>
                     </div>
                 </SwiperSlide>)
             }
@@ -280,7 +280,7 @@ const Home = () => {
       <div className = 'w-full flex flex-col gap-1 items-center relative border-box top-[4rem] md:top-[5rem]'>
         <h1 data-aos = 'zoom-in' className = 'text-[#ff4141] text-4xl leading-9 md:leading-18 sm:text-[3rem] break-words md:text-[4rem] px-2 text-center'>Anmol Educational Books</h1>
         <h1 data-aos = 'zoom-in' className = 'text-white text-2xl sm:text-[2rem] font-light leading-6 md:leading-8 text-center p-4 md:p-2'>Where Education Meets Excellence</h1>
-        <img data-aos = 'fade-up' src = {logo} aria-label = 'Anmol Publications logo' alt = 'Anmol Publications Logo' className = 'w-18 h-18 md:w-30 md:h-30' loading = "lazy"/>
+        <img data-aos = 'fade-up' src = {logo} aria-label = 'Anmol Educational Books logo' alt = 'Anmol Educational Books Logo' className = 'w-18 h-18 md:w-30 md:h-30' loading = "lazy"/>
       </div>
       <div data-aos = 'zoom-out' className = 'w-full text-sm md:text-md max-w-[300px] md:max-w-[500px] h-10 p-2 text-white relative top-[5rem] md:top-[5rem] flex justify-around'> 
         <div className = 'flex flex-col gap-1 text-center'>

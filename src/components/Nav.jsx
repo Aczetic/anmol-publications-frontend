@@ -1,5 +1,5 @@
-import { useCallback, useRef, useState } from 'react';
-import { NavLink, Outlet } from 'react-router'
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router'
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountIcon from '@mui/icons-material/AccountCircle';
@@ -11,14 +11,26 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import XIcon from '@mui/icons-material/X';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import AddressIcon from '@mui/icons-material/Business';
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+
+
+
 
 const Nav = () => {
   const [drawerOpen , setDrawerOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
   const drawerRef = useRef();
 
   const authenticated = false;  // TODO : set this up
 
-
+  useEffect(()=>{
+    window.scrollTo({top:0}); // scroll to top every time the url changes
+    if(location.pathname.includes('/home')){
+      navigate('/');
+    }
+  },[location.pathname])
+  
   const handleClose = useCallback(()=>{
       drawerRef.current.style.transform = 'translateX(100%)';
       setDrawerOpen(!drawerOpen);
@@ -35,7 +47,7 @@ const Nav = () => {
         className="z-9999 fixed top-0 w-full min-w-[300px] bg-red-50 h-18 backdrop-blur-sm flex justify-between p-2 align-center">
 
         <NavLink to = '/' className = 'flex gap-2 px-2' > 
-          <img src = {logo} alt = 'Anmol Publications logo' className = 'w-13 h-full' loading = 'lazy'/>
+          <img src = {logo} alt = 'Anmol Educational Books logo' className = 'w-13 h-full' loading = 'lazy'/>
           <span className = 'flex flex-col justify-center leading-0 gap-0'>
             <p className = 'font-bold text-xs leading-4'>Anmol</p>
             <p className = 'font-bold text-xs leading-4'>Educational</p>
@@ -48,6 +60,7 @@ const Nav = () => {
           <NavLink className = {({isActive})=>isActive? 'font-bold':''} to="/blogs"> Blogs </NavLink>
           <NavLink className = {({isActive})=>isActive? 'font-bold':''} to="/contact-us"> Contact Us </NavLink>
           <NavLink className = {({isActive})=>isActive? 'font-bold':''} to="/about-us"> About Us </NavLink>
+          <NavLink className = {({isActive})=>isActive? 'font-bold':''} to="https://wa.me/917905401629">WhatsApp </NavLink>
         </div>
 
         {/* hamburger and btns are kept together */}
@@ -86,6 +99,8 @@ const Nav = () => {
             <NavLink className = {({isActive})=>isActive ? 'font-bold':''} onClick = {handleClose} to="/blogs"> Blogs </NavLink>
             <NavLink className = {({isActive})=>isActive ? 'font-bold':''} onClick = {handleClose} to="/contact-us"> Contact Us </NavLink>
             <NavLink className = {({isActive})=>isActive ? 'font-bold':''} onClick = {handleClose} to="/about-us"> About Us </NavLink>
+            <NavLink className = {({isActive})=>isActive? 'font-bold':''}  onClick = {handleClose}  to="https://wa.me/917905401629">WhatsApp </NavLink>
+
           </div>
           {
             authenticated?  
@@ -125,6 +140,7 @@ const Nav = () => {
               <a target = '_blank' href = 'https://www.instagram.com/anmoleducationalbooks/'><InstagramIcon /></a>
               <a target = '_blank' href = 'https://x.com/AnmolBooks'><XIcon /></a>
               <a target = '_blank' href = 'https://linkedin.com'><LinkedInIcon /></a>
+              <a href="https://wa.me/917905401629" target="_blank" ><WhatsAppIcon/></a>
             </div>
           </div>
         </div>
@@ -146,10 +162,10 @@ const Nav = () => {
         {/* TODO: connect these links */}
         <div className = 'text-white w-fit h-fit p-4 flex flex-col gap-4 relative top-10'>
           <h1 className = 'font-bold'>Discover</h1>
-          <NavLink className = 'text-red-50' to = '/home' > Blogs </NavLink>  
-          <NavLink className = 'text-red-50' to = '/home' > Careers </NavLink>  
-          <NavLink className = 'text-red-50' to = '/home' > Terms and Conditions </NavLink>  
-          <NavLink className = 'text-red-50' to = '/faq' > FAQs </NavLink>  
+          <NavLink className = 'text-red-50' to = '/blogs' > Blogs </NavLink>  
+          <NavLink className = 'text-red-50' to = '/careers' > Careers </NavLink>  
+          <NavLink className = 'text-red-50' to = '/terms-and-conditions' > Terms and Conditions </NavLink>  
+          <NavLink className = 'text-red-50' to = '/faqs' > FAQs </NavLink>  
         </div>
       </footer>
     </>

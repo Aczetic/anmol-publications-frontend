@@ -1,14 +1,14 @@
-import contact_us from '../assets/contact_us.jpg';
-import MessageIcon from '@mui/icons-material/Message';
-import WavingHandIcon from '@mui/icons-material/WavingHand';
-import LocationIcon from '@mui/icons-material/LocationOn';
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneIcon from '@mui/icons-material/SettingsPhone';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import XIcon from '@mui/icons-material/X';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-
+import contact_us from "../assets/contact_us.jpg";
+import MessageIcon from "@mui/icons-material/Message";
+import WavingHandIcon from "@mui/icons-material/WavingHand";
+import LocationIcon from "@mui/icons-material/LocationOn";
+import EmailIcon from "@mui/icons-material/Email";
+import PhoneIcon from "@mui/icons-material/SettingsPhone";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import XIcon from "@mui/icons-material/X";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 //todo: connect the backend and states with validation using react-hook-form on sending message show a pop giving message "message send successfully with confetti "
 
@@ -33,7 +33,7 @@ const ContactUs = () => {
           data-aos-delay="50"
           className=" text-red-50 w-full text-center relative z-200 font-bold text-2xl md:text-4xl lg:text-6xl pt-8 mt-6 md:mt-10"
         >
-          Contact Us
+          {"Let's Connect"}
         </h1>
         <h1
           data-aos="fade-up"
@@ -96,6 +96,18 @@ const ContactUs = () => {
                 </div>
               </div>
             </div>
+             {/* whatsapp */}
+             <div className="flex flex-col w-full h-fit gap-1 ">
+              <div className="flex gap-2 w-full h-fit py-2">
+                <div className="bg-white rounded-full w-8 h-8 shrink-0 flex items-center justify-center p-1">
+                  <WhatsAppIcon className="text-red-500 scale-80" />
+                </div>
+                <div className="w-full flex flex-col">
+                  <p className="font-bold text-sm">WhatsApp</p>
+                  <a href="https://wa.me/917905401629" target="_blank" className = 'font-bold text-xs text-red-100'>Chat with us on WhatsApp</a>
+                </div>
+              </div>
+            </div>
             <div className="flex flex-col w-full h-fit gap-1">
               <div className="flex gap-2 w-full h-fit py-2">
                 <div className="bg-white rounded-full w-8 h-8 shrink-0 flex items-center justify-center p-1">
@@ -114,6 +126,7 @@ const ContactUs = () => {
                 </div>
               </div>
             </div>
+           
           </div>
           <div className="border-solid border-red-400 border-t-3 mt-3 px-2">
             <p className="font-bold text-xs mt-2 text-red-100">
@@ -253,13 +266,23 @@ const ContactUs = () => {
         </form>
       </div>
       {/* map comp */}
-      <div data-aos = 'fade' className="w-full h-fit flex items-center justify-center bg-blue-100 mt-15">
+      <div
+        data-aos="fade"
+        className="w-full h-fit flex items-center justify-center bg-blue-100 mt-15"
+      >
         <div className="w-full h-96">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.863124239981!2d80.93944698714274!3d26.939553398695548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399957001f93169f%3A0xa9a1bee002c120c9!2sNew%20Friends%20colony%20sector%206!5e0!3m2!1sen!2sin!4v1758054528156!5m2!1sen!2sin" width="100%" height="100%" allowFullscreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.863124239981!2d80.93944698714274!3d26.939553398695548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399957001f93169f%3A0xa9a1bee002c120c9!2sNew%20Friends%20colony%20sector%206!5e0!3m2!1sen!2sin!4v1758054528156!5m2!1sen!2sin"
+            width="100%"
+            height="100%"
+            allowFullscreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default ContactUs
+export default ContactUs;
