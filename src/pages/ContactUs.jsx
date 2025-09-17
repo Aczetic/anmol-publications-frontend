@@ -260,7 +260,7 @@ const ContactUs = () => {
               />
             </label>
           </div>
-          <button className="text-center w-full p-2 text-white bg-red-500 relative top-3 rounded-sm">
+          <button className="text-center w-full p-2 text-white bg-red-500 relative top-3 rounded-sm cursor-pointer select-none">
             Send Message
           </button>
         </form>

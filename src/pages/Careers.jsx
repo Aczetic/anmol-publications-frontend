@@ -57,6 +57,7 @@ const Careers = () => {
       {/* header */}
       <div
         data-aos="fade"
+        data-aos-delay='200'
         className="w-full h-50 md:h-80 relative flex flex-col justify-center items-center bg-position-[76%_52%]"
         style={{ backgroundImage: `url(${careers_img})` }}
       >
