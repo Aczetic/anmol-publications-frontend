@@ -84,7 +84,7 @@ const OurMission = () => {
                   </h2>
                 </div>
                 <div data-aos = 'fade-up' className="flex flex-col gap-3 md:max-w-[450px]">
-                {"Our vision is to create not just better textbooks, but a complete learning ecosystem—c, where printed books, e-books, AI, and digital platforms work together. By doing so, we aim to cultivate learners who are not only knowledgeable but also curious, resilient, and future-ready."}
+                {"Our vision is to create not just better textbooks, but a complete learning ecosystem, where printed books, e-books, AI, and digital platforms work together. By doing so, we aim to cultivate learners who are not only knowledgeable but also curious, resilient, and future-ready."}
                 </div>
               </div>
             </div>
@@ -132,7 +132,7 @@ const OurMission = () => {
                   </h2>
                 </div>
                 <div data-aos = 'fade-up' className="flex flex-col gap-3 md:max-w-[450px]">
-                {"Our books are not just about reading—they come alive with AI-driven tools that act as mentors. From chapter-wise chatbot support to smart test paper generators, our content encourages students to explore, question, and think critically without spoon feeding them answers."}
+                {"Our books are not just about reading they come alive with AI-driven tools that act as mentors. From chapter-wise chatbot support to smart test paper generators, our content encourages students to explore, question, and think critically without spoon feeding them answers."}
                 </div>
               </div>
             </div>
