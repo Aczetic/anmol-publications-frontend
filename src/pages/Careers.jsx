@@ -56,7 +56,7 @@ const Job = ()=>{
 
 const Careers = () => {
   return (
-    <div className="w-full min-h-[100vh]">
+    <div className="w-full h-fit mb-10">
       {/* header */}
       <div
         data-aos="fade"

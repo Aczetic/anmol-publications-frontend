@@ -156,8 +156,8 @@ const Nav = () => {
           <h1 className = 'font-bold'>Product / Resources</h1>
           <NavLink className = 'text-red-50' to = '/books' > Books </NavLink>  
           <NavLink className = 'text-red-50' to = '/testpaper-generator' > Testpaper Generator </NavLink>  
-          <NavLink className = 'text-red-50' to = '/home' >Support</NavLink>  
-          <NavLink className = 'text-red-50' to = '/home' > NEP Guidelines</NavLink>  
+          <NavLink className = 'text-red-50' to = '/support' >Support</NavLink>  
+          <NavLink className = 'text-red-50' to = 'https://www.education.gov.in/sites/upload_files/mhrd/files/NEP_Final_English_0.pdf' > NEP Guidelines</NavLink>  
         </div>
         {/* TODO: connect these links */}
         <div className = 'text-white w-fit h-fit p-4 flex flex-col gap-4 relative top-10'>

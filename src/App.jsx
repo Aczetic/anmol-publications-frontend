@@ -10,6 +10,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 import Careers from "./pages/Careers"
 import Faqs from "./pages/Faqs"
+import Support from "./pages/Support"
+import OurMission from "./pages/OurMission"
 // ..
 AOS.init({
   duration:800,
@@ -30,6 +32,8 @@ const App = () => {
         <Route path = '/blogs' element = {<Blogs/>} />
         <Route path = '/careers' element = {<Careers/>} />
         <Route path = '/faqs' element = {<Faqs/>} />
+        <Route path = '/support' element = {<Support/>} />
+        <Route path = '/our-mission' element = {<OurMission/>} />
         <Route path = '*' element = {<NotFound/>} />
       </Route>
     </Routes>

@@ -1,4 +1,4 @@
-import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
+import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';  
 import { useEffect, useState } from 'react';
 
 const Faq = ()=>{
@@ -33,15 +33,17 @@ const Faq = ()=>{
 }
 
 
+
+
+
 const Faqs = () => {
   return (
-    <div className="w-full h-fit min-h-[100vh]">
+    <div className="w-full h-fit mb-20">
       {/* heading */}
       <div className="mt-4 w-full h-50 flex flex-col items-center justify-center">
         <h2
           data-aos="fade-up"
-          className = 'w-full text-center font-bold text-2xl md:text-5xl'
-          
+          className="w-full text-center font-bold text-2xl md:text-5xl"
         >
           Frequently Asked Questions
         </h2>
@@ -58,7 +60,10 @@ const Faqs = () => {
       <section className="w-full h-fit">
         {/* search bar will go here for searching faqs*/}
       </section>
-      <section data-aos = 'fade-up' className="w-full h-fit p-3 md:p-4 md:px-10 flex flex-col gap-4 items-center">
+      <section
+        data-aos="fade-up"
+        className="w-full h-fit p-3 md:p-4 md:px-10 flex flex-col gap-4 items-center"
+      >
         {/* faqs will here */}
         {/* todo:this is should be dynamic coming from backend and should have panel to input more */}
         <Faq />
@@ -67,28 +72,58 @@ const Faqs = () => {
         <Faq />
         <Faq />
         <Faq />
+        <Faq />
+        <Faq />
+        <Faq />
+        <Faq />
+        <Faq />
       </section>
-      <section className = 'w-full h-fit p-2 px-3 mt-5 mb-10'>
-        <h2 className="mt-2 w-full px-1 md:px-4 font-bold text-xl sm:text-3xl lg:text-4xl text-center text-black">{"Still can't find your issue"}</h2>
-        <h2 className = 'w-full text-center text-md md:text-xl'>{"Raise an issue with the support team"}</h2>
+      {/* issue raising form */}
+      <section className="w-full h-fit p-2 px-3 mt-5 mb-10">
+        <h2 data-aos = 'fade-up'  className="mt-2 w-full px-1 md:px-4 font-bold text-xl sm:text-3xl lg:text-4xl text-center text-black">
+          {"Still can't find your issue"}
+        </h2>
+        <h2 data-aos = 'fade-up' data-aos-delay = '100' className="w-full text-center text-md md:text-xl">
+          {"Raise an issue with the support team"}
+        </h2>
+
         {/* issue can only be raised if logged in  */}
-        <form className = 'w-full rounded-sm text-xs sm:text-sm md:text-md max-w-150 mx-auto h-fit p-5 flex flex-col gap-2 bg-red-100 mt-10'>
-            <label  className = 'flex flex-col gap-3' htmlFor = 'name'>
-                Name
-                <input id = 'name' type = 'text' placeholder = 'Your Name' className = 'w-full p-1 px-2 bg-white'/>
-            </label>
-            <label  className = 'flex flex-col gap-1' htmlFor = 'email'>
-                Email
-                <input id = 'email' type = 'email' placeholder = "Your email , you're logged in with" className = 'w-full p-1 px-2 bg-white'/>
-            </label>
-            <label  className = 'flex flex-col gap-1' htmlFor = 'problem'>
-                Issue
-                <textarea id = 'issue' type = 'text' placeholder = "Issue you're facing in 300 words" maxLength = {300} className = 'w-full h-25 resize-none p-1 px-2 bg-white'></textarea>
-            </label>
-            {/* todo:implement this  */}
-            <button className = 'w-fit px-3 mt-3 rounded-sm select-none cursor-pointer py-1 bg-red-500 text-white'>Submit</button>
+        <form data-aos = 'fade-up' className="w-full rounded-sm text-xs sm:text-sm md:text-md max-w-150 mx-auto h-fit p-5 flex flex-col gap-2 bg-red-100 mt-10">
+          <label className="flex flex-col gap-1" htmlFor="name">
+            Name
+            <input
+              id="name"
+              type="text"
+              placeholder="Your Name"
+              className="w-full p-1 px-2 bg-white"
+            />
+          </label>
+          <label className="flex flex-col gap-1" htmlFor="email">
+            Email
+            <input
+              id="email"
+              type="email"
+              placeholder="Your email , you're logged in with"
+              className="w-full p-1 px-2 bg-white"
+            />
+          </label>
+          <label className="flex flex-col gap-1" htmlFor="problem">
+            Issue
+            <textarea
+              id="issue"
+              type="text"
+              placeholder="Issue you're facing in 300 words"
+              maxLength={300}
+              className="w-full h-25 resize-none p-1 px-2 bg-white"
+            ></textarea>
+          </label>
+          {/* todo:implement this  */}
+          <button className="w-fit px-3 mt-3 rounded-sm select-none cursor-pointer py-1 bg-red-500 text-white">
+            Submit
+          </button>
         </form>
       </section>
+  
     </div>
   );
 }
