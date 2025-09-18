@@ -11,21 +11,21 @@ const Job = ()=>{
   const [isReadMore , setIsReadMore] = useState(false);
   // todo:implement apply 
   return (
-    <div className="w-full max-w-100 min-h-20 h-fit flex flex-col gap-1 border-red-500 border-solid border-1 py-2 px-4 bg-white">
+    <div className="relative w-full rounded-sm max-w-100 min-h-20 h-fit flex flex-col gap-1 border-red-500 border-solid border-1 py-4 px-4 bg-white">
       <div className="w-full flex justify-between items-center h-10">
         {/* job title */}
-        <p className="w-full font-bold text-xl">Software Developer</p>
+        <p className="w-full font-bold text-xl leading-5">Software Developer</p>
         {/* apply button */}
-        <button className="w-30 rounded-sm select-none px-2 py-1 text-white bg-red-500 cursor-pointer mt-2">
+        <button className=" w-fit text-xs md:text-sm rounded-sm select-none px-4 py-2 md:py-1 text-white bg-red-500 cursor-pointer">
           Apply
         </button>
       </div>
       {/* location */}
-      <p className="w-full text-gray-800 ">Greater Noida , UP</p>
+      <p className="w-full text-gray-800 text-sm md:text-md ">Greater Noida , UP</p>
       {/* job type */}
-      <p className="w-full text-gray-800 sm:text-md">Full Time</p>
+      <p className="w-full text-gray-800 text-sm md:text-md">Full Time</p>
       {/* requirements */}
-      <p className="w-full  text-gray-800 mt-2">Requirements :</p>
+      <p className="w-full  text-gray-800">Requirements :</p>
       <ul className="w-full text-xs text-gray-800 sm:text-sm pl-6 list-disc">
         <li>2+ years in editing or publishing</li>
         <li>Strong English grammar & communication skills</li>
@@ -42,9 +42,12 @@ const Job = ()=>{
         </>
       }
       {
+        !isReadMore && <div className = 'absolute left-0 bottom-10 w-full h-10 bg-[linear-gradient(0deg,rgba(255,255,255,1)_0%,rgba(255,255,255,0.63)_100%)]'></div>
+      }
+      {
         isReadMore?
-        <div className = 'text-red-500 select-none cursor-pointer' onClick = {()=>setIsReadMore(false)}>Read Less</div>:
-        <div className = 'text-red-500 select-none cursor-pointer' onClick = {()=>setIsReadMore(true)}>Read More</div>
+        <div className = 'relative top-2 text-red-500 select-none cursor-pointer' onClick = {()=>setIsReadMore(false)}>Read Less</div>:
+        <div className = 'relative top-2 text-red-500 select-none cursor-pointer' onClick = {()=>setIsReadMore(true)}>Read More</div>
       }
     </div>
   );
@@ -173,7 +176,7 @@ const Careers = () => {
                   loop
                   autoplay
                   className="w-15 h-15 lg:w-20 lg:h-20"
-                  speed={0.7}
+                  speed={0.8}
                 />
                 Integrity
               </div>
@@ -184,7 +187,7 @@ const Careers = () => {
                   loop
                   autoplay
                   className="w-15 h-15 lg:w-20 lg:h-20"
-                  speed={0.7}
+                  speed={0.6}
                 />
                 Teamwork
               </div>
@@ -194,7 +197,7 @@ const Careers = () => {
                   src={impact_lottie}
                   loop
                   autoplay
-                  speed={0.7}
+                  speed={0.5}
                   className="w-15 h-15 lg:w-20 lg:h-20"
                 />
                 Impact
