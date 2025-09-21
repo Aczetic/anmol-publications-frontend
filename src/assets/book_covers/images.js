@@ -11,3 +11,7 @@ import sanskrit from './sanskrit.webp';
 const bookCovers  = {art, computer, eng_grammar, hindi_lit, gk, hindi_grammar, science, sst, sanskrit};
 
 export default bookCovers;
+
+
+
+//deprecated

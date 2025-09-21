@@ -25,10 +25,36 @@ import 'swiper/css/effect-fade';
 import { Autoplay, EffectFade } from 'swiper/modules';
 
 //images
-import {cms,dav,dps,rlb,xavier} from '../assets/school_logos/school_logos.js';
+import {
+  cms,
+  dav,
+  dps,
+  rlb,
+  xavier,
+  fatima,
+  guru_nanak,
+  gyandeep,
+  holy_cross,
+  merci_memorial,
+  rose_buds,
+  sant_pathik_vidyalaya,
+  ss_public_school,
+  st_anjani_public_school,
+  st_dominic,
+  st_francis,
+  st_mary_convent,
+  st_paul_college,
+  st_thomas_college,
+
+} from "../assets/school_logos/school_logos.js";
 import contactImages from '../assets/contact_comp/images.js';
 import BOOKS from '../constants/BOOKS.js';
 import { useEffect, useRef } from 'react';
+
+
+
+
+
 
 const School = ({src})=>{
   return <img src = {src} className = 'h-[3.5rem] md:h-[5rem]' style = {{mixBlendMode:'multiply'}} loading = "lazy"/>
@@ -208,13 +234,11 @@ const Features = () => {
   );
 };
 
-
-
 const Book = ({data})=>{
   // TODO: implement the button
    return <div className = 'w-30 h-42 md:w-35 md:h-52 flex flex-col gap-2 p-1'>
         <div className = 'w-full h-35 flex justify-center items-center'>
-          <img src = {data.img} className = 'w-20 md:w-25 h-full' style = {{objectFit : 'cover'}} loading = "lazy"/>
+          <img src = {data.img} className = 'w-20 md:w-25 h-full' style = {{objectFit : 'cover', objectPosition:'5% 0'}} loading = "lazy"/>
         </div>
         <div className = 'w-full flex flex-col justify-center items-center gap-1 px-2'>
           <p className = 'text-xs font-bold md:text-sm text-center'>{data.name}</p>
@@ -235,7 +259,6 @@ const OurBooks = ()=>{
     </div>
   </div>
 }
-
 
 const Contact = ()=>{
   const LINES = ["Ugrade your school's learning experience with us" , 
@@ -343,7 +366,23 @@ const NumCard = ({target , style = {} , className = ''})=>{
   return <p ref = {elemRef} className = {className} style = {{style}}></p>
 }
 
-const SchoolList = [cms,rlb,dav,dps,xavier];
+const SchoolList = [
+  dps, 
+  fatima,
+  guru_nanak,
+  gyandeep,
+  holy_cross,
+  merci_memorial,
+  rose_buds,
+  sant_pathik_vidyalaya,
+  ss_public_school,
+  st_anjani_public_school,
+  st_dominic,
+  st_francis,
+  st_mary_convent,
+  st_paul_college,
+  st_thomas_college
+];
 
 const Home = () => {
 
@@ -378,7 +417,7 @@ const Home = () => {
           <h2 className = 'font-bold text-3xl text-center'> Our Partners</h2>
           <h2 className = 'text-sm text-center'> Schools running our books</h2>
         </div>
-          <Marquee List = {SchoolList.map((school,index)=><School key = {index} src = {school}/>)}/>
+          <Marquee gradientCover = {true} List = {SchoolList.map((school,index)=><School key = {index} src = {school}/>)}/>
     </div>
     <div className = 'flex flex-col gap-4 mt-20 px-2'>
     <Features/>
