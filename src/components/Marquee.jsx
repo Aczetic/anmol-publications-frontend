@@ -9,16 +9,15 @@ const Marquee = ({List , dir = 0 , width = '600px' , stopOnHover = false, gradie
      const handleOnMouseEnter = (e)=>{
        marqueeRef1.current.style.animationPlayState = 'paused'; 
        marqueeRef2.current.style.animationPlayState = 'paused'; 
-       console.log('stop')
+      
      }
 
      const handleOnMouseLeave = (e)=>{
-      console.log('continue')
 
        marqueeRef1.current.style.animationPlayState = 'running';
        marqueeRef2.current.style.animationPlayState = 'running';
      }
-     
+
      return <div onMouseEnter = {handleOnMouseEnter} onMouseLeave = {handleOnMouseLeave}  id = 'marquee' style = {{maxWidth:width}} className = 'relative w-full max-w-[750px] m-auto flex flex-nowrap overflow-hidden' >
       <div ref = {marqueeRef1} id = 'marquee-child-1' style = {{animationDuration : `${animationDuration}ms`, animationName: (dir < 0) ? 'marqueeRev' : 'marquee'}} className = 'marquee-child w-fit min-w-100 h-fit flex gap-[2rem] px-5 shrink-0'>
         {

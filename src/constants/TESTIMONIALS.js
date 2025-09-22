@@ -1,5 +1,10 @@
 // TODO : this must come from a backend
-
+import ramesh_kulkarni from '../assets/testimonial_pfp/ramesh_kulkarni.png';
+import kavita_sharma from '../assets/testimonial_pfp/kavita_sharma.png';
+import anil_mehta from '../assets/testimonial_pfp/anil_mehta.png';
+import sunita_verma from '../assets/testimonial_pfp/sunita_verma.png';
+import prakash_menon from '../assets/testimonial_pfp/prakash_menon.png';
+import aarti_deshpande from '../assets/testimonial_pfp/aarti_deshpande.png';
 const TESTIMONIALS = [
   {
     "id": "A7K9X2B4M1Q8",
@@ -8,7 +13,7 @@ const TESTIMONIALS = [
     "location": "Delhi Public School, Pune",
     "review": "These NEP-aligned books have completely transformed the way our teachers deliver lessons. The content is accurate, well-structured, and supported by engaging illustrations that truly capture students’ attention. The integration of AI tools makes learning interactive, and the LMS provides a smooth platform for tracking progress. It’s a complete solution that addresses both traditional and modern teaching needs.",
     "stars": 5,
-    "img": "https://randomuser.me/api/portraits/men/12.jpg"
+    "img": ramesh_kulkarni
   },
   {
     "id": "B3T6P9R1Q4W7",
@@ -17,7 +22,7 @@ const TESTIMONIALS = [
     "location": "St. Xavier’s High School, Jaipur",
     "review": "The combination of high-quality textbooks and advanced digital resources has been a game-changer for our school. Our students love the AI-powered chatbot for instant doubt clarification, and the test generator has saved our teachers hours of preparation time. The content is NEP-compliant and encourages critical thinking, creativity, and self-paced learning. I highly recommend it to any institution aiming for academic excellence.",
     "stars": 5,
-    "img": "https://randomuser.me/api/portraits/women/44.jpg"
+    "img": kavita_sharma
   },
   {
     "id": "F8L2C6Z1N9H3",
@@ -26,7 +31,7 @@ const TESTIMONIALS = [
     "location": "Green Valley International, Bengaluru",
     "review": "The detailed explanations, mind-growth exercises, and vibrant illustrations in these books keep students engaged and motivated to learn. The integration with our LMS was seamless, and the model test papers have improved student confidence before exams. It’s rare to find a publisher who blends traditional learning with modern digital tools so effectively.",
     "stars": 4,
-    "img": "https://randomuser.me/api/portraits/men/33.jpg"
+    "img": anil_mehta
   },
   {
     "id": "J9K1M4T7V6R5",
@@ -35,7 +40,7 @@ const TESTIMONIALS = [
     "location": "Lotus Valley School, Noida",
     "review": "Our faculty appreciates the structured, easy-to-use teacher resources that come with each textbook. From lesson plans to interactive classroom activities, everything is designed to save time while enhancing teaching quality. The books’ NEP alignment ensures that our curriculum meets the latest educational standards without compromising creativity and engagement in the classroom.",
     "stars": 5,
-    "img": "https://randomuser.me/api/portraits/women/19.jpg"
+    "img": sunita_verma
   },
   {
     "id": "H5Q8W2L9E1Z3",
@@ -44,7 +49,7 @@ const TESTIMONIALS = [
     "location": "St. Paul’s Convent, Kochi",
     "review": "The model test papers and HOTS questions included in the books have had a noticeable impact on our students’ academic performance. The additional classroom activities encourage participation and make learning enjoyable. It’s refreshing to see a publisher that prioritizes both academic rigor and creative expression.",
     "stars": 4,
-    "img": "https://randomuser.me/api/portraits/men/7.jpg"
+    "img": prakash_menon
   },
   {
     "id": "M2B7D4K9S1L8",
@@ -53,7 +58,7 @@ const TESTIMONIALS = [
     "location": "Vidya Bharati Senior Secondary, Nagpur",
     "review": "These books are a perfect blend of traditional textbook quality and innovative digital learning support. Our students benefit from the AI-powered tools, while teachers find the structured resources invaluable. The NEP compliance gives us confidence that we’re offering the highest educational standards, and the visual design keeps students interested throughout the year.",
     "stars": 5,
-    "img": "https://randomuser.me/api/portraits/women/25.jpg"
+    "img": aarti_deshpande
   }
 ]
 

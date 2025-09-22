@@ -92,7 +92,7 @@ const Features = () => {
             </div>
             <div className="flex flex-col gap-3 md:max-w-[450px]">
               <p data-aos="zoom-out" className="text-sm">
-                {"We adhere rigorously to India's <b>NEP 2020</b> standards, ensuring modern, inclusive, and future-ready education."}
+                {"We adhere rigorously to India's "} <b>NEP 2020</b> {" standards, ensuring modern, inclusive, and future-ready education."}
               </p>
               {/* the below part is different for every feature */}
               <div data-aos="zoom-out" className="flex flex-col gap-1 w-full">
@@ -238,7 +238,7 @@ const Book = ({data})=>{
   // TODO: implement the button
    return <div className = 'w-30 h-42 md:w-35 md:h-52 flex flex-col gap-2 p-1'>
         <div className = 'w-full h-35 flex justify-center items-center'>
-          <img src = {data.img} className = 'w-20 md:w-25 h-full' style = {{objectFit : 'cover', objectPosition:'5% 0'}} loading = "lazy"/>
+          <img src = {data.img} alt = {data.name} className = 'w-20 md:w-25 h-full' style = {{objectFit : 'cover', objectPosition:'5% 0'}} loading = "lazy"/>
         </div>
         <div className = 'w-full flex flex-col justify-center items-center gap-1 px-2'>
           <p className = 'text-xs font-bold md:text-sm text-center'>{data.name}</p>
@@ -303,6 +303,7 @@ const Contact = ()=>{
                  className="w-full h-full"
                  style={{ objectFit: "cover", objectSize: "120%" }}
                  loading="lazy"
+                 alt = "CTA background image"
                />
                <div className="w-full z-1000 h-full bg-[#00000095] absolute top-0 left-0 flex justify-center flex-col items-center">
                  <h2
