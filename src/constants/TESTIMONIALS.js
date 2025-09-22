@@ -12,7 +12,7 @@ const TESTIMONIALS = [
     "designation": "Principal",
     "location": "Delhi Public School, Pune",
     "review": "These NEP-aligned books have completely transformed the way our teachers deliver lessons. The content is accurate, well-structured, and supported by engaging illustrations that truly capture students’ attention. The integration of AI tools makes learning interactive, and the LMS provides a smooth platform for tracking progress. It’s a complete solution that addresses both traditional and modern teaching needs.",
-    "stars": 5,
+    "stars": 4.5,
     "img": ramesh_kulkarni
   },
   {
@@ -57,7 +57,7 @@ const TESTIMONIALS = [
     "designation": "Principal",
     "location": "Vidya Bharati Senior Secondary, Nagpur",
     "review": "These books are a perfect blend of traditional textbook quality and innovative digital learning support. Our students benefit from the AI-powered tools, while teachers find the structured resources invaluable. The NEP compliance gives us confidence that we’re offering the highest educational standards, and the visual design keeps students interested throughout the year.",
-    "stars": 5,
+    "stars": 4.5,
     "img": aarti_deshpande
   }
 ]

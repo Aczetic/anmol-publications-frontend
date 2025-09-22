@@ -61,7 +61,7 @@ const Careers = () => {
       <div
         data-aos="fade"
         data-aos-delay='200'
-        className="w-full h-50 md:h-80 relative flex flex-col justify-center items-center bg-no-repeat bg-cover bg-position-[76%_52%]"
+        className="w-full h-50 md:h-80 relative flex flex-col justify-center items-center bg-no-repeat md:bg-cover bg-position-[76%_52%]"
         style={{ backgroundImage: `url(${careers_img})` }}
       >
         <div className="bg-red-900 z-200 absolute top-0 w-full h-full opacity-65"></div>

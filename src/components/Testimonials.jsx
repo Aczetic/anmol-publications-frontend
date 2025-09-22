@@ -27,7 +27,7 @@ const Testimonial = ({data})=>{
                 {data.review}
             </p>
             <div className = 'w-full p-2 text-sm bg-red-50'>
-            <Rating name="half-rating" defaultValue={2.5} precision={0.5} style = {{fontSize:'1.1rem'}}/>
+            <Rating name="half-rating" defaultValue={data.stars} precision={0.5} style = {{fontSize:'1.1rem'}}/>
             </div>
         </div>
     </div>
