@@ -1,10 +1,10 @@
 // TODO : this must come from a backend
-import ramesh_kulkarni from '../assets/testimonial_pfp/ramesh_kulkarni.png';
-import kavita_sharma from '../assets/testimonial_pfp/kavita_sharma.png';
-import anil_mehta from '../assets/testimonial_pfp/anil_mehta.png';
-import sunita_verma from '../assets/testimonial_pfp/sunita_verma.png';
-import prakash_menon from '../assets/testimonial_pfp/prakash_menon.png';
-import aarti_deshpande from '../assets/testimonial_pfp/aarti_deshpande.png';
+import ramesh_kulkarni from '../assets/testimonial_pfp/ramesh_kulkarni.jpg';
+import kavita_sharma from '../assets/testimonial_pfp/kavita_sharma.jpg';
+import anil_mehta from '../assets/testimonial_pfp/anil_mehta.jpg';
+import sunita_verma from '../assets/testimonial_pfp/sunita_verma.jpg';
+import prakash_menon from '../assets/testimonial_pfp/prakash_menon.jpg';
+import aarti_deshpande from '../assets/testimonial_pfp/aarti_deshpande.jpg';
 const TESTIMONIALS = [
   {
     "id": "A7K9X2B4M1Q8",
