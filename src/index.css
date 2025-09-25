@@ -171,7 +171,6 @@ body {
 .glass-card {
   background: rgba(255, 150, 150, 0.05);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
   border: 1px solid rgba(255, 150, 150, 0.3);
   box-shadow: 
