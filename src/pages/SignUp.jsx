@@ -252,7 +252,7 @@ const SignUp = () => {
 
 
       {/* right side */}
-      <div className="w-full h-screen hidden lg:flex flex-col gap-5 items-center justify-center p-2 px-5">
+      <div data-aos ='fade' className="w-full h-screen hidden lg:flex flex-col gap-5 items-center justify-center p-2 px-5">
         <h1 className="w-full font-bold text-4xl text-center text-red-700">
           Create an account
         </h1>
