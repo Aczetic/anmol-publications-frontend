@@ -12,8 +12,8 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 //todo: connect the backend and states with validation using react-hook-form on sending message show a pop giving message "message send successfully with confetti "
 
-const ContactUs = () => {
-  return (
+  const ContactUs = () => {
+    return (
     <div id="contact-us" className="w-full h-fit">
       <div
         data-aos="fade"
@@ -268,14 +268,16 @@ const ContactUs = () => {
       {/* map comp */}
       <div
         data-aos="fade"
+        data-aos-delay="300"
         className="w-full h-fit flex items-center justify-center bg-blue-100 mt-15"
       >
         <div className="w-full h-96">
           <iframe
+             data-aos="fade"
+             data-aos-delay="300"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.863124239981!2d80.93944698714274!3d26.939553398695548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399957001f93169f%3A0xa9a1bee002c120c9!2sNew%20Friends%20colony%20sector%206!5e0!3m2!1sen!2sin!4v1758054528156!5m2!1sen!2sin"
             width="100%"
             height="100%"
-            allowFullscreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>

@@ -5,6 +5,24 @@
     src: url(./assets/fonts/BagnardSans.otf);
 }
 
+/* scroll bar styles */
+::-webkit-scrollbar {
+  width: 5px; 
+  height: 5px; 
+  background-color: transparent; 
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 188, 188, 0.741); 
+  border-radius: 10px; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(172, 172, 172, 0.878); 
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+/* scroll bar styles */
+
 
 html,body{
     width:100%;
@@ -119,3 +137,78 @@ body {
     25%  { transform: translateX(0); }
     100% { transform: translateX(0); } /* pause */
   }
+
+  .noised-bg {
+   
+    background-blend-mode: overlay, normal, normal, normal, normal, normal, normal;
+    background-image:url('./assets/auth_mesh_bg.jpg');
+    background-size:cover;
+
+}
+
+ .rotate{
+    animation-name:rotate;
+    animation-duration:12s;
+    animation-iteration-count:infinite;
+    animation-timing-function:linear;
+ }
+
+  @keyframes rotate{
+    from {
+        transform:rotate(0);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+  }
+
+  .auth-form-bg{
+    /* background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 2424 2424' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"), radial-gradient(circle at 94% 95%, hsl(0, 0%, 100%) 3%, transparent 76%), radial-gradient(circle at 89% 34%, hsla(6, 93%, 79%, 1) 1%, transparent 86%), radial-gradient(circle at 86% 50%, hsla(359.00000000000006, 91%, 68%, 1) 7%, transparent 76%), radial-gradient(circle at 89% 79%, hsla(346, 76%, 53%, 1) 7%, transparent 87%), radial-gradient(circle at 15% 44%, hsla(0, 94%, 76%, 0.48) 15%, transparent 81%), radial-gradient(circle at 99% 20%, rgb(255, 186, 179) 1%, transparent 68%); */
+    background-color:rgba(250, 233, 233, 0.205);
+    backdrop-filter:blur(10px);
+}
+
+.glass-card {
+  background: rgba(255, 150, 150, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 150, 150, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 150, 150, 0.5),
+    inset 0 -1px 0 rgba(255, 150, 150, 0.1),
+    inset 0 0 0px 0px rgba(255, 150, 150, 0);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 150, 150, 0.8),
+    transparent
+  );
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 150, 150, 0.8),
+    transparent,
+    rgba(255, 150, 150, 0.3)
+  );
+}

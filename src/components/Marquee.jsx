@@ -1,12 +1,13 @@
 import { useRef } from "react"
 
 
-const Marquee = ({List , dir = 0 , width = '600px' , stopOnHover = false, gradientCover = false})=>{
+const Marquee = ({List , dir = 0 , width = '600px' , pauseOnHover = false, gradientCover = false})=>{
      const animationDuration = 10000*(Math.ceil(List.length/6));
      const marqueeRef1 = useRef();
      const marqueeRef2 = useRef();
 
      const handleOnMouseEnter = (e)=>{
+       if(!pauseOnHover) return ; // not pause when false
        marqueeRef1.current.style.animationPlayState = 'paused'; 
        marqueeRef2.current.style.animationPlayState = 'paused'; 
       

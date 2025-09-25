@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router'
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router'
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountIcon from '@mui/icons-material/AccountCircle';
@@ -43,7 +43,10 @@ const Nav = () => {
 
   return (
     <>
-      <header
+    {/* todo: show up a logo at the top to take back to home */}
+      {
+        // show nav bar when not on auth page
+        (location.pathname !== '/login' && location.pathname !== '/sign-up') &&<header
         className="z-9999 fixed top-0 w-full min-w-[300px] bg-red-50 h-18 backdrop-blur-sm flex justify-between p-2 align-center">
 
         <NavLink to = '/' className = 'flex gap-2 px-2' > 
@@ -72,8 +75,8 @@ const Nav = () => {
                <AccountIcon className = 'flex self-center cursor-pointer select-none' style = {{fontSize:'2rem'}}/>
             </div>
             :<div className = 'hidden sm:flex w-fit gap-1 items-center px-5'>
-              <button className = 'btn-primary'> Login</button>
-              <button className = 'btn-secondary'> Sign Up</button>
+              <Link to = '/login'><button className = 'btn-primary'> Login</button></Link>
+              <Link to = '/sign-up'><button className = 'btn-secondary'> Sign Up</button></Link>
             </div>
           }
           
@@ -109,16 +112,20 @@ const Nav = () => {
               <AccountIcon title = 'profile' className = 'flex self-center relative' style = {{fontSize:'2rem'}}/> Profile
             </div> 
             : <div className = 'flex flex-col w-fit gap-3 top-5 relative items-start px-3'>
-              <button className = 'btn-primary text-md md:px-3 '> Login</button>
-              <button className = 'btn-secondary text-md md:px-3'> Sign Up</button>
+              <Link to = '/login'><button className = 'btn-primary text-md md:px-3 '> Login</button></Link>
+              <Link to = '/sign-up'><button className = 'btn-secondary text-md md:px-3'> Sign Up</button></Link>
             </div>
           }
         </div>
       </header>
-      <main className = 'w-full min-w-[300px] h-fit relative z-0 top-16'><Outlet/></main>
+      }
+      {/* when not on login or sign up page */}
+      {(location.pathname !== '/login' && location.pathname !== '/sign-up') && <main className = 'w-full min-w-[300px] h-fit relative z-0 top-16'><Outlet/></main>}
+       {/* when on login or sign up page */}
+      {(location.pathname === '/login' || location.pathname === '/sign-up') && <main className = 'w-full min-w-[300px] h-fit relative z-0'><Outlet/></main>}
 
       {/* TODO: connect the social media links only facebook is connected and ask to change the contact info in those pages to match correctly not gmail */}
-      <footer data-aos = 'fade-up' className = 'w-full h-fit min-w-[300px] flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-12 justify-around relative top-16 bg-black text-xs md:text-sm'>
+      {(location.pathname !== '/login' && location.pathname !== '/sign-up') && <footer data-aos = 'fade' className = 'w-full h-fit min-w-[300px] flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-12 justify-around relative top-16 bg-black text-xs md:text-sm'>
         <div className = 'w-full max-w-100 flex flex-col gap-4 p-4'> 
           <NavLink to = '/' className = 'flex gap-2 px-2' > 
             <img src = {logo} alt = 'company-logo' className = 'w-15 h-full' loading = "lazy"/>
@@ -167,7 +174,59 @@ const Nav = () => {
           <NavLink className = 'text-red-50' to = '/terms-and-conditions' > Terms and Conditions </NavLink>  
           <NavLink className = 'text-red-50' to = '/faqs' > FAQs </NavLink>  
         </div>
-      </footer>
+      </footer>}
+      {(location.pathname === '/login' || location.pathname === '/sign-up') && <footer data-aos = 'fade' className = 'w-full h-fit min-w-[300px] flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-12 justify-around relative bg-black text-xs md:text-sm'>
+        <div className = 'w-full max-w-100 flex flex-col gap-4 p-4'> 
+          <NavLink to = '/' className = 'flex gap-2 px-2' > 
+            <img src = {logo} alt = 'company-logo' className = 'w-15 h-full' loading = "lazy"/>
+            <span className = 'flex flex-col justify-center leading-0 gap-0 text-white'>
+              <p className = 'font-bold text-xs leading-4'>Anmol</p>
+              <p className = 'font-bold text-xs leading-4'>Educational</p>
+              <p className = 'font-bold text-xs leading-4'>Books</p>
+          </span>
+          </NavLink>
+          <p className = 'text-white w-full'>We offer NEP-certified, high-quality educational solutions for Indian schools. Our textbooks come with AI-powered digital services that extend learning beyond the classroom and enhance teaching outcomes.</p>
+          <div className = 'flex flex-col gap-2'>
+              <a target = '_blank' href = 'https://google.com/maps?q=8/276, Sitapur Rd, Sector 8, Sector 9, Jankipuram Vistar, Khargapur Jagir, Lucknow, Uttar Pradesh 226021' className = 'text-white flex gap-2'>
+                <AddressIcon className = 'text-white' />Plot No. 95/3, S.NN. Villa, New Friends Colony, Sector-6 Jankipuram Vistar, 226021, Lucknow UP
+              </a>
+            <a target = "_blank" href = 'mailto:contact@anmoleducationalbooks.com' className = 'text-white flex gap-2'><EmailIcon className = 'text-white' />contact@anmoleducationalbooks.com</a>
+            <p className = 'text-white flex gap-2'><LocalPhoneIcon className = 'text-white' /><a href = 'tel:+919839314703'>+91 9839314703</a>  &nbsp; <a href = 'tel:+917905401629'>+91 7905401629</a></p>
+            <div className = 'text-white flex gap-3'>
+              <a target = '_blank' href = 'https://www.facebook.com/p/Anmol-Educational-Books-100064159837773/'><FacebookIcon /></a>
+              <a target = '_blank' href = 'https://www.instagram.com/anmoleducationalbooks/'><InstagramIcon /></a>
+              <a target = '_blank' href = 'https://x.com/AnmolBooks'><XIcon /></a>
+              <a target = '_blank' href = 'https://linkedin.com'><LinkedInIcon /></a>
+              <a href="https://wa.me/917905401629" target="_blank" ><WhatsAppIcon/></a>
+            </div>
+          </div>
+        </div>
+        <div className = 'text-white w-fit h-fit p-4 flex flex-col gap-4 relative top-10 '>
+          <h1 className = 'font-bold'>Company</h1>
+          <NavLink className = 'text-red-50' to = '/' > Home </NavLink>  
+          <NavLink className = 'text-red-50' to = '/about-us' > About Us </NavLink>  
+          <NavLink className = 'text-red-50' to = '/our-mission' > Our Mission </NavLink>  
+          <NavLink className = 'text-red-50' to = '/contact-us' > Contact Us </NavLink>  
+        </div>
+        {/* TODO: connect these links */}
+        <div className = 'text-white w-fit h-fit p-4 flex flex-col gap-4 relative top-10'>
+          <h1 className = 'font-bold'>Product / Resources</h1>
+          <NavLink className = 'text-red-50' to = '/books' > Books </NavLink>  
+          <NavLink className = 'text-red-50' to = '/testpaper-generator' > Testpaper Generator </NavLink>  
+          <NavLink className = 'text-red-50' to = '/support' >Support</NavLink>  
+          <NavLink className = 'text-red-50' to = 'https://www.education.gov.in/sites/upload_files/mhrd/files/NEP_Final_English_0.pdf' > NEP Guidelines</NavLink>  
+        </div>
+        {/* TODO: connect these links */}
+        <div className = 'text-white w-fit h-fit p-4 flex flex-col gap-4 relative top-10'>
+          <h1 className = 'font-bold'>Discover</h1>
+          <NavLink className = 'text-red-50' to = '/blogs' > Blogs </NavLink>  
+          <NavLink className = 'text-red-50' to = '/careers' > Careers </NavLink>  
+          <NavLink className = 'text-red-50' to = '/terms-and-conditions' > Terms and Conditions </NavLink>  
+          <NavLink className = 'text-red-50' to = '/faqs' > FAQs </NavLink>  
+        </div>
+      </footer>}
+      {(location.pathname !== '/login' && location.pathname !== '/sign-up') && <div  className = 'relative top-16 w-full text-center h-fit p-1 bg-black text-red-50 text-xs sm:text-sm'>© 2025 Anmol Educational Books.{<br className = 'block sm:hidden'/>} All Rights Reserved.</div>}
+      {(location.pathname === '/login' || location.pathname === '/sign-up') && <div  className = 'relative w-full text-center h-fit p-1 bg-black text-red-50 text-xs sm:text-sm'>© 2025 Anmol Educational Books.{<br className = 'block sm:hidden'/>} All Rights Reserved.</div>}
     </>
   );
 }

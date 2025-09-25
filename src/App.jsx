@@ -12,6 +12,8 @@ import Careers from "./pages/Careers"
 import Faqs from "./pages/Faqs"
 import Support from "./pages/Support"
 import OurMission from "./pages/OurMission"
+import SignUp from "./pages/SignUp"
+import Login from "./pages/Login"
 // ..
 AOS.init({
   duration:800,
@@ -34,6 +36,8 @@ const App = () => {
         <Route path = '/faqs' element = {<Faqs/>} />
         <Route path = '/support' element = {<Support/>} />
         <Route path = '/our-mission' element = {<OurMission/>} />
+        <Route path = '/login' element = {<Login/>} />
+        <Route path = '/sign-up' element = {<SignUp/>} />
         <Route path = '*' element = {<NotFound/>} />
       </Route>
     </Routes>

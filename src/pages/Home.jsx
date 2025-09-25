@@ -17,6 +17,8 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import Testimonial from '../components/Testimonials.jsx';
 import RightArrowIcon from '@mui/icons-material/East';
 
+
+
 // swiper dependencies
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -53,11 +55,8 @@ import { useEffect, useRef } from 'react';
 
 
 
-
-
-
 const School = ({src})=>{
-  return <img src = {src} className = 'h-[3.5rem] md:h-[5rem]' style = {{mixBlendMode:'multiply'}} loading = "lazy"/>
+  return <img src = {src} alt = "school-logo" title = "school" className = 'h-[3.5rem] md:h-[5rem]' style = {{mixBlendMode:'multiply'}} loading = "lazy"/>
 }
 
 
@@ -254,8 +253,8 @@ const OurBooks = ()=>{
           <h2 className = 'text-sm text-center'> Try some books</h2>
       </div>
     <div className = 'w-full flex flex-col gap-15'>
-      <Marquee width = '1100px' List = {BOOKS.map((book)=> <Book key = {book.id} data = {book}/> )}/>
-      <Marquee width = '1100px' List = {BOOKS.map((book)=> <Book key = {book.id} data = {book}/> )} dir = {-1}/>
+      <Marquee width = '1100px' pauseOnHover = {true}  List = {BOOKS.map((book)=> <Book key = {book.id} data = {book}/> )}/>
+      <Marquee width = '1100px' pauseOnHover = {true}  List = {BOOKS.map((book)=> <Book key = {book.id} data = {book}/> )} dir = {-1}/>
     </div>
   </div>
 }
@@ -418,6 +417,7 @@ const Home = () => {
           <h2 className = 'font-bold text-3xl text-center'> Our Partners</h2>
           <h2 className = 'text-sm text-center'> Schools running our books</h2>
         </div>
+        {/* todo: attach a hyperlink to the school images to navigate to the school site if it exists or open a google search with school's name */}
           <Marquee gradientCover = {true} List = {SchoolList.map((school,index)=><School key = {index} src = {school}/>)}/>
     </div>
     <div className = 'flex flex-col gap-4 mt-20 px-2'>
