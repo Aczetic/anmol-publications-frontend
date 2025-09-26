@@ -14,7 +14,7 @@ const authvidc = 'https://frwqfqelivvjucqh.public.blob.vercel-storage.com/authvi
 const SignUp = () => {
   const [passwordVisible ,setPasswordVisible] = useState(false);
   const [confirmPasswordVisible ,setConfirmPasswordVisible] = useState(false);
-
+  
   return (
     <div className="w-full h-fit min-h-[100vh] flex items-center justify-center">
       {/* left side */}
