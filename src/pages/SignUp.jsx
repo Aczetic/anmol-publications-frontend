@@ -59,26 +59,23 @@ const SignUp = () => {
               </h2>
               {/* row groups container */}
               <div className = 'w-full h-full overflow-y-scroll flex flex-col gap-1'>
-                {/* salutation and name */}
+                {/* designation and name */}
                 <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
                   <label
-                    htmlFor="salutation"
+                    htmlFor="designation"
                     className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
                   >
-                    salutation :
+                    Designation :
                     <select
-                      defaultValue = {'none'}
-                      id="salutation"
+                      defaultValue = {'user'}
+                      id="designation"
                       type="text"
                       placeholder="Enter your designation"
                       className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
                     >
-                      <option value = 'none' disabled>
-                        none
-                      </option>
-                      <option value="mrs.">Mrs.</option>
-                      <option value="mr.">Mr.</option>
-                      <option value="miss">Miss</option>
+                      <option value="user">User</option>
+                      <option value="teacher">Teacher</option>
+                      <option value="principle">Principle</option>
                     </select>
                   </label>
                   <label
@@ -252,7 +249,7 @@ const SignUp = () => {
 
 
       {/* right side */}
-      <div data-aos ='fade' className="w-full h-screen hidden lg:flex flex-col gap-5 items-center justify-center p-2 px-5">
+      <div data-aos ='fade-up' data-aos-delay = '100' className="w-full h-screen hidden lg:flex flex-col gap-5 items-center justify-center p-2 px-5">
         <h1 className="w-full font-bold text-4xl text-center text-red-700">
           Create an account
         </h1>
@@ -273,21 +270,20 @@ const SignUp = () => {
               {/* salutions and name*/}
               <div className="w-full flex gap-2 h-fit">
                 <label
-                  htmlFor="salutation"
+                  htmlFor="designation"
                   className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
                 >
-                  Salutation :
+                  Designation :
                   <select
-                    defaultValue = {'none'}
-                    id="salutation"
+                    defaultValue = {'user'}
+                    id="designation"
                     type="text"
                     className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="Enter your email address"
+                    placeholder="Enter school email"
                   >
-                    <option value = "none" disabled>none</option>
-                    <option value = "mr." >Mr.</option>
-                    <option value = "mrs." >Mrs.</option>
-                    <option value = "miss" >Miss</option>
+                      <option value="user">User</option>
+                      <option value="teacher">Teacher</option>
+                      <option value="principle">Principle</option>
                   </select>
                 </label>
                 <label
@@ -316,7 +312,7 @@ const SignUp = () => {
                       id="email"
                       type="email"
                       className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                      placeholder="Enter your email address"
+                      placeholder="Enter school email"
                     />
                     <EmailIcon className="absolute right-1 top-1/2 text-[#d73f3f86] scale-70" />
                   </label>

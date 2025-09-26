@@ -407,7 +407,7 @@ const Home = () => {
         </div>
         <div className = 'flex flex-col gap-1 text-center'>
           <SubjectIcon className = 'm-auto'/>
-          <NumCard target = {40}/>
+          <NumCard target = {15}/>
           <p className = 'font-extralight'>Subjects</p>
         </div>
       </div>

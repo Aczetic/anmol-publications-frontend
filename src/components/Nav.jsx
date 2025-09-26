@@ -74,9 +74,9 @@ const Nav = () => {
             <div className = 'px-3 self-center'>
                <AccountIcon className = 'flex self-center cursor-pointer select-none' style = {{fontSize:'2rem'}}/>
             </div>
-            :<div className = 'hidden sm:flex w-fit gap-1 items-center px-5'>
-              <Link to = '/login'><button className = 'btn-primary'> Login</button></Link>
-              <Link to = '/sign-up'><button className = 'btn-secondary'> Sign Up</button></Link>
+            :<div className = 'hidden md:flex w-fit gap-1 items-center px-5'>
+              <Link to = '/login'><button onClick = {handleClose} className = 'btn-primary'> Login</button></Link>
+              <Link to = '/sign-up'><button onClick = {handleClose} className = 'btn-secondary'> Sign Up</button></Link>
             </div>
           }
           
@@ -112,8 +112,8 @@ const Nav = () => {
               <AccountIcon title = 'profile' className = 'flex self-center relative' style = {{fontSize:'2rem'}}/> Profile
             </div> 
             : <div className = 'flex flex-col w-fit gap-3 top-5 relative items-start px-3'>
-              <Link to = '/login'><button className = 'btn-primary text-md md:px-3 '> Login</button></Link>
-              <Link to = '/sign-up'><button className = 'btn-secondary text-md md:px-3'> Sign Up</button></Link>
+              <Link to = '/login'><button onClick = {handleClose} className = 'btn-primary text-md md:px-3 '> Login</button></Link>
+              <Link to = '/sign-up'><button onClick = {handleClose} className = 'btn-secondary text-md md:px-3'> Sign Up</button></Link>
             </div>
           }
         </div>

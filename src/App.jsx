@@ -14,6 +14,7 @@ import Support from "./pages/Support"
 import OurMission from "./pages/OurMission"
 import SignUp from "./pages/SignUp"
 import Login from "./pages/Login"
+import TestpaperGenerator from "./pages/TestpaperGenerator"
 // ..
 AOS.init({
   duration:800,
@@ -38,6 +39,7 @@ const App = () => {
         <Route path = '/our-mission' element = {<OurMission/>} />
         <Route path = '/login' element = {<Login/>} />
         <Route path = '/sign-up' element = {<SignUp/>} />
+        <Route path = '/testpaper-generator' element = {<TestpaperGenerator/>}/>
         <Route path = '*' element = {<NotFound/>} />
       </Route>
     </Routes>
