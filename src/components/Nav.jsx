@@ -33,13 +33,13 @@ const Nav = () => {
   
   const handleClose = useCallback(()=>{
       drawerRef.current.style.transform = 'translateX(100%)';
-      setDrawerOpen(!drawerOpen);
-  },[drawerOpen])
+      setDrawerOpen(false);
+  },[])
 
   const handleOpen = useCallback(()=>{
     drawerRef.current.style.transform = 'translateX(0)';
-    setDrawerOpen(!drawerOpen);
-},[drawerOpen])
+    setDrawerOpen(true);
+},[])
 
   return (
     <>

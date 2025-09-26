@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 @font-face {
-    font-family: 'Bernard';
+    font-family: 'Bernard' ;
     src: url(./assets/fonts/BagnardSans.otf);
 }
 
@@ -49,7 +49,7 @@ body {
     background-image:url('./assets/pat.jpg');
     background-size:35rem;
     background-repeat:repeat;
-    font-family:'Urbanist';
+    font-family:'Urbanist' , Helvetica  ;
   }
 
 

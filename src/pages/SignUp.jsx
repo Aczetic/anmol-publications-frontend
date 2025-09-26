@@ -7,27 +7,60 @@ import PhoneIcon from '@mui/icons-material/LocalPhone';
 import SchoolIcon from '@mui/icons-material/LocationCity';
 import AddressIcon from '@mui/icons-material/LocationPin';
 import logo from '../assets/logo.png';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import loader1 from '../assets/lottie/loader1.lottie?url';
+import auth_ss from '../assets/contact_comp/it_all_starts_with_a_book.jpg';
 
 const authvidc = 'https://frwqfqelivvjucqh.public.blob.vercel-storage.com/authvidc-vfLNjW2yIgKQnjZcoo6WYiW6GuPQlz.mp4' // auth video 
 
 const SignUp = () => {
   const [passwordVisible ,setPasswordVisible] = useState(false);
   const [confirmPasswordVisible ,setConfirmPasswordVisible] = useState(false);
+  const videoRef = useRef(null);
+  const videoLoaderRef = useRef(null);
+  useEffect(()=>{
+
+    const eL = ()=>{
+      videoRef.current.style.display = 'block';
+      videoLoaderRef.current.style.display = 'none';
+      console.log("came here")
+    }
+    document.querySelector('#auth-vid').addEventListener('canplay',eL);
+    return ()=>{
+      document.querySelector('#auth-vid')?.removeEventListener('canplay',eL);
+    }
+  })
   
   return (
-    <div className="w-full h-fit min-h-[100vh] flex items-center justify-center">
+    <div className="w-full h-fit flex items-center justify-center">
       {/* left side */}
-      <div data-aos = "fade" data-aos-delay = "100" className="relative w-full lg:w-[45%] lg:max-w-200 shrink-0 h-screen">
+      <div
+        data-aos="fade"
+        data-aos-delay="100"
+        className="relative w-full lg:w-[45%] lg:max-w-200 shrink-0 h-screen min-h-130"
+      >
+        <div ref = {videoLoaderRef} style = {{backgroundImage : `url("${auth_ss}")`,}} className = 'flex flex-col bg-cover bg-center w-full h-full absolute top-0 left-0 justify-center items-center'>
+          <DotLottieReact
+            data-aos = 'fade-up'
+            src = {loader1}
+            loop = {true}
+            className = 'relative hidden lg:block lg:w-15 lg:h-15'
+            autoplay = {true}
+            />
+        </div>
         <video
+          ref = {videoRef}
           autoPlay={true}
           loop
           muted
           playsInline
-          className="absolute top-0 left-0 w-full h-full min-h-[100vh] object-cover"
+          className="hidden absolute top-0 left-0 w-full h-full min-h-[100vh] object-cover"
+          id="auth-vid"
         >
           <source src={authvidc} type="video/mp4" />
         </video>
+         
         <NavLink
           to="/"
           className="flex gap-2 px-2 absolute top-5 left-5 text-white z-150"
@@ -45,20 +78,18 @@ const SignUp = () => {
           </span>
         </NavLink>
         {/* overlay */}
-        <div className="absolute z-100 block lg:hidden top-0 left-0 w-full h-screen bg-[#00000077]">
+        <div className="absolute z-100 block lg:hidden top-0 left-0 w-full h-screen min-h-130 bg-[#00000077]">
           {/* Form Container */}
           <div className="relative w-full h-full flex flex-col items-center justify-center px-3 gap-5 md:gap-8">
-
             <h1 className="w-full text-center font-bold text-red-50 text-3xl md:text-5xl">
               Create an account
             </h1>
-            <form className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-100 md:max-w-150 h-100 bg-red-500">
-
+            <form className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-100 md:max-w-150 h-130 min-h-100">
               <h2 className="w-full text-2xl font-bold text-white text-center">
                 Sign Up
               </h2>
               {/* row groups container */}
-              <div className = 'w-full h-full overflow-y-scroll flex flex-col gap-1'>
+              <div className="w-full h-full overflow-y-scroll flex flex-col gap-1">
                 {/* designation and name */}
                 <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
                   <label
@@ -67,7 +98,7 @@ const SignUp = () => {
                   >
                     Designation :
                     <select
-                      defaultValue = {'user'}
+                      defaultValue={"user"}
                       id="designation"
                       type="text"
                       placeholder="Enter your designation"
@@ -126,53 +157,53 @@ const SignUp = () => {
                 {/* password and confirm password */}
                 <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
                   <label
-                      htmlFor="password"
-                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                    >
-                      Password :
-                      <input
-                        id="password"
-                        type={passwordVisible ? "text" : "password"}
-                        placeholder="Password (min 8 chars)"
-                        className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                    htmlFor="password"
+                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                  >
+                    Password :
+                    <input
+                      id="password"
+                      type={passwordVisible ? "text" : "password"}
+                      placeholder="Password (min 8 chars)"
+                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                    />
+                    {passwordVisible ? (
+                      <VisibilityIcon
+                        onClick={() => setPasswordVisible(false)}
+                        className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
                       />
-                      {passwordVisible ? (
-                        <VisibilityIcon
-                          onClick={() => setPasswordVisible(false)}
-                          className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
-                        />
-                      ) : (
-                        <VisibilityOffIcon 
+                    ) : (
+                      <VisibilityOffIcon
                         onClick={() => setPasswordVisible(true)}
                         className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
-                        />
-                      )}
-                    </label>
-                    <label
-                      htmlFor="confirm-password"
-                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                    >
-                      Confirm Password :
-                      <input
-                        id="confirm-password"
-                        type={confirmPasswordVisible ? "text" : "password"}
-                        placeholder="Confirm password"
-                        className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
                       />
-                      {confirmPasswordVisible ? (
-                        <VisibilityIcon
-                          onClick={() => setConfirmPasswordVisible(false)}
-                          className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
-                        />
-                      ) : (
-                        <VisibilityOffIcon 
+                    )}
+                  </label>
+                  <label
+                    htmlFor="confirm-password"
+                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                  >
+                    Confirm Password :
+                    <input
+                      id="confirm-password"
+                      type={confirmPasswordVisible ? "text" : "password"}
+                      placeholder="Confirm password"
+                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                    />
+                    {confirmPasswordVisible ? (
+                      <VisibilityIcon
+                        onClick={() => setConfirmPasswordVisible(false)}
+                        className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
+                      />
+                    ) : (
+                      <VisibilityOffIcon
                         onClick={() => setConfirmPasswordVisible(true)}
                         className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
-                        />
-                      )}
-                    </label>
-                </div> 
-                        
+                      />
+                    )}
+                  </label>
+                </div>
+
                 {/* school name*/}
                 <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
                   <label
@@ -188,68 +219,75 @@ const SignUp = () => {
                     />
                     <SchoolIcon className="scale-70 absolute bottom-0 md:bottom-[5%] right-1" />
                   </label>
-                </div>       
+                </div>
                 {/* state and city */}
                 <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
                   <label
-                      htmlFor="state"
-                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                    >
-                      State :
-                      <input
-                        id="state"
-                        type="text"
-                        placeholder="Enter state"
-                        className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                      />
-                    </label>
-                    <label
-                      htmlFor="city"
-                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                    >
-                      City :
-                      <input
-                        id="city"
-                        type="text"
-                        placeholder="Enter city"
-                        className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                      />
-                    </label>
-                </div> 
+                    htmlFor="state"
+                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                  >
+                    State :
+                    <input
+                      id="state"
+                      type="text"
+                      placeholder="Enter state"
+                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                    />
+                  </label>
+                  <label
+                    htmlFor="city"
+                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                  >
+                    City :
+                    <input
+                      id="city"
+                      type="text"
+                      placeholder="Enter city"
+                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                    />
+                  </label>
+                </div>
 
                 {/* address complete */}
                 <div className="w-full border-box p-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
                   <label
-                      htmlFor="address"
-                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                    >
-                      Address :
-                      <textarea
-                        id="address"
-                        type="text"
-                        placeholder="Provide locality address"
-                        className="bg-[#6a6868b3] h-20 resize-none w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                      />
-                      <AddressIcon
-                        onClick={() => setPasswordVisible(false)}
-                        className="scale-70 absolute top-7 md:bottom-[5%] right-1"
-                      />
-                     
-                    </label>
-                </div> 
+                    htmlFor="address"
+                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                  >
+                    Address :
+                    <textarea
+                      id="address"
+                      type="text"
+                      placeholder="Provide locality address"
+                      className="bg-[#6a6868b3] h-20 resize-none w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                    />
+                    <AddressIcon
+                      onClick={() => setPasswordVisible(false)}
+                      className="scale-70 absolute top-7 md:bottom-[5%] right-1"
+                    />
+                  </label>
+                </div>
               </div>
-              <button className = 'w-full p-2 text-white text-xs md:text-sm bg-black rounded-sm cursor-pointer select-none mt-3'>Sign Up</button>
-              <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">{"Already have an account."} ? &nbsp;
-                <NavLink className="font-semibold" to="/login">Log In</NavLink></div>
+              <button className="w-full p-2 text-white text-xs md:text-sm bg-black rounded-sm cursor-pointer select-none mt-3">
+                Sign Up
+              </button>
+              <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
+                {"Already have an account."} ? &nbsp;
+                <NavLink className="font-semibold" to="/login">
+                  Log In
+                </NavLink>
+              </div>
             </form>
           </div>
         </div>
-        <div className="w-full bg-red-500"></div>
       </div>
 
-
       {/* right side */}
-      <div data-aos ='fade-up' data-aos-delay = '100' className="w-full h-screen hidden lg:flex flex-col gap-5 items-center justify-center p-2 px-5">
+      <div
+        data-aos="fade-up"
+        data-aos-delay="100"
+        className="w-full min-h-120 h-screen  hidden lg:flex flex-col gap-5 items-center justify-center p-2 px-5"
+      >
         <h1 className="w-full font-bold text-4xl text-center text-red-700">
           Create an account
         </h1>
@@ -260,13 +298,12 @@ const SignUp = () => {
           </div>
 
           {/* this form will show up only in large screens */}
-          <form className="auth-form-bg px-3 py-2 text-sm flex flex-col gap-1 relative z-100 w-full max-w-120 p-1 h-fit">
-           
+          <form className="auth-form-bg px-3 py-2 text-sm flex flex-col gap-1 relative z-100 w-full max-w-120 p-1">
             <h2 className="w-full mt-2 text-center font-bold text-2xl text-red-50">
               Sign Up
             </h2>
 
-            <div className = 'w-full flex flex-col gap-3 border-box p-1 h-90 overflow-y-scroll mt-1'>
+            <div className="w-full flex flex-col gap-3 border-box p-1 h-90  overflow-y-scroll mt-1">
               {/* salutions and name*/}
               <div className="w-full flex gap-2 h-fit">
                 <label
@@ -275,15 +312,15 @@ const SignUp = () => {
                 >
                   Designation :
                   <select
-                    defaultValue = {'user'}
+                    defaultValue={"user"}
                     id="designation"
                     type="text"
                     className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
                     placeholder="Enter school email"
                   >
-                      <option value="user">User</option>
-                      <option value="teacher">Teacher</option>
-                      <option value="principle">Principle</option>
+                    <option value="user">User</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="principle">Principle</option>
                   </select>
                 </label>
                 <label
@@ -303,160 +340,161 @@ const SignUp = () => {
 
               {/* email and phone */}
               <div className="w-full flex gap-2 h-fit">
-                  <label
-                    htmlFor="email"
-                    className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                  >
-                    Email :
-                    <input
-                      id="email"
-                      type="email"
-                      className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                      placeholder="Enter school email"
-                    />
-                    <EmailIcon className="absolute right-1 top-1/2 text-[#d73f3f86] scale-70" />
-                  </label>
+                <label
+                  htmlFor="email"
+                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                >
+                  Email :
+                  <input
+                    id="email"
+                    type="email"
+                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                    placeholder="Enter school email"
+                  />
+                  <EmailIcon className="absolute right-1 top-1/2 text-[#d73f3f86] scale-70" />
+                </label>
 
-                  <label
-                    htmlFor="phone"
-                    className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                  >
-                    Phone :
-                    <input
-                      id="phone"
-                      type={"text"}
-                      className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                      placeholder="+91 Phone number"
-                    />
-                  
-                    <PhoneIcon
-                      onClick={() => setPasswordVisible(false)}
-                      className="cursor-pointer absolute right-1 top-1/2 scale-70 text-[#d73f3f86]"
-                    />
-                   
-                  </label>
+                <label
+                  htmlFor="phone"
+                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                >
+                  Phone :
+                  <input
+                    id="phone"
+                    type={"text"}
+                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                    placeholder="+91 Phone number"
+                  />
+                  <PhoneIcon
+                    onClick={() => setPasswordVisible(false)}
+                    className="cursor-pointer absolute right-1 top-1/2 scale-70 text-[#d73f3f86]"
+                  />
+                </label>
               </div>
 
               {/* password and confirm password */}
               <div className="w-full flex gap-2 h-fit">
-                  <label
-                    htmlFor="password"
-                    className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                  >
-                    Password :
-                    <input
-                      id="password"
-                      type={passwordVisible ? "text" : "password"}
-                      className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                      placeholder="Enter your password"
+                <label
+                  htmlFor="password"
+                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                >
+                  Password :
+                  <input
+                    id="password"
+                    type={passwordVisible ? "text" : "password"}
+                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                    placeholder="Enter your password"
+                  />
+                  {passwordVisible ? (
+                    <VisibilityIcon
+                      onClick={() => setPasswordVisible(false)}
+                      className="cursor-pointer absolute right-1 top-1/2 scale-70 text-[#d73f3f86]"
                     />
-                    {passwordVisible ? (
-                      <VisibilityIcon
-                        onClick={() => setPasswordVisible(false)}
-                        className="cursor-pointer absolute right-1 top-1/2 scale-70 text-[#d73f3f86]"
-                      />
-                    ) : (
-                      <VisibilityOffIcon
-                        onClick={() => setPasswordVisible(true)}
-                        className="cursor-pointer absolute right-1 top-1/2 scale-70 text-[#d73f3f86]"
-                      />
-                    )}
-                  </label>
+                  ) : (
+                    <VisibilityOffIcon
+                      onClick={() => setPasswordVisible(true)}
+                      className="cursor-pointer absolute right-1 top-1/2 scale-70 text-[#d73f3f86]"
+                    />
+                  )}
+                </label>
 
-                  <label
-                    htmlFor="confirm-password"
-                    className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                  >
-                    Confirm Password :
-                    <input
-                      id="confirm-password"
-                      type={confirmPasswordVisible ? "text" : "password"}
-                      className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                      placeholder="Confirm password"
+                <label
+                  htmlFor="confirm-password"
+                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                >
+                  Confirm Password :
+                  <input
+                    id="confirm-password"
+                    type={confirmPasswordVisible ? "text" : "password"}
+                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                    placeholder="Confirm password"
+                  />
+                  {confirmPasswordVisible ? (
+                    <VisibilityIcon
+                      onClick={() => setConfirmPasswordVisible(false)}
+                      className="cursor-pointer absolute right-1 top-1/2 scale-70 text-[#d73f3f86]"
                     />
-                    {confirmPasswordVisible ? (
-                      <VisibilityIcon
-                        onClick={() => setConfirmPasswordVisible(false)}
-                        className="cursor-pointer absolute right-1 top-1/2 scale-70 text-[#d73f3f86]"
-                      />
-                    ) : (
-                      <VisibilityOffIcon
-                        onClick={() => setConfirmPasswordVisible(true)}
-                        className="cursor-pointer absolute right-1 top-1/2 scale-70 text-[#d73f3f86]"
-                      />
-                    )}
-                  </label>
+                  ) : (
+                    <VisibilityOffIcon
+                      onClick={() => setConfirmPasswordVisible(true)}
+                      className="cursor-pointer absolute right-1 top-1/2 scale-70 text-[#d73f3f86]"
+                    />
+                  )}
+                </label>
               </div>
 
               {/* school name  */}
-               <div className="w-full flex gap-2 h-fit">
-                  <label
-                    htmlFor="school-name"
-                    className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                  >
-                    School Name :
-                    <input
-                      id="email"
-                      type="email"
-                      className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                      placeholder="Enter your school name"
-                    />
-                    <SchoolIcon className="absolute right-1 top-1/2 text-[#d73f3f86] scale-70" />
-                  </label>
-
+              <div className="w-full flex gap-2 h-fit">
+                <label
+                  htmlFor="school-name"
+                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                >
+                  School Name :
+                  <input
+                    id="email"
+                    type="email"
+                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                    placeholder="Enter your school name"
+                  />
+                  <SchoolIcon className="absolute right-1 top-1/2 text-[#d73f3f86] scale-70" />
+                </label>
               </div>
 
               {/* state city */}
-               <div className="w-full flex gap-2 h-fit">
-                  <label
-                    htmlFor="state"
-                    className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                  >
-                    State :
-                    <input
-                      id="state"
-                      type="text"
-                      className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                      placeholder="Enter state"
-                    />
-                  </label>
+              <div className="w-full flex gap-2 h-fit">
+                <label
+                  htmlFor="state"
+                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                >
+                  State :
+                  <input
+                    id="state"
+                    type="text"
+                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                    placeholder="Enter state"
+                  />
+                </label>
 
-                  <label
-                    htmlFor="city"
-                    className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                  >
-                    City :
-                    <input
-                      id="text"
-                      type="text"
-                      className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                      placeholder="Enter city"
-                    />
-                  </label>
+                <label
+                  htmlFor="city"
+                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                >
+                  City :
+                  <input
+                    id="text"
+                    type="text"
+                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                    placeholder="Enter city"
+                  />
+                </label>
               </div>
 
               {/* address */}
               <div className="w-full flex gap-2 h-fit">
-                  <label
-                    htmlFor="address"
-                    className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                  >
-                    Address :
-                    <textarea
-                      id="address"
-                      type="text"
-                      className="p-1 px-2 h-25 text-sm text-red-800 resize-none font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                      placeholder="Provide locality address"
-                    />
-                    <AddressIcon className="absolute right-0 top-7 text-[#d73f3f86] scale-70" />
-                  </label>
-
+                <label
+                  htmlFor="address"
+                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                >
+                  Address :
+                  <textarea
+                    id="address"
+                    type="text"
+                    className="p-1 px-2 h-25 text-sm text-red-800 resize-none font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                    placeholder="Provide locality address"
+                  />
+                  <AddressIcon className="absolute right-0 top-7 text-[#d73f3f86] scale-70" />
+                </label>
               </div>
-
             </div>
-            <button className = 'w-full py-2 text-center bg-black text-white cursor-pointer select-none text-xs md:text-sm rounded-sm mt-3'>Sign Up</button>
-            <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">{"Already have an account."} ? &nbsp;
-            <NavLink className="font-semibold" to="/login">Log In</NavLink></div>
+            <button className="w-full py-2 text-center bg-black text-white cursor-pointer select-none text-xs md:text-sm rounded-sm mt-3">
+              Sign Up
+            </button>
+            <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
+              {"Already have an account."} ? &nbsp;
+              <NavLink className="font-semibold" to="/login">
+                Log In
+              </NavLink>
+            </div>
           </form>
         </div>
       </div>

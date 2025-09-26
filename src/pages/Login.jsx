@@ -3,24 +3,51 @@ import EmailIcon from '@mui/icons-material/Email';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import logo from '../assets/logo.png';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import loader1 from '../assets/lottie/loader1.lottie?url';
+import auth_ss from '../assets/contact_comp/it_all_starts_with_a_book.jpg';
 
 const authvidc = 'https://frwqfqelivvjucqh.public.blob.vercel-storage.com/authvidc-vfLNjW2yIgKQnjZcoo6WYiW6GuPQlz.mp4' // auth video 
 
 const Login = () => {
   const [passwordVisible ,setPasswordVisible] = useState(false);
+  const videoRef = useRef(null);
+  const videoLoaderRef = useRef(null);
+  useEffect(()=>{
 
+    const eL = ()=>{
+      videoRef.current.style.display = 'block';
+      videoLoaderRef.current.style.display = 'none';
+      console.log("came here")
+    }
+    document.querySelector('#auth-vid').addEventListener('canplay',eL);
+    return ()=>{
+      document.querySelector('#auth-vid')?.removeEventListener('canplay',eL);
+    }
+  })    
 
   return (
-    <div className="w-full h-fit min-h-[100vh] flex items-center justify-center">
+    <div className="w-full h-fit min-h-screen flex items-center justify-center">
       {/* left side */}
-      <div data-aos = "fade" data-aos-delay = "100" className="relative w-full lg:w-[45%] lg:max-w-200 shrink-0 h-screen">
+      <div data-aos = "fade" data-aos-delay = "100" className="relative w-full lg:w-[45%] lg:max-w-200 shrink-0 h-screen min-h-100">
+      <div ref = {videoLoaderRef} style = {{backgroundImage : `url("${auth_ss}")`,}} className = 'flex flex-col bg-cover bg-center w-full h-full absolute top-0 left-0 justify-center items-center'>
+          <DotLottieReact
+            data-aos = 'fade-up'
+            src = {loader1}
+            loop = {true}
+            className = 'relative hidden lg:block lg:w-15 lg:h-15'
+            autoplay = {true}
+            />
+        </div>
         <video
+          ref = {videoRef}
           autoPlay={true}
           loop
           muted
           playsInline
-          className="absolute top-0 left-0 w-full h-full min-h-[100vh] object-cover"
+          className="hidden absolute top-0 left-0 w-full h-full min-h-[100vh] object-cover"
+          id="auth-vid"
         >
           <source src={authvidc} type="video/mp4" />
         </video>
@@ -41,7 +68,7 @@ const Login = () => {
           </span>
         </NavLink>
         {/* overlay */}
-        <div className="absolute z-100 block lg:hidden top-0 left-0 w-full h-screen bg-[#00000077]">
+        <div className="absolute z-100 block lg:hidden top-0 left-0 w-full h-screen min-h-100 bg-[#00000077]">
           {/* Form Container */}
           <div className="relative w-full h-full flex flex-col items-center justify-center px-3 gap-5 md:gap-8">
 
@@ -108,7 +135,7 @@ const Login = () => {
 
 
       {/* right side */}
-      <div data-aos = 'fade-up' data-aos-delay = '100' className="w-full h-screen hidden lg:flex flex-col gap-5 items-center justify-center p-2 px-5">
+      <div data-aos = 'fade-up' data-aos-delay = '100' className="w-full min-h-screen h-fit hidden lg:flex flex-col gap-5 items-center justify-center p-2 px-5">
         <h1 className="w-full font-bold text-4xl text-center text-red-700">
           Welcome Back !
         </h1>
