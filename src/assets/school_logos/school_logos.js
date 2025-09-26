@@ -11,7 +11,7 @@ import holy_cross from './holy_cross.png';
 import merci_memorial from './merci_memorial.png';
 import rose_buds from './rose_buds.png';
 import sant_pathik_vidyalaya from './sant_pathik_vidyalaya.png';
-import ss_public_school from './ss_public_school.jpeg';
+import ss_public_school from './ss_public_school.png';
 import st_anjani_public_school from './st_anjani_public_school.png';
 import st_dominic from './st_dominic.png';
 import st_francis from './st_francis.png';

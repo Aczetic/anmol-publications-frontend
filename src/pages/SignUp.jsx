@@ -19,6 +19,7 @@ const SignUp = () => {
   const [confirmPasswordVisible ,setConfirmPasswordVisible] = useState(false);
   const videoRef = useRef(null);
   const videoLoaderRef = useRef(null);
+  
   useEffect(()=>{
 
     const eL = ()=>{

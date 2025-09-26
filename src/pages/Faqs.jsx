@@ -20,13 +20,13 @@ const Faq = ()=>{
             <ExpandCircleDownIcon className="text-gray-700" />
           </span>
         </div>
-        <div className={`text-sm md:text-md w-full duration-200 overflow-hidden ${visible?'h-fit p-3':'h-0 p-0'}  bg-red-200 text-gray-800`}>
+        <div className={`text-sm md:text-md w-full px-3 duration-200 overflow-hidden overflow-y-scroll ${visible?'h-22 py-3':'h-0 py-0'}  bg-red-200 text-gray-800`}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint magnam
           aliquam velit doloribus corporis aliquid et ab voluptates suscipit
           iure? Rem libero dolore voluptatibus sit rerum maiores, laborum enim
           odio eius ratione mollitia ipsam consectetur voluptate. Numquam ipsum,
           sequi labore soluta, eligendi repellat tempora repudiandae rerum,
-          impedit vel recusandae odit!
+          impedit vel recusandae odit! 
         </div>
       </div>
     );

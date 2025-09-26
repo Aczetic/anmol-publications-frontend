@@ -9,14 +9,14 @@ import art6 from './art6.jpg';
 import art7 from './art7.jpg';
 import art8 from './art8.jpg';
 
-import cursive1 from './cursive1.jpg';
-import cursive2 from './cursive2.jpg';
-import cursive3 from './cursive3.jpg';
-import cursive4 from './cursive4.jpg';
-import cursive5 from './cursive5.jpg';
-import cursive6 from './cursive6.jpg';
-import cursive7 from './cursive7.jpg';
-import cursive8 from './cursive8.jpg';
+import cursivea from './cursive1.jpg';
+import cursiveb from './cursive2.jpg';
+import cursivec from './cursive3.jpg';
+import cursive1 from './cursive4.jpg';
+import cursive2 from './cursive5.jpg';
+import cursive3 from './cursive6.jpg';
+import cursive4 from './cursive7.jpg';
+import cursive5 from './cursive8.jpg';
 
 import gk1 from './gk1.jpg';
 import gk2 from './gk2.jpg';
@@ -38,6 +38,6 @@ import hindi8 from './hindi8.jpg';
 
 export const BOOKS =  
 {
-    art1,art2,art3,art4,art5,art6,art7,art8,cursive1,cursive2,cursive3,cursive4,cursive5,cursive6,cursive7,cursive8,
+    art1,art2,art3,art4,art5,art6,art7,art8,cursivea,cursiveb,cursivec,cursive1,cursive2,cursive3,cursive4,cursive5,
     gk1,gk2,gk3,gk4,gk5,gk6,gk7,gk8, hindi1, hindi2, hindi3, hindi4, hindi5, hindi6, hindi7, hindi8
 } 

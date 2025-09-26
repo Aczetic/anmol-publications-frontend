@@ -18,7 +18,7 @@ const Testimonial = ({data})=>{
                 <div className = 'flex flex-col text-xs'>
                     <div className = 'flex gap-1'>
                         <p className = 'font-bold'>{data.name},</p>
-                        <p>{data.designation}</p>
+                        {/* todo: this can be added when genuine testimonials are added <p>{data.designation}</p> */} 
                     </div>
                     <p className = 'italic'>{data.location}</p>
                 </div>
