@@ -174,7 +174,7 @@ const SignUp = () => {
             <h1 className="w-full text-center font-bold text-red-50 text-3xl md:text-5xl">
               Create an account
             </h1>
-            <form onSubmit={handleSubmitMobile(onSubmit,onError)} className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-100 md:max-w-150 h-130 min-h-100">
+            <form onSubmit={handleSubmitMobile(onSubmit,onError)} className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-110 md:max-w-150 h-130 min-h-100">
               <h2 className="w-full text-2xl font-bold text-white text-center">
                 Sign Up
               </h2>

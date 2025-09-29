@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router';
 import EmailIcon from '@mui/icons-material/Email';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import logo from '../assets/logo.png';
@@ -7,15 +8,67 @@ import { useEffect, useRef, useState } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import loader1 from '../assets/lottie/loader1.lottie?url';
 import auth_ss from '../assets/contact_comp/it_all_starts_with_a_book.jpg';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod"
 
 const authvidc = 'https://frwqfqelivvjucqh.public.blob.vercel-storage.com/authvidc-vfLNjW2yIgKQnjZcoo6WYiW6GuPQlz.mp4' // auth video 
+
+
+const User = z.object({
+   email : z.email("Enter a valid email"),
+   password : z.string()
+            .min( 8 , {error: "Atleast 8 characters"})
+            .refine( value=>/[a-z]/.test(value) , {error:'Missing a lower case letter'})
+            .refine( value => /[A-Z]/.test(value) , {error: "Missing an upper case letter"})
+            .refine( value => /[0-9]/.test(value) , {error: "Missing a number" })
+            .refine( value => /[*\.!@#$%^&*=\-_+]/.test(value) , {error: "Missing *.!@#$%^&*=-_+"}),
+    })
+
+const UserMobile = z.object({
+  "email-mobile" : z.email("Enter a valid email"),
+  "password-mobile" : z.string()
+            .min( 8 , {error: "Atleast 8 characters"})
+            .refine( value=>/[a-z]/.test(value) , {error:'Missing a lower case letter'})
+            .refine( value => /[A-Z]/.test(value) , {error: "Missing an upper case letter"})
+            .refine( value => /[0-9]/.test(value) , {error: "Missing a number" })
+            .refine( value => /[*\.!@#$%^&*=\-_+]/.test(value) , {error: "Missing *.!@#$%^&*=-_+"}),
+    })
+
 
 const Login = () => {
   const [passwordVisible ,setPasswordVisible] = useState(false);
   const videoRef = useRef(null);
   const videoLoaderRef = useRef(null);
-  useEffect(()=>{
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState:{errors}
+  } = useForm({
+    resolver: zodResolver(User)
+  })
+
+  const {
+    register : registerMobile,
+    handleSubmit : handleSubmitMobile,
+    watch : watchMobile,
+    formState: {errors:errorsMobile}
+  } = useForm({
+    resolver: zodResolver(UserMobile)
+  })
+
+  const onSubmit = (data)=>{
+    console.log(data)
+  }
+
+  const onError = (err)=>{
+    console.log(err);
+  }
+
+// show a frame while a playable video blob is loading
+  useEffect(()=>{
     const eL = ()=>{
       videoRef.current.style.display = 'block';
       videoLoaderRef.current.style.display = 'none';
@@ -31,7 +84,7 @@ const Login = () => {
     <div className="w-full h-fit min-h-screen flex items-center justify-center">
       {/* left side */}
       <div data-aos = "fade" data-aos-delay = "100" className="relative w-full lg:w-[45%] lg:max-w-200 shrink-0 h-screen min-h-100">
-      <div ref = {videoLoaderRef} style = {{backgroundImage : `url("${auth_ss}")`,}} className = 'flex flex-col bg-cover bg-center w-full h-full absolute top-0 left-0 justify-center items-center'>
+        <div ref = {videoLoaderRef} style = {{backgroundImage : `url("${auth_ss}")`,}} className = 'flex flex-col bg-cover bg-center w-full h-full absolute top-0 left-0 justify-center items-center'>
           <DotLottieReact
             data-aos = 'fade-up'
             src = {loader1}
@@ -75,7 +128,7 @@ const Login = () => {
             <h1 className="w-full text-center font-bold text-red-50 text-3xl md:text-5xl">
               Welcome Back !
             </h1>
-            <form className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-100 md:max-w-150 h-fit bg-red-500">
+            <form onSubmit={handleSubmitMobile(onSubmit,onError)} className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-100 md:max-w-150 h-fit bg-red-500">
 
               <h2 className="w-full text-2xl font-bold text-white text-center">
                 Log In
@@ -86,25 +139,28 @@ const Login = () => {
               {/* email and phone*/}
               <div className="w-full sm:min-w-80 border-box px-1 py-2 flex flex-col gap-4 justify-center mt-1">
                 <label
-                  htmlFor="email"
+                  htmlFor="email-mobile"
                   className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
                 >
                   Email :
                   <input
-                    id="email"
+                    {...registerMobile('email-mobile')}
+                    id="email-mobile"
                     type="text"
                     placeholder="Enter school email"
                     className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
                   />
-                  <EmailIcon className="scale-70 absolute bottom-0 md:bottom-[5%] right-1" />
+                  <EmailIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
+                  {errorsMobile["email-mobile"] && <p className = 'w-full text-red-300 font-normal'><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile["email-mobile"].message}</p>}
                 </label>
                 <label
-                    htmlFor="password"
+                    htmlFor="password-mobile"
                     className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
                   >
                     Password :
                     <input
-                      id="password"
+                      {...registerMobile('password-mobile')}
+                      id="password-mobile"
                       type={passwordVisible ? "text" : "password"}
                       placeholder="Password (min 8 chars)"
                       className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
@@ -112,14 +168,15 @@ const Login = () => {
                     {passwordVisible ? (
                       <VisibilityIcon
                         onClick={() => setPasswordVisible(false)}
-                        className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
+                        className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
                       />
                     ) : (
                       <VisibilityOffIcon 
                       onClick={() => setPasswordVisible(true)}
-                      className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
+                      className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
                       />
                     )}
+                  {errorsMobile["password-mobile"] && <p className = 'w-full text-red-300 text-xs font-normal' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile["password-mobile"].message}</p>}
                   </label>
               </div>
 
@@ -146,7 +203,7 @@ const Login = () => {
           </div>
 
           {/* this form will show up only in large screens */}
-          <form className="auth-form-bg px-3 py-2 text-sm flex flex-col gap-1 relative z-100 w-full p-1 h-fit">
+          <form onSubmit={handleSubmit(onSubmit, onError)} className="auth-form-bg px-3 py-2 text-sm flex flex-col gap-1 relative z-100 w-full p-1 h-fit">
            
             <h2 className="w-full mt-2 text-center font-bold text-2xl text-red-50">
               Log In
@@ -162,15 +219,17 @@ const Login = () => {
                 >
                   Email :
                   <input
+                    {...register('email')}
                     id="email"
-                    type={passwordVisible ? "text" : "password"}
+                    type="email"
                     className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
                     placeholder="Enter school email"
                   />
                   
                   <EmailIcon
-                    className="cursor-pointer absolute right-2 top-1/2 scale-70 text-[#d73f3f86]"
+                    className="cursor-pointer absolute right-2 top-[1.6rem] scale-70 text-[#d73f3f86]"
                   />
+                  { errors.email && <p className = 'w-full text-xs h-5 font-normal text-red-800 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors.email.message}</p>}  
                  
                 </label>
 
@@ -180,6 +239,7 @@ const Login = () => {
                 >
                   Password :
                   <input
+                    {...register('password')}
                     id="password"
                     type={passwordVisible ? "text" : "password"}
                     className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
@@ -188,14 +248,16 @@ const Login = () => {
                   {passwordVisible ? (
                     <VisibilityIcon
                       onClick={() => setPasswordVisible(false)}
-                      className="cursor-pointer absolute right-2 top-1/2 scale-70 text-[#d73f3f86]"
+                      className="cursor-pointer absolute right-2 top-[1.6rem] scale-70 text-[#d73f3f86]"
                     />
                   ) : (
                     <VisibilityOffIcon
                       onClick={() => setPasswordVisible(true)}
-                      className="cursor-pointer absolute right-2 top-1/2 scale-70 text-[#d73f3f86]"
+                      className="cursor-pointer absolute right-2 top-[1.6rem] scale-70 text-[#d73f3f86]"
                     />
                   )}
+                  { errors.password && <p className = 'w-full text-xs h-5 font-normal text-red-800 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors.password.message}</p>}  
+
                 </label>
          
 
