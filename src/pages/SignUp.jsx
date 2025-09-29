@@ -11,17 +11,38 @@ import { useEffect, useRef, useState } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import loader1 from '../assets/lottie/loader1.lottie?url';
 import auth_ss from '../assets/contact_comp/it_all_starts_with_a_book.jpg';
-
+import OptionsInput from '../components/OptionsInput';
+import STATES from '../constants/STATES';
+import CITIES from '../constants/CITIES';
+import { useForm } from 'react-hook-form';
 const authvidc = 'https://frwqfqelivvjucqh.public.blob.vercel-storage.com/authvidc-vfLNjW2yIgKQnjZcoo6WYiW6GuPQlz.mp4' // auth video 
+
+
+
 
 const SignUp = () => {
   const [passwordVisible ,setPasswordVisible] = useState(false);
   const [confirmPasswordVisible ,setConfirmPasswordVisible] = useState(false);
   const videoRef = useRef(null);
   const videoLoaderRef = useRef(null);
-  
-  useEffect(()=>{
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState:{errors}
+  } = useForm()
+
+  const watchState = watch('state');
+  const watchCity = watch('city');
+  const watchSchoolName = watch('school-name');
+
+
+
+
+  // for showing a frame when the playable video blob is loading
+  useEffect(()=>{
     const eL = ()=>{
       videoRef.current.style.display = 'block';
       videoLoaderRef.current.style.display = 'none';
@@ -32,7 +53,9 @@ const SignUp = () => {
       document.querySelector('#auth-vid')?.removeEventListener('canplay',eL);
     }
   })
-  
+
+
+
   return (
     <div className="w-full h-fit flex items-center justify-center">
       {/* left side */}
@@ -41,17 +64,21 @@ const SignUp = () => {
         data-aos-delay="100"
         className="relative w-full lg:w-[45%] lg:max-w-200 shrink-0 h-screen min-h-130"
       >
-        <div ref = {videoLoaderRef} style = {{backgroundImage : `url("${auth_ss}")`,}} className = 'flex flex-col bg-cover bg-center w-full h-full absolute top-0 left-0 justify-center items-center'>
+        <div
+          ref={videoLoaderRef}
+          style={{ backgroundImage: `url("${auth_ss}")` }}
+          className="flex flex-col bg-cover bg-center w-full h-full absolute top-0 left-0 justify-center items-center"
+        >
           <DotLottieReact
-            data-aos = 'fade-up'
-            src = {loader1}
-            loop = {true}
-            className = 'relative hidden lg:block lg:w-15 lg:h-15'
-            autoplay = {true}
-            />
+            data-aos="fade-up"
+            src={loader1}
+            loop={true}
+            className="relative hidden lg:block lg:w-15 lg:h-15"
+            autoplay={true}
+          />
         </div>
         <video
-          ref = {videoRef}
+          ref={videoRef}
           autoPlay={true}
           loop
           muted
@@ -61,7 +88,7 @@ const SignUp = () => {
         >
           <source src={authvidc} type="video/mp4" />
         </video>
-         
+
         <NavLink
           to="/"
           className="flex gap-2 px-2 absolute top-5 left-5 text-white z-150"
@@ -85,200 +112,205 @@ const SignUp = () => {
             <h1 className="w-full text-center font-bold text-red-50 text-3xl md:text-5xl">
               Create an account
             </h1>
-            <form className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-100 md:max-w-150 h-130 min-h-100">
+            {/* <form className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-100 md:max-w-150 h-130 min-h-100">
               <h2 className="w-full text-2xl font-bold text-white text-center">
                 Sign Up
               </h2>
               {/* row groups container */}
-              <div className="w-full h-full overflow-y-scroll flex flex-col gap-1">
-                {/* designation and name */}
-                <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
-                  <label
-                    htmlFor="designation"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+            <div className="w-full h-full overflow-y-scroll flex flex-col gap-1">
+              {/* designation and name */}
+              <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
+                <label
+                  htmlFor="designation"
+                  className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                >
+                  Designation :
+                  <select
+                    defaultValue={"user"}
+                    id="designation"
+                    type="text"
+                    placeholder="Enter your designation"
+                    className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
                   >
-                    Designation :
-                    <select
-                      defaultValue={"user"}
-                      id="designation"
-                      type="text"
-                      placeholder="Enter your designation"
-                      className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    >
-                      <option value="user">User</option>
-                      <option value="teacher">Teacher</option>
-                      <option value="principle">Principle</option>
-                    </select>
-                  </label>
-                  <label
-                    htmlFor="fullname"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Full Name :
-                    <input
-                      id="fullname"
-                      type="text"
-                      placeholder="Enter your full name"
-                      className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    <PersonIcon className="scale-70 absolute bottom-0 md:bottom-[5%] right-1" />
-                  </label>
-                </div>
+                    <option value="user">User</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="principle">Principle</option>
+                  </select>
+                </label>
+                <label
+                  htmlFor="fullname"
+                  className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                >
+                  Full Name :
+                  <input
+                    id="fullname"
+                    type="text"
+                    placeholder="Enter your full name"
+                    className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                  />
+                  <PersonIcon className="scale-70 absolute bottom-0 md:bottom-[5%] right-1" />
+                </label>
+              </div>
 
-                {/* email and phone*/}
-                <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
-                  <label
-                    htmlFor="email"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Email :
-                    <input
-                      id="email"
-                      type="text"
-                      placeholder="Enter school email"
-                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    <EmailIcon className="scale-70 absolute bottom-0 md:bottom-[5%] right-1" />
-                  </label>
-                  <label
-                    htmlFor="phone"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Phone :
-                    <input
-                      id="phone"
-                      type="text"
-                      placeholder="+91 Phone number"
-                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    <PhoneIcon className="scale-70 absolute bottom-0 md:bottom-[5%] right-1" />
-                  </label>
-                </div>
+              {/* email and phone*/}
+              <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
+                <label
+                  htmlFor="email"
+                  className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                >
+                  Email :
+                  <input
+                    id="email"
+                    type="text"
+                    placeholder="Enter school email"
+                    className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                  />
+                  <EmailIcon className="scale-70 absolute bottom-0 md:bottom-[5%] right-1" />
+                </label>
+                <label
+                  htmlFor="phone"
+                  className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                >
+                  Phone :
+                  <input
+                    id="phone"
+                    type="text"
+                    placeholder="+91 Phone number"
+                    className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                  />
+                  <PhoneIcon className="scale-70 absolute bottom-0 md:bottom-[5%] right-1" />
+                </label>
+              </div>
 
-                {/* password and confirm password */}
-                <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
-                  <label
-                    htmlFor="password"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Password :
-                    <input
-                      id="password"
-                      type={passwordVisible ? "text" : "password"}
-                      placeholder="Password (min 8 chars)"
-                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    {passwordVisible ? (
-                      <VisibilityIcon
-                        onClick={() => setPasswordVisible(false)}
-                        className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
-                      />
-                    ) : (
-                      <VisibilityOffIcon
-                        onClick={() => setPasswordVisible(true)}
-                        className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
-                      />
-                    )}
-                  </label>
-                  <label
-                    htmlFor="confirm-password"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Confirm Password :
-                    <input
-                      id="confirm-password"
-                      type={confirmPasswordVisible ? "text" : "password"}
-                      placeholder="Confirm password"
-                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    {confirmPasswordVisible ? (
-                      <VisibilityIcon
-                        onClick={() => setConfirmPasswordVisible(false)}
-                        className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
-                      />
-                    ) : (
-                      <VisibilityOffIcon
-                        onClick={() => setConfirmPasswordVisible(true)}
-                        className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
-                      />
-                    )}
-                  </label>
-                </div>
-
-                {/* school name*/}
-                <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
-                  <label
-                    htmlFor="school-name"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    School Name :
-                    <input
-                      id="school-name"
-                      type="text"
-                      placeholder="Enter school name"
-                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    <SchoolIcon className="scale-70 absolute bottom-0 md:bottom-[5%] right-1" />
-                  </label>
-                </div>
-                {/* state and city */}
-                <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
-                  <label
-                    htmlFor="state"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    State :
-                    <input
-                      id="state"
-                      type="text"
-                      placeholder="Enter state"
-                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                  </label>
-                  <label
-                    htmlFor="city"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    City :
-                    <input
-                      id="city"
-                      type="text"
-                      placeholder="Enter city"
-                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                  </label>
-                </div>
-
-                {/* address complete */}
-                <div className="w-full border-box p-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
-                  <label
-                    htmlFor="address"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Address :
-                    <textarea
-                      id="address"
-                      type="text"
-                      placeholder="Provide locality address"
-                      className="bg-[#6a6868b3] h-20 resize-none w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    <AddressIcon
+              {/* password and confirm password */}
+              <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
+                <label
+                  htmlFor="password"
+                  className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                >
+                  Password :
+                  <input
+                    id="password"
+                    type={passwordVisible ? "text" : "password"}
+                    placeholder="Password (min 8 chars)"
+                    className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                  />
+                  {passwordVisible ? (
+                    <VisibilityIcon
                       onClick={() => setPasswordVisible(false)}
-                      className="scale-70 absolute top-7 md:bottom-[5%] right-1"
+                      className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
                     />
-                  </label>
-                </div>
+                  ) : (
+                    <VisibilityOffIcon
+                      onClick={() => setPasswordVisible(true)}
+                      className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
+                    />
+                  )}
+                </label>
+                <label
+                  htmlFor="confirm-password"
+                  className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                >
+                  Confirm Password :
+                  <input
+                    id="confirm-password"
+                    type={confirmPasswordVisible ? "text" : "password"}
+                    placeholder="Confirm password"
+                    className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                  />
+                  {confirmPasswordVisible ? (
+                    <VisibilityIcon
+                      onClick={() => setConfirmPasswordVisible(false)}
+                      className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
+                    />
+                  ) : (
+                    <VisibilityOffIcon
+                      onClick={() => setConfirmPasswordVisible(true)}
+                      className="scale-70 absolute bottom-0 md:bottom-[5%] right-1"
+                    />
+                  )}
+                </label>
               </div>
-              <button className="w-full p-2 text-white text-xs md:text-sm bg-black rounded-sm cursor-pointer select-none mt-3">
-                Sign Up
-              </button>
-              <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
-                {"Already have an account."} ? &nbsp;
-                <NavLink className="font-semibold" to="/login">
-                  Log In
-                </NavLink>
+
+              {/* school name*/}
+
+              <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
+                <label
+                  htmlFor="school-name"
+                  className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                >
+                  School Name :
+                  <OptionsInput
+                    inputProps={{
+                      id: "school-name",
+                      type: "text",
+                      placeholder: "Enter school name",
+                      className:
+                        "bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
+                    }}
+                  />
+                  <SchoolIcon className="scale-70 absolute bottom-0 md:bottom-[5%] right-1" />
+                </label>
               </div>
-            </form>
+
+              {/* state and city */}
+              <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
+                <label
+                  htmlFor="state"
+                  className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                >
+                  State :
+                  <input
+                    id="state"
+                    type="text"
+                    placeholder="Enter state"
+                    className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                  />
+                </label>
+                <label
+                  htmlFor="city"
+                  className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                >
+                  City :
+                  <input
+                    id="city"
+                    type="text"
+                    placeholder="Enter city"
+                    className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                  />
+                </label>
+              </div>
+
+              {/* address complete */}
+              <div className="w-full border-box p-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
+                <label
+                  htmlFor="address"
+                  className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                >
+                  Address :
+                  <textarea
+                    id="address"
+                    type="text"
+                    placeholder="Provide locality address"
+                    className="bg-[#6a6868b3] h-20 resize-none w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                  />
+                  <AddressIcon
+                    onClick={() => setPasswordVisible(false)}
+                    className="scale-70 absolute top-7 md:bottom-[5%] right-1"
+                  />
+                </label>
+              </div>
+            </div>
+            <button className="w-full p-2 text-white text-xs md:text-sm bg-black rounded-sm cursor-pointer select-none mt-3">
+              Sign Up
+            </button>
+            <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
+              {"Already have an account."} ? &nbsp;
+              <NavLink className="font-semibold" to="/login">
+                Log In
+              </NavLink>
+            </div>
+            {/* </form> */}
           </div>
         </div>
       </div>
@@ -299,7 +331,11 @@ const SignUp = () => {
           </div>
 
           {/* this form will show up only in large screens */}
-          <form className="auth-form-bg px-3 py-2 text-sm flex flex-col gap-1 relative z-100 w-full max-w-120 p-1">
+          <form
+            onSubmit = {handleSubmit()}
+            autoComplete="false"
+            className="auth-form-bg px-3 py-2 text-sm flex flex-col gap-1 relative z-100 w-full max-w-120 p-1"
+          >
             <h2 className="w-full mt-2 text-center font-bold text-2xl text-red-50">
               Sign Up
             </h2>
@@ -313,6 +349,7 @@ const SignUp = () => {
                 >
                   Designation :
                   <select
+                    {...register("example", { required: true })}
                     defaultValue={"user"}
                     id="designation"
                     type="text"
@@ -330,6 +367,7 @@ const SignUp = () => {
                 >
                   Full Name :
                   <input
+                    {...register("fullname", { required: true })}
                     id="fullname"
                     type="text"
                     className="placeholder:truncate p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
@@ -347,6 +385,7 @@ const SignUp = () => {
                 >
                   Email :
                   <input
+                    {...register("email", { required: true })}
                     id="email"
                     type="email"
                     className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
@@ -361,6 +400,7 @@ const SignUp = () => {
                 >
                   Phone :
                   <input
+                    {...register("phone", { required: true })}
                     id="phone"
                     type={"text"}
                     className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
@@ -381,6 +421,7 @@ const SignUp = () => {
                 >
                   Password :
                   <input
+                    {...register("password", { required: true })}
                     id="password"
                     type={passwordVisible ? "text" : "password"}
                     className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
@@ -405,6 +446,7 @@ const SignUp = () => {
                 >
                   Confirm Password :
                   <input
+                    {...register("confirm-password", { required: true })}
                     id="confirm-password"
                     type={confirmPasswordVisible ? "text" : "password"}
                     className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
@@ -425,19 +467,28 @@ const SignUp = () => {
               </div>
 
               {/* school name  */}
+
               <div className="w-full flex gap-2 h-fit">
                 <label
                   htmlFor="school-name"
                   className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
                 >
+                  <SchoolIcon className="absolute right-1 top-7 text-[#d73f3f86] scale-70" />
                   School Name :
-                  <input
-                    id="email"
-                    type="email"
-                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="Enter your school name"
+                  <OptionsInput
+                    options={watchSchoolName ? `https://kys.udiseplus.gov.in/webapp/api/search-school/by-keyword?schoolName=${watchSchoolName}`: 'Type a school name'}
+                    //true because the filtering will be done by api iteslf
+                    filter={() => true}
+                    setValue={(value) => setValue("school-name", value)}
+                    {...register("school-name", { required: true })}
+                    inputProps={{
+                      id: "school-name",
+                      type: "text",
+                      className:
+                        "relative p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm",
+                      placeholder: "Enter your school name",
+                    }}
                   />
-                  <SchoolIcon className="absolute right-1 top-1/2 text-[#d73f3f86] scale-70" />
                 </label>
               </div>
 
@@ -448,11 +499,25 @@ const SignUp = () => {
                   className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
                 >
                   State :
-                  <input
-                    id="state"
-                    type="text"
-                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="Enter state"
+                  <OptionsInput
+                    {...register("state", { required: true })}
+                    options={STATES}
+                    setValue={(value) => {
+                      setValue("state", value);
+                      // and then reset city input
+                      setValue("city", "");
+                    }}
+                    // the states is an array that is why below logic
+                    filter={(opt = "") =>
+                      opt.toLowerCase().includes(watchState.toLowerCase())
+                    }
+                    inputProps={{
+                      id: "state",
+                      type: "text",
+                      className:
+                        "p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm",
+                      placeholder: "Enter state",
+                    }}
                   />
                 </label>
 
@@ -461,11 +526,32 @@ const SignUp = () => {
                   className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
                 >
                   City :
-                  <input
-                    id="text"
-                    type="text"
-                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="Enter city"
+                  <OptionsInput
+                    {...register("city", { required: true })}
+                    // I don't know why the hell optional chainging is required
+                    // but that piece of sh*t watchState was undefined initially so....
+                    options={
+                      watchState !== "" ?
+                        ( CITIES[
+                            watchState
+                              ?.slice(0, watchState.length - 4)
+                              .toLowerCase()
+                          ]?.cities) : "Select a State"
+                    }
+                    // because the cities is within an object
+                    filter={(opt) =>
+                      opt.toLowerCase().includes(watchCity.toLowerCase())
+                    }
+                    setValue={(value) => {
+                      setValue("city", value);
+                    }}
+                    inputProps={{
+                      id: "city",
+                      type: "text",
+                      className:
+                        "p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm",
+                      placeholder: "Enter city",
+                    }}
                   />
                 </label>
               </div>
