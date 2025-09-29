@@ -13,7 +13,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 // inputProps        : props for the input to directly sprread
 
 
-const OptionsInput = React.forwardRef(({ options , filter, inputProps,setValue, onChange, onBlur, name} , ref) => {
+const OptionsInput = React.forwardRef(({ options , filter, inputProps ,setValue, onChange, onBlur, name } , ref) => {
   const [onFocus, setOnFocus] = useState(false);
   const timeoutRef = useRef(null);
 
@@ -31,7 +31,7 @@ const OptionsInput = React.forwardRef(({ options , filter, inputProps,setValue, 
         timeoutRef.current = setTimeout(() => {
 
           axios
-            .get(options)
+            .get(options, {timeout:5000})
             .then((res) => {
               // when the validation error occurs
               if (res.status === 200 && res.data.status === false) {
@@ -84,6 +84,7 @@ const OptionsInput = React.forwardRef(({ options , filter, inputProps,setValue, 
         name={name}
         defaultValue=""
         {...inputProps}
+        // className = {className}
         onFocus={() => {
           setOnFocus(true);
         }}
