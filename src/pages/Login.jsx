@@ -82,6 +82,7 @@ const Login = () => {
      }).then(res=>{
         
         if(res.data.message === 'LOGIN_SUCCESSFUL'){
+          toast.success("Logged in successfully !");
           dispatch(setUser(res.data.user)) // set the user data in store
           window.localStorage.setItem('user',JSON.stringify(res.data.user))// set the data also in local storage 
           navigate(res.data.user.role!=='principal'?'/profile':'/dashboard');

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
+
 
 const Dashboard = () => {
   const user = useSelector(state=>state.user);
@@ -10,8 +10,12 @@ const Dashboard = () => {
     useEffect(()=>{
       if(!user || user.role !== 'principal'){
         navigate('/profile');
+      }else{
+        //TODO: later use redux thunk
+        navigate('/dashboard') // I know this is some weird logic but that user up there is getting 
+                               // null for a split second then getting actually value which is being set by app.jsx
       }
-    },[])
+    },[user])
 
 
   return (
