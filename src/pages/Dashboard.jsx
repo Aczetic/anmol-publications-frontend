@@ -8,12 +8,14 @@ const Dashboard = () => {
   const navigate = useNavigate();
   // to protect from unauthorized access if somebody tried doing /dashboard
     useEffect(()=>{
-      if(!user || user.role !== 'principal'){
-        navigate('/profile');
-      }else{
-        //TODO: later use redux thunk
+      if(user || user.role !== 'principal'){
+        setTimeout(()=> navigate('/profile'),1000);
+      }else if (user && user.role == 'principal'){
+        //TODO: later use redux thunk this is very ugly
         navigate('/dashboard') // I know this is some weird logic but that user up there is getting 
                                // null for a split second then getting actually value which is being set by app.jsx
+      }else {
+        setTimeout(()=>navigate('/login'),500);
       }
     },[user])
 
