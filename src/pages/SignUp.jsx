@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import z from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod"
 import EmailIcon from '@mui/icons-material/Email';
@@ -11,18 +11,21 @@ import AddressIcon from '@mui/icons-material/LocationPin';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import logo from '../assets/logo.png';
 import { useEffect, useRef, useState } from 'react';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import loader1 from '../assets/lottie/loader1.lottie?url';
 import auth_ss from '../assets/contact_comp/it_all_starts_with_a_book.jpg';
 import OptionsInput from '../components/OptionsInput';
 import STATES from '../constants/STATES';
 import CITIES from '../constants/CITIES';
 import { useForm } from 'react-hook-form';
+import Loader1 from '../components/Loader1';
+import axios from 'axios';
+import {toast} from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../features/userSlice';
 const authvidc = 'https://frwqfqelivvjucqh.public.blob.vercel-storage.com/authvidc-vfLNjW2yIgKQnjZcoo6WYiW6GuPQlz.mp4' // auth video 
 
 // for normal screens
 const User = z.object({
-  designation: z.string().regex(/[user|pricipal|teacher]/,{error:"invalid designation"}),
+  role: z.string().regex(/[user|pricipal|teacher]/,{error:"invalid role"}),
   fullname: z.string().min(1,"Full name is required").regex(/[a-zA-Z]/ , {error: "Enter a valid name"}),
   password: z.string()
             .min( 8 , {error: "Atleast 8 characters"})
@@ -46,7 +49,7 @@ const User = z.object({
 
 // for small screens
 const UserMobile = z.object({
-  "designation-mobile": z.string().regex(/[user|pricipal|teacher]/,{error:"invalid designation"}),
+  "role-mobile": z.string().regex(/[user|pricipal|teacher]/,{error:"invalid role"}),
   "fullname-mobile": z.string().min(1,"Full name is required").regex(/[a-zA-Z]/ , {error: "Enter a valid name"}),
   "password-mobile": z.string()
                     .min( 8 , {error: "Atleast 8 characters"})
@@ -72,17 +75,23 @@ const UserMobile = z.object({
 const SignUp = () => {
   const [passwordVisible ,setPasswordVisible] = useState(false);
   const [confirmPasswordVisible ,setConfirmPasswordVisible] = useState(false);
+  const navigate = useNavigate();
   const videoRef = useRef(null);
   const videoLoaderRef = useRef(null);
+  const [signingup , setSigningup] = useState(false);
+  const user = useSelector((state)=>state.user);
+  const dispatch = useDispatch();
+
 
   //for large screens
   const {
-    register,
+    register, 
     handleSubmit,
     watch,
     setValue,
     formState:{errors}
   } = useForm({resolver:zodResolver(User)})
+
  // for mobile
   const {
     register : registerMobile,
@@ -100,8 +109,6 @@ const SignUp = () => {
   const watchSchoolNameMobile = watchMobile('school-name-mobile');
 
 
-
-
   // for showing a frame when the playable video blob is loading
   useEffect(()=>{
     const eL = ()=>{
@@ -115,7 +122,84 @@ const SignUp = () => {
     }
   })
 
-  const onSubmit = (data)=>{ console.log(data)};
+  
+  const onSubmit = (data)=>{ 
+    
+    if(signingup) return; // to prevent duplicate sign up requests
+    
+    setSigningup(true); // start loader on button
+     
+    axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/sign-up` , data , {
+
+      headers:{
+        'Content-Type':'application/json',
+      },
+      withCredentials:true,
+
+    }).then((res)=>{
+       
+       if(res.data.message === 'SIGN_UP_SUCCESSFUL'){
+          dispatch(setUser(res.data.user)) // set the user data in store
+          window.localStorage.setItem('user',JSON.stringify(res.data.user))// set the data also in local storage 
+          toast.success('Signed up successfully !');
+          navigate(res.data.user.role!='principal'?'/profile':'/dashboard');
+
+       }else if(res.data.message === 'LOG_IN'){
+         toast.info("Please Login")
+       }
+       setSigningup(false); // stop loader
+
+    }).catch(e=>{
+      console.log(e)
+      toast.error("Some error occurred")
+      setSigningup(false); // stop loader
+    })
+
+
+  };
+  
+  const onSubmitMobile = (data)=>{ 
+    if(signingup){
+      return; // to prevent sending duplicate sign up requests
+    }
+    setSigningup(true); // start loader on button
+    
+    //this config below is because in mobile form "-mobile" is present in every field so this removes it
+    // I could have gone creating 2 form components with local zods but I lazied out  
+    const dataToPass = {};
+    Object.entries(data).forEach(e=>{
+      dataToPass[e[0].slice(0,e[0].lastIndexOf('-'))] = e[1] ;
+    })
+    
+    axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/sign-up` , dataToPass,
+      {
+      headers:{
+        'Content-Type':'application/json',
+      },
+      withCredentials:true,
+
+    }).then((res)=>{
+      if(res.data.message === 'SIGN_UP_SUCCESSFUL'){
+        dispatch(setUser(res.data.user)) // set the user data in store
+        window.localStorage.setItem('user',JSON.stringify(res.data.user))// set the data also in local storage 
+        toast.success('Signed up successfully !');
+        navigate(res.data.user.role!='principal'?'/profile':'/dashboard');
+    
+      }else if(res.data.message === 'LOG_IN'){
+       toast.info("Please Login")
+      }
+      setSigningup(false); // stop loader
+
+  }).catch(e=>{
+    toast.error("Some error occurred")
+    setSigningup(false); // stop loader
+
+  })
+
+
+  };
+
+  //TODO: remove this later
   const onError = (errors=>{ console.log(errors)})
 
   return (
@@ -131,13 +215,7 @@ const SignUp = () => {
           style={{ backgroundImage: `url("${auth_ss}")` }}
           className="flex flex-col bg-cover bg-center w-full h-full absolute top-0 left-0 justify-center items-center"
         >
-          <DotLottieReact
-            data-aos="fade-up"
-            src={loader1}
-            loop={true}
-            className="relative hidden lg:block lg:w-15 lg:h-15"
-            autoplay={true}
-          />
+          <Loader1 className="relative hidden lg:block lg:w-15 lg:h-15" />
         </div>
         <video
           ref={videoRef}
@@ -174,34 +252,40 @@ const SignUp = () => {
             <h1 className="w-full text-center font-bold text-red-50 text-3xl md:text-5xl">
               Create an account
             </h1>
-            <form onSubmit={handleSubmitMobile(onSubmit,onError)} className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-110 md:max-w-150 h-130 min-h-100">
+            <form
+              onSubmit={handleSubmitMobile(onSubmitMobile, onError)}
+              className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-110 md:max-w-150 h-130 min-h-100"
+            >
               <h2 className="w-full text-2xl font-bold text-white text-center">
                 Sign Up
               </h2>
               {/* row groups container */}
               <div className="w-full h-full overflow-y-scroll flex flex-col gap-1">
-                {/* designation and name */}
+                {/* role and name */}
                 <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
                   <label
-                    htmlFor="designation-mobile"
+                    htmlFor="role-mobile"
                     className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
                   >
-                    Designation :
+                    Role :
                     <select
-                      {...registerMobile('designation-mobile')}
+                      {...registerMobile("role-mobile")}
                       defaultValue={"user"}
-                      id="designation-mobile"
+                      id="role-mobile"
                       type="text"
-                      placeholder="Enter your designation"
+                      placeholder="Enter your role"
                       className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
                     >
                       <option value="user">User</option>
                       <option value="teacher">Teacher</option>
-                      <option value="principle">Principle</option>
+                      <option value="principal">Principal</option>
                     </select>
-              
-                  {errorsMobile.designation && <p className = 'w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile.designation.message}</p>}
-
+                    {errorsMobile.role && (
+                      <p className="w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                        <ErrorOutlineIcon className="scale-70" />
+                        {errorsMobile.role.message}
+                      </p>
+                    )}
                   </label>
                   <label
                     htmlFor="fullname-mobile"
@@ -209,15 +293,19 @@ const SignUp = () => {
                   >
                     Full Name :
                     <input
-                      {...registerMobile('fullname-mobile')}
+                      {...registerMobile("fullname-mobile")}
                       id="fullname-mobile"
                       type="text"
                       placeholder="Enter your full name"
                       className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
                     />
                     <PersonIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
-                   {errorsMobile['fullname-mobile'] && <p className = 'w-full text-xs h-5 font-normal text-red-400 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile['fullname-mobile'].message}</p>}
-
+                    {errorsMobile["fullname-mobile"] && (
+                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                        <ErrorOutlineIcon className="scale-70" />
+                        {errorsMobile["fullname-mobile"].message}
+                      </p>
+                    )}
                   </label>
                 </div>
 
@@ -229,14 +317,19 @@ const SignUp = () => {
                   >
                     Email :
                     <input
-                      {...registerMobile('email-mobile')}
+                      {...registerMobile("email-mobile")}
                       id="email-mobile"
                       type="text"
                       placeholder="Enter school email"
                       className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
                     />
                     <EmailIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
-                    {errorsMobile['email-mobile'] && <p className = 'w-full text-xs h-5 font-normal text-red-400 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile['email-mobile'].message}</p>}
+                    {errorsMobile["email-mobile"] && (
+                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                        <ErrorOutlineIcon className="scale-70" />
+                        {errorsMobile["email-mobile"].message}
+                      </p>
+                    )}
                   </label>
                   <label
                     htmlFor="phone-mobile"
@@ -244,15 +337,19 @@ const SignUp = () => {
                   >
                     Phone :
                     <input
-                      {...registerMobile('phone-mobile')}
+                      {...registerMobile("phone-mobile")}
                       id="phone-mobile"
                       type="text"
                       placeholder="+91 Phone number"
                       className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
                     />
                     <PhoneIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
-                    {errorsMobile["phone-mobile"] && <p className = 'w-full text-xs h-5 font-normal text-red-400 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile["phone-mobile"].message}</p>}
-
+                    {errorsMobile["phone-mobile"] && (
+                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                        <ErrorOutlineIcon className="scale-70" />
+                        {errorsMobile["phone-mobile"].message}
+                      </p>
+                    )}
                   </label>
                 </div>
 
@@ -264,7 +361,7 @@ const SignUp = () => {
                   >
                     Password :
                     <input
-                      {...registerMobile('password-mobile')}
+                      {...registerMobile("password-mobile")}
                       id="password-mobile"
                       type={passwordVisible ? "text" : "password"}
                       placeholder="Password (min 8 chars)"
@@ -281,8 +378,12 @@ const SignUp = () => {
                         className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
                       />
                     )}
-                    {errorsMobile['password-mobile'] && <p className = 'w-full text-xs h-5 font-normal text-red-400 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile['password-mobile'].message}</p>}
-
+                    {errorsMobile["password-mobile"] && (
+                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                        <ErrorOutlineIcon className="scale-70" />
+                        {errorsMobile["password-mobile"].message}
+                      </p>
+                    )}
                   </label>
                   <label
                     htmlFor="confirm-password-mobile"
@@ -290,7 +391,7 @@ const SignUp = () => {
                   >
                     Confirm Password :
                     <input
-                      {...registerMobile('confirm-password-mobile')}
+                      {...registerMobile("confirm-password-mobile")}
                       id="confirm-password-mobile"
                       type={confirmPasswordVisible ? "text" : "password"}
                       placeholder="Confirm password"
@@ -307,7 +408,12 @@ const SignUp = () => {
                         className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
                       />
                     )}
-                    {errorsMobile['confirm-password-mobile'] && <p className = 'w-full text-xs h-5 font-normal text-red-400 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile['confirm-password-mobile'].message}</p>}
+                    {errorsMobile["confirm-password-mobile"] && (
+                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                        <ErrorOutlineIcon className="scale-70" />
+                        {errorsMobile["confirm-password-mobile"].message}
+                      </p>
+                    )}
                   </label>
                 </div>
 
@@ -319,24 +425,34 @@ const SignUp = () => {
                   >
                     School Name :
                     <OptionsInput
-                        options={
-                          watchSchoolNameMobile
-                            ? `https://kys.udiseplus.gov.in/webapp/api/search-school/by-keyword?schoolName=${watchSchoolNameMobile}`
-                            : "Type a school name"
-                        }
+                      options={
+                        watchSchoolNameMobile
+                          ? `https://kys.udiseplus.gov.in/webapp/api/search-school/by-keyword?schoolName=${watchSchoolNameMobile}`
+                          : "Type a school name"
+                      }
                       //true because the filtering will be done by api iteslf
-                        filter={() => true}
-                        setValue={(value) => setValueMobile("school-name-mobile", value)}
-                        {...registerMobile("school-name-mobile", { required: true })}
-                        inputProps={{
-                          className:"bg-[#6a6868b3] truncate text-red-500 w-full p-1 px-2 pr-8 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
+                      filter={() => true}
+                      setValue={(value) =>
+                        setValueMobile("school-name-mobile", value, {shouldValidate:true})
+                      }
+                      {...registerMobile("school-name-mobile", {
+                        required: true,
+                      })}
+                      inputProps={{
+                        className:
+                          "bg-[#6a6868b3] truncate text-red-500 w-full p-1 px-2 pr-8 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
                         id: "school-name-mobile",
                         type: "text",
                         placeholder: "Enter your school name",
                       }}
                     />
                     <SchoolIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
-                    {errorsMobile['school-name-mobile'] && <p className = 'w-full text-xs h-5 font-normal text-red-400 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile['school-name-mobile'].message}</p>}
+                    {errorsMobile["school-name-mobile"] && (
+                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                        <ErrorOutlineIcon className="scale-70" />
+                        {errorsMobile["school-name-mobile"].message}
+                      </p>
+                    )}
                   </label>
                 </div>
 
@@ -348,25 +464,33 @@ const SignUp = () => {
                   >
                     State :
                     <OptionsInput
-                    {...registerMobile("state-mobile", { required: true })}
-                    options={STATES}
-                    setValue={(value) => {
-                      setValueMobile("state-mobile", value);
-                      // and then reset city input
-                      setValueMobile("city-mobile", "");
-                    }}
-                    // the states is an array that is why below logic
-                    filter={(opt = "") =>
-                      opt.toLowerCase().includes(watchStateMobile.toLowerCase())
-                    }
-                    inputProps={{
-                      id: "state-mobile",
-                      type: "text",
-                      className:"bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
-                      placeholder: "Enter state",
-                    }}
-                  />
-                  {errorsMobile['state-mobile'] && <p className = 'w-full text-xs h-5 font-normal text-red-400 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile['state-mobile'].message}</p>}  
+                      {...registerMobile("state-mobile", { required: true })}
+                      options={STATES}
+                      setValue={(value) => {
+                        setValueMobile("state-mobile", value, {shouldValidate:true});
+                        // and then reset city input
+                        setValueMobile("city-mobile", "");
+                      }}
+                      // the states is an array that is why below logic
+                      filter={(opt = "") =>
+                        opt
+                          .toLowerCase()
+                          .includes(watchStateMobile.toLowerCase())
+                      }
+                      inputProps={{
+                        id: "state-mobile",
+                        type: "text",
+                        className:
+                          "bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
+                        placeholder: "Enter state",
+                      }}
+                    />
+                    {errorsMobile["state-mobile"] && (
+                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                        <ErrorOutlineIcon className="scale-70" />
+                        {errorsMobile["state-mobile"].message}
+                      </p>
+                    )}
                   </label>
                   <label
                     htmlFor="city-mobile"
@@ -374,33 +498,41 @@ const SignUp = () => {
                   >
                     City :
                     <OptionsInput
-                    {...registerMobile("city-mobile", { required: true })}
-                    // I don't know why the hell optional chainging is required
-                    // but that piece of sh*t watchStateMobile was undefined initially so....
-                    options={
-                      watchStateMobile !== ""
-                        ? CITIES[
-                            watchStateMobile
-                              ?.slice(0, watchStateMobile.length - 4) // no MP, UP,etc
-                              .toLowerCase()
-                          ]?.cities
-                        : "Select a State" // message when no state is selected
-                    }
-                    // because the cities is within an object
-                    filter={(opt) =>
-                      opt.toLowerCase().includes(watchCityMobile.toLowerCase())
-                    }
-                    setValue={(value) => {
-                      setValueMobile("city-mobile", value);
-                    }}
-                    inputProps={{
-                      id: "city-mobile",
-                      type: "text",
-                      className:"bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
-                      placeholder: "Enter city",
-                    }}
-                  />
-                  {errorsMobile['city-mobile'] && <p className = 'w-full text-xs h-5 font-normal text-red-400 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile['city-mobile'].message}</p>}  
+                      {...registerMobile("city-mobile", { required: true })}
+                      // I don't know why the hell optional chainging is required
+                      // but that piece of sh*t watchStateMobile was undefined initially so....
+                      options={
+                        watchStateMobile !== ""
+                          ? CITIES[
+                              watchStateMobile
+                                ?.slice(0, watchStateMobile.length - 4) // no MP, UP,etc
+                                .toLowerCase()
+                            ]?.cities
+                          : "Select a State" // message when no state is selected
+                      }
+                      // because the cities is within an object
+                      filter={(opt) =>
+                        opt
+                          .toLowerCase()
+                          .includes(watchCityMobile.toLowerCase())
+                      }
+                      setValue={(value) => {
+                        setValueMobile("city-mobile", value, {shouldValidate:true});
+                      }}
+                      inputProps={{
+                        id: "city-mobile",
+                        type: "text",
+                        className:
+                          "bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
+                        placeholder: "Enter city",
+                      }}
+                    />
+                    {errorsMobile["city-mobile"] && (
+                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                        <ErrorOutlineIcon className="scale-70" />
+                        {errorsMobile["city-mobile"].message}
+                      </p>
+                    )}
                   </label>
                 </div>
 
@@ -412,7 +544,7 @@ const SignUp = () => {
                   >
                     Address :
                     <textarea
-                      {...registerMobile('address-mobile')}
+                      {...registerMobile("address-mobile")}
                       id="address-mobile"
                       type="text"
                       placeholder="Provide locality address"
@@ -422,12 +554,21 @@ const SignUp = () => {
                       onClick={() => setPasswordVisible(false)}
                       className="scale-70 absolute top-7 md:bottom-[5%] right-1"
                     />
-                    {errorsMobile['address-mobile'] && <p className = 'w-full text-xs h-5 font-normal text-red-400 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errorsMobile['address-mobile'].message}</p>}
+                    {errorsMobile["address-mobile"] && (
+                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                        <ErrorOutlineIcon className="scale-70" />
+                        {errorsMobile["address-mobile"].message}
+                      </p>
+                    )}
                   </label>
                 </div>
               </div>
-              <button className="w-full p-2 text-white text-xs md:text-sm bg-black rounded-sm cursor-pointer select-none mt-3">
-                Sign Up
+              <button className="w-full text-white text-sm bg-black rounded-sm cursor-pointer select-none mt-3">
+                {signingup ? (
+                  <div className = 'w-full h-9 relative'><Loader1 className="w-full absolute top-0 h-9 text-center" /></div>
+                ) : (
+                  <p className="w-full py-2 text-center">Sign Up</p>
+                )}
               </button>
               <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
                 {"Already have an account."} ? &nbsp;
@@ -457,7 +598,7 @@ const SignUp = () => {
 
           {/* this form will show up only in large screens */}
           <form
-            onSubmit={handleSubmit(onSubmit,onError)}
+            onSubmit={handleSubmit(onSubmit, onError)}
             autoComplete="false"
             className="auth-form-bg px-3 py-2 text-sm flex flex-col gap-1 relative z-100 w-full max-w-120 p-1"
           >
@@ -469,14 +610,14 @@ const SignUp = () => {
               {/* salutions and name*/}
               <div className="w-full flex gap-2 h-fit">
                 <label
-                  htmlFor="designation"
+                  htmlFor="role"
                   className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
                 >
-                  Designation :
+                  Role :
                   <select
-                    {...register("designation", { required: true })}
+                    {...register("role", { required: true })}
                     defaultValue={"user"}
-                    id="designation"
+                    id="role"
                     type="text"
                     className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
                     placeholder="Enter school email"
@@ -485,7 +626,12 @@ const SignUp = () => {
                     <option value="teacher">Teacher</option>
                     <option value="principal">Principal</option>
                   </select>
-                  {errors.designation && <p className = 'w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors.designation.message}</p>}
+                  {errors.role && (
+                    <p className="w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                      <ErrorOutlineIcon className="scale-70" />
+                      {errors.role.message}
+                    </p>
+                  )}
                 </label>
                 <label
                   htmlFor="fullname"
@@ -500,7 +646,12 @@ const SignUp = () => {
                     placeholder="Enter full name"
                   />
                   <PersonIcon className="absolute right-1 top-[1.6rem] text-[#d73f3f86] scale-70" />
-                  {errors.fullname && <p className = ' top-full w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors.fullname.message}</p>}
+                  {errors.fullname && (
+                    <p className=" top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                      <ErrorOutlineIcon className="scale-70" />
+                      {errors.fullname.message}
+                    </p>
+                  )}
                 </label>
               </div>
 
@@ -519,7 +670,12 @@ const SignUp = () => {
                     placeholder="Enter school email"
                   />
                   <EmailIcon className="absolute right-1 top-[1.6rem] text-[#d73f3f86] scale-70" />
-                  {errors.email && <p className = 'top-full w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors.email.message}</p>}
+                  {errors.email && (
+                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                      <ErrorOutlineIcon className="scale-70" />
+                      {errors.email.message}
+                    </p>
+                  )}
                 </label>
 
                 <label
@@ -538,8 +694,12 @@ const SignUp = () => {
                     onClick={() => setPasswordVisible(false)}
                     className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
                   />
-                  {errors.phone && <p className = 'top-full w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors.phone.message}</p>}
-
+                  {errors.phone && (
+                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                      <ErrorOutlineIcon className="scale-70" />
+                      {errors.phone.message}
+                    </p>
+                  )}
                 </label>
               </div>
 
@@ -568,7 +728,12 @@ const SignUp = () => {
                       className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
                     />
                   )}
-                  {errors.password && <p className = 'top-full w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors.password.message}</p>}
+                  {errors.password && (
+                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                      <ErrorOutlineIcon className="scale-70" />
+                      {errors.password.message}
+                    </p>
+                  )}
                 </label>
 
                 <label
@@ -594,7 +759,12 @@ const SignUp = () => {
                       className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
                     />
                   )}
-                  {errors['confirm-password'] && <p className = 'top-full w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors['confirm-password'].message}</p>}
+                  {errors["confirm-password"] && (
+                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                      <ErrorOutlineIcon className="scale-70" />
+                      {errors["confirm-password"].message}
+                    </p>
+                  )}
                 </label>
               </div>
 
@@ -615,7 +785,7 @@ const SignUp = () => {
                     }
                     //true because the filtering will be done by api iteslf
                     filter={() => true}
-                    setValue={(value) => setValue("school-name", value)}
+                    setValue={(value) => setValue("school-name", value , {shouldValidate:true})}
                     {...register("school-name", { required: true })}
                     inputProps={{
                       id: "school-name",
@@ -625,7 +795,12 @@ const SignUp = () => {
                       placeholder: "Enter your school name",
                     }}
                   />
-                  {errors['school-name'] && <p className = 'top-full w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors['school-name'].message}</p>}
+                  {errors["school-name"] && (
+                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                      <ErrorOutlineIcon className="scale-70" />
+                      {errors["school-name"].message}
+                    </p>
+                  )}
                 </label>
               </div>
 
@@ -640,7 +815,7 @@ const SignUp = () => {
                     {...register("state", { required: true })}
                     options={STATES}
                     setValue={(value) => {
-                      setValue("state", value);
+                      setValue("state", value , {shouldValidate:true});
                       // and then reset city input
                       setValue("city", "");
                     }}
@@ -656,7 +831,12 @@ const SignUp = () => {
                       placeholder: "Enter state",
                     }}
                   />
-                  {errors.state && <p className = 'top-full w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors.state.message}</p>}
+                  {errors.state && (
+                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                      <ErrorOutlineIcon className="scale-70" />
+                      {errors.state.message}
+                    </p>
+                  )}
                 </label>
 
                 <label
@@ -682,7 +862,7 @@ const SignUp = () => {
                       opt.toLowerCase().includes(watchCity.toLowerCase())
                     }
                     setValue={(value) => {
-                      setValue("city", value);
+                      setValue("city", value, {shouldValidate:true});
                     }}
                     inputProps={{
                       id: "city",
@@ -692,7 +872,12 @@ const SignUp = () => {
                       placeholder: "Enter city",
                     }}
                   />
-                  {errors.city && <p className = 'top-full w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors.city.message}</p>}
+                  {errors.city && (
+                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                      <ErrorOutlineIcon className="scale-70" />
+                      {errors.city.message}
+                    </p>
+                  )}
                 </label>
               </div>
 
@@ -704,20 +889,29 @@ const SignUp = () => {
                 >
                   Address :
                   <textarea
-                    {...register('address',{required:true})}
+                    {...register("address", { required: true })}
                     id="address"
                     type="text"
                     className="p-1 px-2 h-25 text-sm text-red-800 resize-none font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
                     placeholder="Provide locality address"
                   />
                   <AddressIcon className="absolute right-0 top-7 text-[#d73f3f86] scale-70" />
-                  {errors.address && <p className = 'top-full w-full text-xs h-5 font-normal text-red-700 flex items-center' ><ErrorOutlineIcon className = 'scale-70'/>{errors.address.message}</p>}
+                  {errors.address && (
+                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                      <ErrorOutlineIcon className="scale-70" />
+                      {errors.address.message}
+                    </p>
+                  )}
                 </label>
               </div>
             </div>
-            <button className="w-full py-2 text-center bg-black text-white cursor-pointer select-none text-xs md:text-sm rounded-sm mt-3">
-              Sign Up
-            </button>
+            <button className="w-full px-2 text-white text-xs md:text-sm bg-black rounded-sm cursor-pointer select-none mt-3">
+                {signingup ? (
+                  <Loader1 className="w-full h-9 text-center" />
+                ) : (
+                  <p className="py-2">Sign Up</p>
+                )}
+              </button>
             <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
               {"Already have an account."} ? &nbsp;
               <NavLink className="font-semibold" to="/login">
@@ -726,7 +920,7 @@ const SignUp = () => {
             </div>
           </form>
         </div>
-      </div>
+      </div>  
     </div>
   );
 }

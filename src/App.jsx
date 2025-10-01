@@ -15,6 +15,13 @@ import OurMission from "./pages/OurMission"
 import SignUp from "./pages/SignUp"
 import Login from "./pages/Login"
 import TestpaperGenerator from "./pages/TestpaperGenerator"
+import Dashboard from "./pages/Dashboard"
+import { useDispatch, useSelector } from "react-redux"
+import {setUser} from './features/userSlice.js';
+import { useEffect } from "react"
+import axios from "axios"
+import Profile from "./pages/Profile.jsx"
+import Protected from "./pages/Protected.jsx"
 // ..
 AOS.init({
   duration:800,
@@ -24,26 +31,59 @@ AOS.init({
 
 
 const App = () => {
-  return <BrowserRouter>
-    <Routes>
-      <Route element = {<Nav/>}>
-        <Route index = {true} path = '/' element = {<Home/>}/>
-        <Route path = '/home' element = {<Home/>}/> {/*this route will redirect to upper route from client side} */}
-        <Route path = '/about-us' element = {<AboutUs/>}/>
-        <Route path = '/books' element = {<Books/>}/> 
-        <Route path = '/contact-us' element = {<ContactUs/>} />
-        <Route path = '/blogs' element = {<Blogs/>} />
-        <Route path = '/careers' element = {<Careers/>} />
-        <Route path = '/faqs' element = {<Faqs/>} />
-        <Route path = '/support' element = {<Support/>} />
-        <Route path = '/our-mission' element = {<OurMission/>} />
-        <Route path = '/login' element = {<Login/>} />
-        <Route path = '/sign-up' element = {<SignUp/>} />
-        <Route path = '/testpaper-generator' element = {<TestpaperGenerator/>}/>
-        <Route path = '*' element = {<NotFound/>} />
-      </Route>
-    </Routes>
-  </BrowserRouter>
+  const dispatch = useDispatch();
+  //get the logged in state locally and verify first through api
+  useEffect(()=>{
+   
+    axios.get( `${import.meta.env.VITE_SERVER_URL}/auth/logged-in`,{
+      withCredentials:true,
+    }).then(res=>{
+      
+      if(!res.data.success){ // if session not active
+        window.localStorage.removeItem('user');
+        dispatch(setUser(null))
+
+      }else if(res.data.success){ // if session is active then overwrite the user info and data in session storage
+        dispatch(setUser(res.data.user));
+        window.localStorage.setItem('user',JSON.stringify(res.data.user));
+      }
+
+    }).catch(e=>{
+       // here will show any errors right now I don't have any in mind that needs to toasted
+       if(!e.response.data.success){
+          dispatch(setUser(null));
+       }
+    })
+    
+  },[])
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Nav />}>
+          <Route index={true} path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />{" "}
+          {/*this route will redirect to upper route from client side} */}
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/books" element={<Books />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/faqs" element={<Faqs />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/our-mission" element={<OurMission />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/testpaper-generator" element={<TestpaperGenerator />} />
+          <Route element={<Protected />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App
