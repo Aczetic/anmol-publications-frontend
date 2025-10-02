@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, Outlet, useNavigate } from "react-router";
 import { setUser } from "../features/userSlice";
 
 
 const Protected = ({children})=>{
     const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(()=>{  
 
@@ -28,7 +29,7 @@ const Protected = ({children})=>{
     });
 
     return <>
-            <Outlet/>
+            {user && <Outlet/>}
           </>
 }
 
