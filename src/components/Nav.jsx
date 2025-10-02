@@ -57,6 +57,7 @@ const Nav = () => {
         window.localStorage.removeItem('user');
         dispatch(setUser(null));
         toast.info('Logged out')
+        navigate('/login');
       }
     }).catch(e=>{
       console.log(e);

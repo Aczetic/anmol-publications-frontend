@@ -109,6 +109,13 @@ const SignUp = () => {
   const watchSchoolNameMobile = watchMobile('school-name-mobile');
 
 
+// if the user is logged in then go to profile/dashboard
+ useEffect(()=>{
+  if(user){
+    navigate(user.role!=='principal'?'/profile':'/dashboard');
+  }
+})
+
   // for showing a frame when the playable video blob is loading
   useEffect(()=>{
     const eL = ()=>{

@@ -156,6 +156,13 @@ const Login = () => {
     // console.log(err);
   }
 
+// if the user is logged in then go to profile/dashboard
+ useEffect(()=>{
+    if(user){
+      navigate(user.role!=='principal'?'/profile':'/dashboard');
+    }
+ })
+
 // show a frame while a playable video blob is loading
   useEffect(()=>{
     const eL = ()=>{
