@@ -95,7 +95,7 @@ const Nav = () => {
           {
 
             authenticated ?
-            <div className = 'px-3 self-center flex items-center' title = {user.role!=='principal'?'profile':'dashboard'}>
+            <div className = 'px-3 self-center flex items-center' title = {user?.role!=='principal'?'profile':'dashboard'}>
                 { (user.role!=='principal')?
                   <NavLink to = '/profile'  className = {({isActive})=>isActive ? 'font-semibold':'' + 'flex gap-1'} >
                     <AccountIcon title = 'profile' style = {{fontSize:'1.5rem'}}/> Profile
@@ -104,7 +104,7 @@ const Nav = () => {
                     <DashboardIcon title = 'dashboard' className = {`${({isActive})=>isActive ? 'font-semibold':''} flex gap-1`} style = {{fontSize:'1.5rem'}}/> Dashboard
                   </NavLink>
                 }     
-               <button onClick = {handleLogout} className = 'relative top-[-0.2rem] md:hidden select-none cursor-pointer py-[0.4rem] px-2 rounded-sm text-xs md:text-sm md:px-3 bg-black text-white ml-2 mt-2'> 
+               <button onClick = {handleLogout} className = 'relative top-[-0.2rem] hidden md:block select-none cursor-pointer py-[0.4rem] px-2 rounded-sm text-xs md:text-sm md:px-3 bg-black text-white ml-2 mt-2'> 
                   Logout <LogoutIcon className = 'scale-70'/>
                </button>       
             </div>
