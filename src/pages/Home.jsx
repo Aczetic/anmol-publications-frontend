@@ -342,7 +342,7 @@ const NumCard = ({target , style = {} , className = ''})=>{
 
       let val = 0;
           intervalRef.current = setInterval(()=>{ // start the counter
-          val += Math.ceil(target/40);
+          val += 1;
 
           if(val >= target){
              elemRef.current.innerText = target+'+';
@@ -352,7 +352,7 @@ const NumCard = ({target , style = {} , className = ''})=>{
 
           elemRef.current.innerText = val;
 
-      },50)
+      },Math.ceil(2000/target))
     }
   }
   useEffect(()=>{

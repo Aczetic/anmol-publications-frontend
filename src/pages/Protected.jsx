@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, useNavigate } from "react-router";
 import { setUser } from "../features/userSlice";
+import Loader1 from "../components/Loader1";
 
 
 const Protected = ({children})=>{
@@ -29,7 +30,7 @@ const Protected = ({children})=>{
     });
 
     return <>
-            {user && <Outlet/>}
+            {user ? <Outlet/> : <div className = 'w-screen h-screen flex justify-center items-center'><Loader1 className = 'scale-70'/></div>}
           </>
 }
 

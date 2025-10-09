@@ -21,6 +21,7 @@ import axios from 'axios';
 import {toast} from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../features/userSlice';
+import Otp from '../components/Otp';
 const authvidc = 'https://frwqfqelivvjucqh.public.blob.vercel-storage.com/authvidc-vfLNjW2yIgKQnjZcoo6WYiW6GuPQlz.mp4' // auth video 
 
 // for normal screens
@@ -81,6 +82,7 @@ const SignUp = () => {
   const [signingup , setSigningup] = useState(false);
   const user = useSelector((state)=>state.user);
   const dispatch = useDispatch();
+  const [otpFormVisible , setOtpFormVisible] = useState(false);
 
 
   //for large screens
@@ -104,9 +106,11 @@ const SignUp = () => {
   const watchState = watch('state');
   const watchCity = watch('city');
   const watchSchoolName = watch('school-name');
+  const watchEmail = watch('email');
   const watchStateMobile = watchMobile('state-mobile');
   const watchCityMobile = watchMobile('city-mobile');
   const watchSchoolNameMobile = watchMobile('school-name-mobile');
+  const watchMobileEmail = watchMobile('email-mobile');
 
 
 // if the user is logged in then go to profile/dashboard
@@ -145,16 +149,12 @@ const SignUp = () => {
 
     }).then((res)=>{
        
-       if(res.data.message === 'SIGN_UP_SUCCESSFUL'){
-          dispatch(setUser(res.data.user)) // set the user data in store
-          window.localStorage.setItem('user',JSON.stringify(res.data.user))// set the data also in local storage 
-          toast.success('Signed up successfully !');
-          navigate(res.data.user.role!='principal'?'/profile':'/dashboard');
-
-       }else if(res.data.message === 'LOG_IN'){
-         toast.info("Please Login")
-       }
-       setSigningup(false); // stop loader
+      if( res.data.message === 'ENTER_OTP'){
+        setOtpFormVisible(true);
+      }else if(res.data.message === 'LOG_IN'){
+        toast.info("Please Login")
+      }
+      setSigningup(false); // stop loader
 
     }).catch(e=>{
       console.log(e)
@@ -186,22 +186,19 @@ const SignUp = () => {
       withCredentials:true,
 
     }).then((res)=>{
-      if(res.data.message === 'SIGN_UP_SUCCESSFUL'){
-        dispatch(setUser(res.data.user)) // set the user data in store
-        window.localStorage.setItem('user',JSON.stringify(res.data.user))// set the data also in local storage 
-        toast.success('Signed up successfully !');
-        navigate(res.data.user.role!='principal'?'/profile':'/dashboard');
-    
+       
+      if( res.data.message === 'ENTER_OTP'){
+        setOtpFormVisible(true);
       }else if(res.data.message === 'LOG_IN'){
-       toast.info("Please Login")
+        toast.info("Please Login")
       }
       setSigningup(false); // stop loader
 
-  }).catch(e=>{
-    toast.error("Some error occurred")
-    setSigningup(false); // stop loader
-
-  })
+    }).catch(e=>{
+      console.log(e)
+      toast.error("Some error occurred")
+      setSigningup(false); // stop loader
+    })
 
 
   };
@@ -255,336 +252,352 @@ const SignUp = () => {
         {/* overlay */}
         <div className="absolute z-100 block lg:hidden top-0 left-0 w-full h-screen min-h-130 bg-[#00000077]">
           {/* Form Container */}
-          <div className="relative w-full h-full flex flex-col items-center justify-center px-3 gap-5 md:gap-8">
-            <h1 className="w-full text-center font-bold text-red-50 text-3xl md:text-5xl">
-              Create an account
-            </h1>
-            <form
-              onSubmit={handleSubmitMobile(onSubmitMobile, onError)}
-              className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-110 md:max-w-150 h-130 min-h-100"
-            >
-              <h2 className="w-full text-2xl font-bold text-white text-center">
-                Sign Up
-              </h2>
-              {/* row groups container */}
-              <div className="w-full h-full overflow-y-scroll flex flex-col gap-1">
-                {/* role and name */}
-                <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
-                  <label
-                    htmlFor="role-mobile"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Role :
-                    <select
-                      {...registerMobile("role-mobile")}
-                      defaultValue={"user"}
-                      id="role-mobile"
-                      type="text"
-                      placeholder="Enter your role"
-                      className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+          {!otpFormVisible ? (
+            <div className="relative w-full h-full flex flex-col items-center justify-center px-3 gap-5 md:gap-8">
+              <h1 className="w-full text-center font-bold text-red-50 text-3xl md:text-5xl">
+                Create an account
+              </h1>
+              <form
+                onSubmit={handleSubmitMobile(onSubmitMobile, onError)}
+                className="glass-card relative flex flex-col gap-1 w-full md:w-fit p-4 max-w-110 md:max-w-150 h-130 min-h-100"
+              >
+                <h2 className="w-full text-2xl font-bold text-white text-center">
+                  Sign Up
+                </h2>
+                {/* row groups container */}
+                <div className="w-full h-full overflow-y-scroll flex flex-col gap-1">
+                  {/* role and name */}
+                  <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
+                    <label
+                      htmlFor="role-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
                     >
-                      <option value="user">User</option>
-                      <option value="teacher">Teacher</option>
-                      <option value="principal">Principal</option>
-                    </select>
-                    {errorsMobile.role && (
-                      <p className="w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                        <ErrorOutlineIcon className="scale-70" />
-                        {errorsMobile.role.message}
-                      </p>
-                    )}
-                  </label>
-                  <label
-                    htmlFor="fullname-mobile"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Full Name :
-                    <input
-                      {...registerMobile("fullname-mobile")}
-                      id="fullname-mobile"
-                      type="text"
-                      placeholder="Enter your full name"
-                      className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    <PersonIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
-                    {errorsMobile["fullname-mobile"] && (
-                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
-                        <ErrorOutlineIcon className="scale-70" />
-                        {errorsMobile["fullname-mobile"].message}
-                      </p>
-                    )}
-                  </label>
-                </div>
+                      Role :
+                      <select
+                        {...registerMobile("role-mobile")}
+                        defaultValue={"user"}
+                        id="role-mobile"
+                        type="text"
+                        placeholder="Enter your role"
+                        className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                      >
+                        <option value="user">User</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="principal">Principal</option>
+                      </select>
+                      {errorsMobile.role && (
+                        <p className="w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile.role.message}
+                        </p>
+                      )}
+                    </label>
+                    <label
+                      htmlFor="fullname-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                    >
+                      Full Name :
+                      <input
+                        {...registerMobile("fullname-mobile")}
+                        id="fullname-mobile"
+                        type="text"
+                        placeholder="Enter your full name"
+                        className="bg-[#6a6868b3] p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                      />
+                      <PersonIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
+                      {errorsMobile["fullname-mobile"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile["fullname-mobile"].message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
 
-                {/* email and phone*/}
-                <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
-                  <label
-                    htmlFor="email-mobile"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Email :
-                    <input
-                      {...registerMobile("email-mobile")}
-                      id="email-mobile"
-                      type="text"
-                      placeholder="Enter school email"
-                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    <EmailIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
-                    {errorsMobile["email-mobile"] && (
-                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
-                        <ErrorOutlineIcon className="scale-70" />
-                        {errorsMobile["email-mobile"].message}
-                      </p>
-                    )}
-                  </label>
-                  <label
-                    htmlFor="phone-mobile"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Phone :
-                    <input
-                      {...registerMobile("phone-mobile")}
-                      id="phone-mobile"
-                      type="text"
-                      placeholder="+91 Phone number"
-                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    <PhoneIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
-                    {errorsMobile["phone-mobile"] && (
-                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
-                        <ErrorOutlineIcon className="scale-70" />
-                        {errorsMobile["phone-mobile"].message}
-                      </p>
-                    )}
-                  </label>
-                </div>
+                  {/* email and phone*/}
+                  <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
+                    <label
+                      htmlFor="email-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                    >
+                      Email :
+                      <input
+                        {...registerMobile("email-mobile")}
+                        id="email-mobile"
+                        type="text"
+                        placeholder="Enter school email"
+                        className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                      />
+                      <EmailIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
+                      {errorsMobile["email-mobile"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile["email-mobile"].message}
+                        </p>
+                      )}
+                    </label>
+                    <label
+                      htmlFor="phone-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                    >
+                      Phone :
+                      <input
+                        {...registerMobile("phone-mobile")}
+                        id="phone-mobile"
+                        type="text"
+                        placeholder="+91 Phone number"
+                        className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                      />
+                      <PhoneIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
+                      {errorsMobile["phone-mobile"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile["phone-mobile"].message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
 
-                {/* password and confirm password */}
-                <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
-                  <label
-                    htmlFor="password-mobile"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Password :
-                    <input
-                      {...registerMobile("password-mobile")}
-                      id="password-mobile"
-                      type={passwordVisible ? "text" : "password"}
-                      placeholder="Password (min 8 chars)"
-                      className="relative bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    {passwordVisible ? (
-                      <VisibilityIcon
+                  {/* password and confirm password */}
+                  <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
+                    <label
+                      htmlFor="password-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                    >
+                      Password :
+                      <input
+                        {...registerMobile("password-mobile")}
+                        id="password-mobile"
+                        type={passwordVisible ? "text" : "password"}
+                        placeholder="Password (min 8 chars)"
+                        className="relative bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                      />
+                      {passwordVisible ? (
+                        <VisibilityIcon
+                          onClick={() => setPasswordVisible(false)}
+                          className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
+                        />
+                      ) : (
+                        <VisibilityOffIcon
+                          onClick={() => setPasswordVisible(true)}
+                          className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
+                        />
+                      )}
+                      {errorsMobile["password-mobile"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile["password-mobile"].message}
+                        </p>
+                      )}
+                    </label>
+                    <label
+                      htmlFor="confirm-password-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                    >
+                      Confirm Password :
+                      <input
+                        {...registerMobile("confirm-password-mobile")}
+                        id="confirm-password-mobile"
+                        type={confirmPasswordVisible ? "text" : "password"}
+                        placeholder="Confirm password"
+                        className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                      />
+                      {confirmPasswordVisible ? (
+                        <VisibilityIcon
+                          onClick={() => setConfirmPasswordVisible(false)}
+                          className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
+                        />
+                      ) : (
+                        <VisibilityOffIcon
+                          onClick={() => setConfirmPasswordVisible(true)}
+                          className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
+                        />
+                      )}
+                      {errorsMobile["confirm-password-mobile"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile["confirm-password-mobile"].message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* school name*/}
+                  <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
+                    <label
+                      htmlFor="school-name-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                    >
+                      School Name :
+                      <OptionsInput
+                        options={
+                          watchSchoolNameMobile
+                            ? `https://kys.udiseplus.gov.in/webapp/api/search-school/by-keyword?schoolName=${watchSchoolNameMobile}`
+                            : "Type a school name"
+                        }
+                        //true because the filtering will be done by api iteslf
+                        filter={() => true}
+                        setValue={(value) =>
+                          setValueMobile("school-name-mobile", value, {
+                            shouldValidate: true,
+                          })
+                        }
+                        {...registerMobile("school-name-mobile", {
+                          required: true,
+                        })}
+                        inputProps={{
+                          className:
+                            "bg-[#6a6868b3] truncate text-red-500 w-full p-1 px-2 pr-8 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
+                          id: "school-name-mobile",
+                          type: "text",
+                          placeholder: "Enter your school name",
+                        }}
+                      />
+                      <SchoolIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
+                      {errorsMobile["school-name-mobile"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile["school-name-mobile"].message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* state and city */}
+                  <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
+                    <label
+                      htmlFor="state-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                    >
+                      State :
+                      <OptionsInput
+                        {...registerMobile("state-mobile", { required: true })}
+                        options={STATES}
+                        setValue={(value) => {
+                          setValueMobile("state-mobile", value, {
+                            shouldValidate: true,
+                          });
+                          // and then reset city input
+                          setValueMobile("city-mobile", "");
+                        }}
+                        // the states is an array that is why below logic
+                        filter={(opt = "") =>
+                          opt
+                            .toLowerCase()
+                            .includes(watchStateMobile.toLowerCase())
+                        }
+                        inputProps={{
+                          id: "state-mobile",
+                          type: "text",
+                          className:
+                            "bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
+                          placeholder: "Enter state",
+                        }}
+                      />
+                      {errorsMobile["state-mobile"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile["state-mobile"].message}
+                        </p>
+                      )}
+                    </label>
+                    <label
+                      htmlFor="city-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                    >
+                      City :
+                      <OptionsInput
+                        {...registerMobile("city-mobile", { required: true })}
+                        // I don't know why the hell optional chainging is required
+                        // but that piece of sh*t watchStateMobile was undefined initially so....
+                        options={
+                          watchStateMobile !== ""
+                            ? CITIES[
+                                watchStateMobile
+                                  ?.slice(0, watchStateMobile.length - 4) // no MP, UP,etc
+                                  .toLowerCase()
+                              ]?.cities
+                            : "Select a State" // message when no state is selected
+                        }
+                        // because the cities is within an object
+                        filter={(opt) =>
+                          opt
+                            .toLowerCase()
+                            .includes(watchCityMobile.toLowerCase())
+                        }
+                        setValue={(value) => {
+                          setValueMobile("city-mobile", value, {
+                            shouldValidate: true,
+                          });
+                        }}
+                        inputProps={{
+                          id: "city-mobile",
+                          type: "text",
+                          className:
+                            "bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
+                          placeholder: "Enter city",
+                        }}
+                      />
+                      {errorsMobile["city-mobile"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile["city-mobile"].message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* address complete */}
+                  <div className="w-full border-box p-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
+                    <label
+                      htmlFor="address-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                    >
+                      Address :
+                      <textarea
+                        {...registerMobile("address-mobile")}
+                        id="address-mobile"
+                        type="text"
+                        placeholder="Provide locality address"
+                        className="bg-[#6a6868b3] h-20 resize-none w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                      />
+                      <AddressIcon
                         onClick={() => setPasswordVisible(false)}
-                        className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
+                        className="scale-70 absolute top-7 md:bottom-[5%] right-1"
                       />
-                    ) : (
-                      <VisibilityOffIcon
-                        onClick={() => setPasswordVisible(true)}
-                        className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
-                      />
-                    )}
-                    {errorsMobile["password-mobile"] && (
-                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
-                        <ErrorOutlineIcon className="scale-70" />
-                        {errorsMobile["password-mobile"].message}
-                      </p>
-                    )}
-                  </label>
-                  <label
-                    htmlFor="confirm-password-mobile"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Confirm Password :
-                    <input
-                      {...registerMobile("confirm-password-mobile")}
-                      id="confirm-password-mobile"
-                      type={confirmPasswordVisible ? "text" : "password"}
-                      placeholder="Confirm password"
-                      className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    {confirmPasswordVisible ? (
-                      <VisibilityIcon
-                        onClick={() => setConfirmPasswordVisible(false)}
-                        className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
-                      />
-                    ) : (
-                      <VisibilityOffIcon
-                        onClick={() => setConfirmPasswordVisible(true)}
-                        className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1"
-                      />
-                    )}
-                    {errorsMobile["confirm-password-mobile"] && (
-                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
-                        <ErrorOutlineIcon className="scale-70" />
-                        {errorsMobile["confirm-password-mobile"].message}
-                      </p>
-                    )}
-                  </label>
+                      {errorsMobile["address-mobile"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile["address-mobile"].message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
                 </div>
-
-                {/* school name*/}
-                <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
-                  <label
-                    htmlFor="school-name-mobile"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    School Name :
-                    <OptionsInput
-                      options={
-                        watchSchoolNameMobile
-                          ? `https://kys.udiseplus.gov.in/webapp/api/search-school/by-keyword?schoolName=${watchSchoolNameMobile}`
-                          : "Type a school name"
-                      }
-                      //true because the filtering will be done by api iteslf
-                      filter={() => true}
-                      setValue={(value) =>
-                        setValueMobile("school-name-mobile", value, {shouldValidate:true})
-                      }
-                      {...registerMobile("school-name-mobile", {
-                        required: true,
-                      })}
-                      inputProps={{
-                        className:
-                          "bg-[#6a6868b3] truncate text-red-500 w-full p-1 px-2 pr-8 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
-                        id: "school-name-mobile",
-                        type: "text",
-                        placeholder: "Enter your school name",
-                      }}
-                    />
-                    <SchoolIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
-                    {errorsMobile["school-name-mobile"] && (
-                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
-                        <ErrorOutlineIcon className="scale-70" />
-                        {errorsMobile["school-name-mobile"].message}
-                      </p>
-                    )}
-                  </label>
+                <button className="w-full text-white text-sm bg-black rounded-sm cursor-pointer select-none mt-3">
+                  {signingup ? (
+                    <div className="w-full h-9 relative">
+                      <Loader1 className="w-full absolute top-0 h-9 text-center" />
+                    </div>
+                  ) : (
+                    <p className="w-full py-2 text-center">Sign Up</p>
+                  )}
+                </button>
+                <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
+                  {"Already have an account."} ? &nbsp;
+                  <NavLink className="font-semibold" to="/login">
+                    Log In
+                  </NavLink>
                 </div>
-
-                {/* state and city */}
-                <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
-                  <label
-                    htmlFor="state-mobile"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    State :
-                    <OptionsInput
-                      {...registerMobile("state-mobile", { required: true })}
-                      options={STATES}
-                      setValue={(value) => {
-                        setValueMobile("state-mobile", value, {shouldValidate:true});
-                        // and then reset city input
-                        setValueMobile("city-mobile", "");
-                      }}
-                      // the states is an array that is why below logic
-                      filter={(opt = "") =>
-                        opt
-                          .toLowerCase()
-                          .includes(watchStateMobile.toLowerCase())
-                      }
-                      inputProps={{
-                        id: "state-mobile",
-                        type: "text",
-                        className:
-                          "bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
-                        placeholder: "Enter state",
-                      }}
-                    />
-                    {errorsMobile["state-mobile"] && (
-                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
-                        <ErrorOutlineIcon className="scale-70" />
-                        {errorsMobile["state-mobile"].message}
-                      </p>
-                    )}
-                  </label>
-                  <label
-                    htmlFor="city-mobile"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    City :
-                    <OptionsInput
-                      {...registerMobile("city-mobile", { required: true })}
-                      // I don't know why the hell optional chainging is required
-                      // but that piece of sh*t watchStateMobile was undefined initially so....
-                      options={
-                        watchStateMobile !== ""
-                          ? CITIES[
-                              watchStateMobile
-                                ?.slice(0, watchStateMobile.length - 4) // no MP, UP,etc
-                                .toLowerCase()
-                            ]?.cities
-                          : "Select a State" // message when no state is selected
-                      }
-                      // because the cities is within an object
-                      filter={(opt) =>
-                        opt
-                          .toLowerCase()
-                          .includes(watchCityMobile.toLowerCase())
-                      }
-                      setValue={(value) => {
-                        setValueMobile("city-mobile", value, {shouldValidate:true});
-                      }}
-                      inputProps={{
-                        id: "city-mobile",
-                        type: "text",
-                        className:
-                          "bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2",
-                        placeholder: "Enter city",
-                      }}
-                    />
-                    {errorsMobile["city-mobile"] && (
-                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
-                        <ErrorOutlineIcon className="scale-70" />
-                        {errorsMobile["city-mobile"].message}
-                      </p>
-                    )}
-                  </label>
-                </div>
-
-                {/* address complete */}
-                <div className="w-full border-box p-1 flex flex-col sm:flex-row gap-4 justify-center mt-3 ">
-                  <label
-                    htmlFor="address-mobile"
-                    className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
-                  >
-                    Address :
-                    <textarea
-                      {...registerMobile("address-mobile")}
-                      id="address-mobile"
-                      type="text"
-                      placeholder="Provide locality address"
-                      className="bg-[#6a6868b3] h-20 resize-none w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
-                    />
-                    <AddressIcon
-                      onClick={() => setPasswordVisible(false)}
-                      className="scale-70 absolute top-7 md:bottom-[5%] right-1"
-                    />
-                    {errorsMobile["address-mobile"] && (
-                      <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
-                        <ErrorOutlineIcon className="scale-70" />
-                        {errorsMobile["address-mobile"].message}
-                      </p>
-                    )}
-                  </label>
-                </div>
+              </form>
+            </div>
+          ) : (
+            <div className = 'w-full h-full flex items-center justify-center'>
+              <div className = 'w-fit h-fit p-5 flex glass-card'>
+                <Otp email={watchMobileEmail} path="signup" />
               </div>
-              <button className="w-full text-white text-sm bg-black rounded-sm cursor-pointer select-none mt-3">
-                {signingup ? (
-                  <div className = 'w-full h-9 relative'><Loader1 className="w-full absolute top-0 h-9 text-center" /></div>
-                ) : (
-                  <p className="w-full py-2 text-center">Sign Up</p>
-                )}
-              </button>
-              <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
-                {"Already have an account."} ? &nbsp;
-                <NavLink className="font-semibold" to="/login">
-                  Log In
-                </NavLink>
-              </div>
-            </form>
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -594,340 +607,352 @@ const SignUp = () => {
         data-aos-delay="100"
         className="w-full min-h-120 h-screen  hidden lg:flex flex-col gap-5 items-center justify-center p-2 px-5"
       >
-        <h1 className="w-full font-bold text-4xl text-center text-red-700">
-          Create an account
-        </h1>
+        {otpFormVisible && (
+          <Otp email={watchEmail || watchMobileEmail} path="signup" />
+        )}
+        {/* form container */}
+        {!otpFormVisible && (
+          <div className="w-full h-fit flex flex-col items-center gap-5">
+            <h1 className="w-full font-bold text-4xl text-center text-red-700">
+              Create an account
+            </h1>
 
-        <div className="relative w-full bg-white rounded-md border-solid border-0 border-black max-w-110 h-fit overflow-hidden">
-          <div className=" rotate absolute top-0 left-0 w-full h-full noised-bg scale-150">
-            {/* bg */}
+            <div className="relative w-full bg-white rounded-md border-solid border-0 border-black max-w-110 h-fit overflow-hidden">
+              <div className=" rotate absolute top-0 left-0 w-full h-full noised-bg scale-150">
+                {/* bg */}
+              </div>
+
+              {/* this form will show up only in large screens */}
+              <form
+                onSubmit={handleSubmit(onSubmit, onError)}
+                autoComplete="false"
+                className="auth-form-bg px-3 py-2 text-sm flex flex-col gap-1 relative z-100 w-full max-w-120 p-1"
+              >
+                <h2 className="w-full mt-2 text-center font-bold text-2xl text-red-50">
+                  Sign Up
+                </h2>
+
+                <div className="w-full flex flex-col gap-3 border-box p-1 h-90  overflow-y-scroll mt-1">
+                  {/* salutions and name*/}
+                  <div className="w-full flex gap-2 h-fit">
+                    <label
+                      htmlFor="role"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      Role :
+                      <select
+                        {...register("role", { required: true })}
+                        defaultValue={"user"}
+                        id="role"
+                        type="text"
+                        className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                        placeholder="Enter school email"
+                      >
+                        <option value="user">User</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="principal">Principal</option>
+                      </select>
+                      {errors.role && (
+                        <p className="w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors.role.message}
+                        </p>
+                      )}
+                    </label>
+                    <label
+                      htmlFor="fullname"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      Full Name :
+                      <input
+                        {...register("fullname", { required: true })}
+                        id="fullname"
+                        type="text"
+                        className="placeholder:truncate relative block p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                        placeholder="Enter full name"
+                      />
+                      <PersonIcon className="absolute right-1 top-[1.6rem] text-[#d73f3f86] scale-70" />
+                      {errors.fullname && (
+                        <p className=" top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors.fullname.message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* email and phone */}
+                  <div className="w-full flex gap-2 h-fit">
+                    <label
+                      htmlFor="email"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      Email :
+                      <input
+                        {...register("email", { required: true })}
+                        id="email"
+                        type="email"
+                        className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                        placeholder="Enter school email"
+                      />
+                      <EmailIcon className="absolute right-1 top-[1.6rem] text-[#d73f3f86] scale-70" />
+                      {errors.email && (
+                        <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </label>
+
+                    <label
+                      htmlFor="phone"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      Phone :
+                      <input
+                        {...register("phone", { required: true })}
+                        id="phone"
+                        type={"text"}
+                        className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                        placeholder="+91 Phone number"
+                      />
+                      <PhoneIcon
+                        onClick={() => setPasswordVisible(false)}
+                        className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
+                      />
+                      {errors.phone && (
+                        <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors.phone.message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* password and confirm password */}
+                  <div className="w-full flex gap-2 h-fit">
+                    <label
+                      htmlFor="password"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      Password :
+                      <input
+                        {...register("password", { required: true })}
+                        id="password"
+                        type={passwordVisible ? "text" : "password"}
+                        className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                        placeholder="Enter your password"
+                      />
+                      {passwordVisible ? (
+                        <VisibilityIcon
+                          onClick={() => setPasswordVisible(false)}
+                          className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
+                        />
+                      ) : (
+                        <VisibilityOffIcon
+                          onClick={() => setPasswordVisible(true)}
+                          className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
+                        />
+                      )}
+                      {errors.password && (
+                        <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors.password.message}
+                        </p>
+                      )}
+                    </label>
+
+                    <label
+                      htmlFor="confirm-password"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      Confirm Password :
+                      <input
+                        {...register("confirm-password", { required: true })}
+                        id="confirm-password"
+                        type={confirmPasswordVisible ? "text" : "password"}
+                        className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                        placeholder="Confirm password"
+                      />
+                      {confirmPasswordVisible ? (
+                        <VisibilityIcon
+                          onClick={() => setConfirmPasswordVisible(false)}
+                          className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
+                        />
+                      ) : (
+                        <VisibilityOffIcon
+                          onClick={() => setConfirmPasswordVisible(true)}
+                          className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
+                        />
+                      )}
+                      {errors["confirm-password"] && (
+                        <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors["confirm-password"].message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* school name  */}
+
+                  <div className="w-full flex gap-2 h-fit">
+                    <label
+                      htmlFor="school-name"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      <SchoolIcon className="absolute z-100 right-1 top-7 text-[#d73f3f86] scale-70" />
+                      School Name :
+                      <OptionsInput
+                        options={
+                          watchSchoolName
+                            ? `https://kys.udiseplus.gov.in/webapp/api/search-school/by-keyword?schoolName=${watchSchoolName}`
+                            : "Type a school name"
+                        }
+                        //true because the filtering will be done by api iteslf
+                        filter={() => true}
+                        setValue={(value) =>
+                          setValue("school-name", value, {
+                            shouldValidate: true,
+                          })
+                        }
+                        {...register("school-name", { required: true })}
+                        inputProps={{
+                          id: "school-name",
+                          type: "text",
+                          className:
+                            "relative p-1 px-2 pr-8 truncate text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm",
+                          placeholder: "Enter your school name",
+                        }}
+                      />
+                      {errors["school-name"] && (
+                        <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors["school-name"].message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* state city */}
+                  <div className="w-full flex gap-2 h-fit">
+                    <label
+                      htmlFor="state"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      State :
+                      <OptionsInput
+                        {...register("state", { required: true })}
+                        options={STATES}
+                        setValue={(value) => {
+                          setValue("state", value, { shouldValidate: true });
+                          // and then reset city input
+                          setValue("city", "");
+                        }}
+                        // the states is an array that is why below logic
+                        filter={(opt = "") =>
+                          opt.toLowerCase().includes(watchState.toLowerCase())
+                        }
+                        inputProps={{
+                          id: "state",
+                          type: "text",
+                          className:
+                            "p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm",
+                          placeholder: "Enter state",
+                        }}
+                      />
+                      {errors.state && (
+                        <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors.state.message}
+                        </p>
+                      )}
+                    </label>
+
+                    <label
+                      htmlFor="city"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      City :
+                      <OptionsInput
+                        {...register("city", { required: true })}
+                        // I don't know why the hell optional chainging is required
+                        // but that piece of sh*t watchState was undefined initially so....
+                        options={
+                          watchState !== ""
+                            ? CITIES[
+                                watchState
+                                  ?.slice(0, watchState.length - 4)
+                                  .toLowerCase()
+                              ]?.cities
+                            : "Select a State"
+                        }
+                        // because the cities is within an object
+                        filter={(opt) =>
+                          opt.toLowerCase().includes(watchCity.toLowerCase())
+                        }
+                        setValue={(value) => {
+                          setValue("city", value, { shouldValidate: true });
+                        }}
+                        inputProps={{
+                          id: "city",
+                          type: "text",
+                          className:
+                            "p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm",
+                          placeholder: "Enter city",
+                        }}
+                      />
+                      {errors.city && (
+                        <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors.city.message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* address */}
+                  <div className="w-full flex gap-2 h-fit">
+                    <label
+                      htmlFor="address"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      Address :
+                      <textarea
+                        {...register("address", { required: true })}
+                        id="address"
+                        type="text"
+                        className="p-1 px-2 h-25 text-sm text-red-800 resize-none font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                        placeholder="Provide locality address"
+                      />
+                      <AddressIcon className="absolute right-0 top-7 text-[#d73f3f86] scale-70" />
+                      {errors.address && (
+                        <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors.address.message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
+                </div>
+                <button className="w-full px-2 text-white text-xs md:text-sm bg-black rounded-sm cursor-pointer select-none mt-3">
+                  {signingup ? (
+                    <Loader1 className="w-full h-9 text-center" />
+                  ) : (
+                    <p className="py-2">Sign Up</p>
+                  )}
+                </button>
+                <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
+                  {"Already have an account."} ? &nbsp;
+                  <NavLink className="font-semibold" to="/login">
+                    Log In
+                  </NavLink>
+                </div>
+              </form>
+            </div>
           </div>
-
-          {/* this form will show up only in large screens */}
-          <form
-            onSubmit={handleSubmit(onSubmit, onError)}
-            autoComplete="false"
-            className="auth-form-bg px-3 py-2 text-sm flex flex-col gap-1 relative z-100 w-full max-w-120 p-1"
-          >
-            <h2 className="w-full mt-2 text-center font-bold text-2xl text-red-50">
-              Sign Up
-            </h2>
-
-            <div className="w-full flex flex-col gap-3 border-box p-1 h-90  overflow-y-scroll mt-1">
-              {/* salutions and name*/}
-              <div className="w-full flex gap-2 h-fit">
-                <label
-                  htmlFor="role"
-                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                >
-                  Role :
-                  <select
-                    {...register("role", { required: true })}
-                    defaultValue={"user"}
-                    id="role"
-                    type="text"
-                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="Enter school email"
-                  >
-                    <option value="user">User</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="principal">Principal</option>
-                  </select>
-                  {errors.role && (
-                    <p className="w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                      <ErrorOutlineIcon className="scale-70" />
-                      {errors.role.message}
-                    </p>
-                  )}
-                </label>
-                <label
-                  htmlFor="fullname"
-                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                >
-                  Full Name :
-                  <input
-                    {...register("fullname", { required: true })}
-                    id="fullname"
-                    type="text"
-                    className="placeholder:truncate relative block p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="Enter full name"
-                  />
-                  <PersonIcon className="absolute right-1 top-[1.6rem] text-[#d73f3f86] scale-70" />
-                  {errors.fullname && (
-                    <p className=" top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                      <ErrorOutlineIcon className="scale-70" />
-                      {errors.fullname.message}
-                    </p>
-                  )}
-                </label>
-              </div>
-
-              {/* email and phone */}
-              <div className="w-full flex gap-2 h-fit">
-                <label
-                  htmlFor="email"
-                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                >
-                  Email :
-                  <input
-                    {...register("email", { required: true })}
-                    id="email"
-                    type="email"
-                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="Enter school email"
-                  />
-                  <EmailIcon className="absolute right-1 top-[1.6rem] text-[#d73f3f86] scale-70" />
-                  {errors.email && (
-                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                      <ErrorOutlineIcon className="scale-70" />
-                      {errors.email.message}
-                    </p>
-                  )}
-                </label>
-
-                <label
-                  htmlFor="phone"
-                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                >
-                  Phone :
-                  <input
-                    {...register("phone", { required: true })}
-                    id="phone"
-                    type={"text"}
-                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="+91 Phone number"
-                  />
-                  <PhoneIcon
-                    onClick={() => setPasswordVisible(false)}
-                    className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
-                  />
-                  {errors.phone && (
-                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                      <ErrorOutlineIcon className="scale-70" />
-                      {errors.phone.message}
-                    </p>
-                  )}
-                </label>
-              </div>
-
-              {/* password and confirm password */}
-              <div className="w-full flex gap-2 h-fit">
-                <label
-                  htmlFor="password"
-                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                >
-                  Password :
-                  <input
-                    {...register("password", { required: true })}
-                    id="password"
-                    type={passwordVisible ? "text" : "password"}
-                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="Enter your password"
-                  />
-                  {passwordVisible ? (
-                    <VisibilityIcon
-                      onClick={() => setPasswordVisible(false)}
-                      className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
-                    />
-                  ) : (
-                    <VisibilityOffIcon
-                      onClick={() => setPasswordVisible(true)}
-                      className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
-                    />
-                  )}
-                  {errors.password && (
-                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                      <ErrorOutlineIcon className="scale-70" />
-                      {errors.password.message}
-                    </p>
-                  )}
-                </label>
-
-                <label
-                  htmlFor="confirm-password"
-                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                >
-                  Confirm Password :
-                  <input
-                    {...register("confirm-password", { required: true })}
-                    id="confirm-password"
-                    type={confirmPasswordVisible ? "text" : "password"}
-                    className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="Confirm password"
-                  />
-                  {confirmPasswordVisible ? (
-                    <VisibilityIcon
-                      onClick={() => setConfirmPasswordVisible(false)}
-                      className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
-                    />
-                  ) : (
-                    <VisibilityOffIcon
-                      onClick={() => setConfirmPasswordVisible(true)}
-                      className="cursor-pointer absolute right-1 top-[1.6rem] scale-70 text-[#d73f3f86]"
-                    />
-                  )}
-                  {errors["confirm-password"] && (
-                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                      <ErrorOutlineIcon className="scale-70" />
-                      {errors["confirm-password"].message}
-                    </p>
-                  )}
-                </label>
-              </div>
-
-              {/* school name  */}
-
-              <div className="w-full flex gap-2 h-fit">
-                <label
-                  htmlFor="school-name"
-                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                >
-                  <SchoolIcon className="absolute z-100 right-1 top-7 text-[#d73f3f86] scale-70" />
-                  School Name :
-                  <OptionsInput
-                    options={
-                      watchSchoolName
-                        ? `https://kys.udiseplus.gov.in/webapp/api/search-school/by-keyword?schoolName=${watchSchoolName}`
-                        : "Type a school name"
-                    }
-                    //true because the filtering will be done by api iteslf
-                    filter={() => true}
-                    setValue={(value) => setValue("school-name", value , {shouldValidate:true})}
-                    {...register("school-name", { required: true })}
-                    inputProps={{
-                      id: "school-name",
-                      type: "text",
-                      className:
-                        "relative p-1 px-2 pr-8 truncate text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm",
-                      placeholder: "Enter your school name",
-                    }}
-                  />
-                  {errors["school-name"] && (
-                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                      <ErrorOutlineIcon className="scale-70" />
-                      {errors["school-name"].message}
-                    </p>
-                  )}
-                </label>
-              </div>
-
-              {/* state city */}
-              <div className="w-full flex gap-2 h-fit">
-                <label
-                  htmlFor="state"
-                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                >
-                  State :
-                  <OptionsInput
-                    {...register("state", { required: true })}
-                    options={STATES}
-                    setValue={(value) => {
-                      setValue("state", value , {shouldValidate:true});
-                      // and then reset city input
-                      setValue("city", "");
-                    }}
-                    // the states is an array that is why below logic
-                    filter={(opt = "") =>
-                      opt.toLowerCase().includes(watchState.toLowerCase())
-                    }
-                    inputProps={{
-                      id: "state",
-                      type: "text",
-                      className:
-                        "p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm",
-                      placeholder: "Enter state",
-                    }}
-                  />
-                  {errors.state && (
-                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                      <ErrorOutlineIcon className="scale-70" />
-                      {errors.state.message}
-                    </p>
-                  )}
-                </label>
-
-                <label
-                  htmlFor="city"
-                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                >
-                  City :
-                  <OptionsInput
-                    {...register("city", { required: true })}
-                    // I don't know why the hell optional chainging is required
-                    // but that piece of sh*t watchState was undefined initially so....
-                    options={
-                      watchState !== ""
-                        ? CITIES[
-                            watchState
-                              ?.slice(0, watchState.length - 4)
-                              .toLowerCase()
-                          ]?.cities
-                        : "Select a State"
-                    }
-                    // because the cities is within an object
-                    filter={(opt) =>
-                      opt.toLowerCase().includes(watchCity.toLowerCase())
-                    }
-                    setValue={(value) => {
-                      setValue("city", value, {shouldValidate:true});
-                    }}
-                    inputProps={{
-                      id: "city",
-                      type: "text",
-                      className:
-                        "p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm",
-                      placeholder: "Enter city",
-                    }}
-                  />
-                  {errors.city && (
-                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                      <ErrorOutlineIcon className="scale-70" />
-                      {errors.city.message}
-                    </p>
-                  )}
-                </label>
-              </div>
-
-              {/* address */}
-              <div className="w-full flex gap-2 h-fit">
-                <label
-                  htmlFor="address"
-                  className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
-                >
-                  Address :
-                  <textarea
-                    {...register("address", { required: true })}
-                    id="address"
-                    type="text"
-                    className="p-1 px-2 h-25 text-sm text-red-800 resize-none font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
-                    placeholder="Provide locality address"
-                  />
-                  <AddressIcon className="absolute right-0 top-7 text-[#d73f3f86] scale-70" />
-                  {errors.address && (
-                    <p className="top-full w-full text-xs h-5 font-normal text-red-700 flex items-center">
-                      <ErrorOutlineIcon className="scale-70" />
-                      {errors.address.message}
-                    </p>
-                  )}
-                </label>
-              </div>
-            </div>
-            <button className="w-full px-2 text-white text-xs md:text-sm bg-black rounded-sm cursor-pointer select-none mt-3">
-                {signingup ? (
-                  <Loader1 className="w-full h-9 text-center" />
-                ) : (
-                  <p className="py-2">Sign Up</p>
-                )}
-              </button>
-            <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
-              {"Already have an account."} ? &nbsp;
-              <NavLink className="font-semibold" to="/login">
-                Log In
-              </NavLink>
-            </div>
-          </form>
-        </div>
-      </div>  
+        )}
+      </div>
     </div>
   );
 }

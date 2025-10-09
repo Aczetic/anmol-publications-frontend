@@ -91,7 +91,7 @@ const Nav = () => {
         </div>
 
         {/* hamburger and btns are kept together */}
-        <div className = 'flex'>
+        <div className = 'flex gap-1'>
           {
 
             authenticated ?

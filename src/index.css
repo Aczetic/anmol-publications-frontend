@@ -29,13 +29,24 @@
 }
 /* scroll bar styles */
 
-
 html,body{
     width:100%;
     padding:0 ; margin:0;
     box-sizing:border-box;
     font-size:18px;
     /* overflow-x:hidden; TODO this needs to be added because aos causes overflow and width increase */
+}
+
+
+/* this rule is to turn off the spin off buttons on input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  appearance: textfield;
 }
 
 #root-overlay{
@@ -62,8 +73,8 @@ body {
 
 .Toastify__toast-theme--dark {
   height:fit-content;
-  padding:0.2rem;
-  padding-right:1.5rem;
+  padding:0.4rem 1rem;
+  padding-right:2.5rem;
   width:fit-content;
   background-color:rgb(255, 255, 255);
   background-color:rgb(32, 31, 31);
@@ -87,7 +98,7 @@ body {
 }
 
 .Toastify__toast-theme--dark.Toastify__toast--error {
-  color:rgb(255, 56, 56);
+  color:rgb(255, 109, 109);
 }
 
 .Toastify__toast-theme--dark.Toastify__toast--success {

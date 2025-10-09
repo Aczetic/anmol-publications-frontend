@@ -22,6 +22,7 @@ import { useEffect } from "react"
 import axios from "axios"
 import Profile from "./pages/Profile.jsx"
 import Protected from "./pages/Protected.jsx"
+
 // ..
 AOS.init({
   duration:800,
@@ -50,7 +51,7 @@ const App = () => {
 
     }).catch(e=>{
        // here will show any errors right now I don't have any in mind that needs to toasted
-       if(!e.response.data.success){
+       if(!e.response?.data?.success){
           dispatch(setUser(null));
        }
     })
