@@ -85,7 +85,7 @@ const Otp = ({email , path}) => {
         setIsSubmitting(false);
         setInput('    ')
       }else{
-        toast.error('Some error occurred !')
+        toast.error('Some error occurred ! Try again later.')
         setIsSubmitting(false);
         setInput('    ');
       }
@@ -116,7 +116,7 @@ const Otp = ({email , path}) => {
         }
 
      }).catch(e=>{
-        toast.error('Some error occured !')
+        toast.error('Some error occured ! Try again later.')
      })
   }
 
