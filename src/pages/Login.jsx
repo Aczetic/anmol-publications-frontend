@@ -92,6 +92,9 @@ const Login = () => {
         }else if( res.data.message === 'SIGN_UP'){
           toast.info("Please sign up");
         
+        }else if( res.data.message === 'OTP_EXHAUSTED'){
+          toast.error("OTP Chances exhausted ! Try again later.")
+
         }else if( res.data.message === 'INVALID_PASSWORD'){
           
           toast.error('Enter correct password !')
@@ -133,6 +136,9 @@ const Login = () => {
         }else if( res.data.message === 'SIGN_UP'){
           toast.info("Please sign up");
           
+        }else if( res.data.message === 'OTP_EXHAUSTED'){
+          toast.error("OTP Chances exhausted ! Try again later.")
+        
         }else if( res.data.message === 'INVALID_PASSWORD'){
           
           toast.error('Enter correct password !')

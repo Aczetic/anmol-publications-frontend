@@ -22,6 +22,8 @@ import { useEffect } from "react"
 import axios from "axios"
 import Profile from "./pages/Profile.jsx"
 import Protected from "./pages/Protected.jsx"
+import TermsAndConditions from './pages/TermsAndConditions.jsx';
+import BookDetails from "./pages/BookDetails.jsx"
 
 // ..
 AOS.init({
@@ -75,8 +77,10 @@ const App = () => {
           <Route path="/our-mission" element={<OurMission />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/testpaper-generator" element={<TestpaperGenerator />} />
+          <Route path ='/book-details/:id' element = {<BookDetails/>}/>
+          <Route path = '/terms-and-conditions' element = {<TermsAndConditions/>} />
           <Route element={<Protected />}>
+            <Route path="/testpaper-generator" element={<TestpaperGenerator />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
           </Route>

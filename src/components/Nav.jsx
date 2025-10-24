@@ -55,6 +55,7 @@ const Nav = () => {
      
       if(res.data.success){
         window.localStorage.removeItem('user');
+        handleClose(); // close the overlay
         dispatch(setUser(null));
         toast.info('Logged out')
         navigate('/login');

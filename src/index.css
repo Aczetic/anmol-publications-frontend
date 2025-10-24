@@ -273,3 +273,10 @@ body {
     rgba(255, 150, 150, 0.3)
   );
 }
+
+.marquee-title{
+    animation-name:marquee;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    animation-duration:5s;
+}

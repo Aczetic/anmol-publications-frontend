@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, useNavigate } from "react-router";
 import { setUser } from "../features/userSlice";
 import Loader1 from "../components/Loader1";
+import { toast } from "react-toastify";
 
 
 const Protected = ({children})=>{
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     useEffect(()=>{  
 
        axios(`${import.meta.env.VITE_SERVER_URL}/auth/logged-in`, {
@@ -22,7 +23,10 @@ const Protected = ({children})=>{
            }
          })
          .catch((e) => {
-           if (!e.response.data.success) {
+          if(e.message === 'Network Error')
+            toast.error(e.message)
+          
+          else if (!e.response?.data.success) {
              dispatch(setUser(null)); 
              navigate("/login");
            }

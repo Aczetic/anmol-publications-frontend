@@ -241,7 +241,8 @@ const Book = ({data})=>{
         </div>
         <div className = 'w-full flex flex-col justify-center items-center gap-1 px-2'>
           <p className = 'text-xs font-bold md:text-sm text-center'>{data.name}</p>
-          <button className = 'w-full text-xs md:text-sm py-1 text-white bg-red-500 cursor-pointer select-none rounded-sm'>Read</button>
+          {/* todo: add the dynamic ids in the books */}
+          <button className = 'w-full text-xs md:text-sm py-1 text-white bg-red-500 cursor-pointer select-none rounded-sm'><NavLink to = '/book-details/212345'>Read</NavLink></button>
         </div>
    </div>
 }

@@ -153,6 +153,8 @@ const SignUp = () => {
         setOtpFormVisible(true);
       }else if(res.data.message === 'LOG_IN'){
         toast.info("Please Login")
+      }else if(res.data.message === 'OTP_EXHAUSTED'){
+        toast.error("OTP Chances exhausted ! Try again later");
       }
       setSigningup(false); // stop loader
 
@@ -191,6 +193,8 @@ const SignUp = () => {
         setOtpFormVisible(true);
       }else if(res.data.message === 'LOG_IN'){
         toast.info("Please Login")
+      }else if(res.data.message === 'OTP_EXHAUSTED'){
+        toast.error("OTP Chances exhausted ! Try again later");
       }
       setSigningup(false); // stop loader
 
@@ -253,8 +257,8 @@ const SignUp = () => {
         <div className="absolute z-100 block lg:hidden top-0 left-0 w-full h-screen min-h-130 bg-[#00000077]">
           {/* Form Container */}
           {!otpFormVisible ? (
-            <div className="relative w-full h-full flex flex-col items-center justify-center px-3 gap-5 md:gap-8">
-              <h1 className="w-full text-center font-bold text-red-50 text-3xl md:text-5xl">
+            <div className="relative w-full h-full flex flex-col items-center justify-center px-3 gap-3 md:gap-8">
+              <h1 className="w-full mt-15 md:mt-0 text-center font-bold text-red-50 text-3xl md:text-5xl">
                 Create an account
               </h1>
               <form
