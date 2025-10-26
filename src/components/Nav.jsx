@@ -168,9 +168,9 @@ const Nav = () => {
       </header>
       }
       {/* when not on login or sign up page */}
-      {(location.pathname !== '/login' && location.pathname !== '/sign-up') && <main className = 'w-full min-w-[300px] h-fit relative z-0 top-16'><Outlet/></main>}
+      {(location.pathname !== '/login' && location.pathname !== '/sign-up') && <main className = 'w-full min-w-[300px] h-fit mt-16 relative z-2'><Outlet/></main>}
        {/* when on login or sign up page */}
-      {(location.pathname === '/login' || location.pathname === '/sign-up') && <main className = 'w-full min-w-[300px] h-fit relative z-0'><Outlet/></main>}
+      {(location.pathname === '/login' || location.pathname === '/sign-up') && <main className = 'w-full min-w-[300px] h-fit relative z-2'><Outlet/></main>}
       <ToastContainer 
         position="top-center"
         autoClose={1000}
@@ -185,7 +185,7 @@ const Nav = () => {
         limit={3}
         transition={Slide}/>
       {/* TODO: connect the social media links only facebook is connected and ask to change the contact info in those pages to match correctly not gmail */}
-      {(location.pathname !== '/login' && location.pathname !== '/sign-up') && <footer data-aos = 'fade' className = 'w-full h-fit min-w-[300px] flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-12 justify-around relative top-16 bg-black text-xs md:text-sm'>
+      {(location.pathname !== '/login' && location.pathname !== '/sign-up') && <footer data-aos = 'fade' className = 'w-full h-fit min-w-[300px] flex flex-col md:flex-row gap-5 md:grid md:grid-cols-2 lg:flex md:gap-0 p-3 py-12 justify-around bg-black text-xs md:text-sm'>
         <div className = 'w-full max-w-100 flex flex-col gap-4 p-4'> 
           <NavLink to = '/' className = 'flex gap-2 px-2' > 
             <img src = {logo} alt = 'company-logo' className = 'w-15 h-full' loading = "lazy"/>
@@ -285,8 +285,8 @@ const Nav = () => {
           <NavLink className = 'text-red-50' to = '/faqs' > FAQs </NavLink>  
         </div>
       </footer>}
-      {(location.pathname !== '/login' && location.pathname !== '/sign-up') && <div  className = 'relative top-16 w-full text-center h-fit p-1 bg-black text-red-50 text-xs sm:text-sm'>© 2025 Anmol Educational Books.{<br className = 'block sm:hidden'/>} All Rights Reserved.</div>}
-      {(location.pathname === '/login' || location.pathname === '/sign-up') && <div  className = 'relative w-full text-center h-fit p-1 bg-black text-red-50 text-xs sm:text-sm'>© 2025 Anmol Educational Books.{<br className = 'block sm:hidden'/>} All Rights Reserved.</div>}
+      {(location.pathname !== '/login' && location.pathname !== '/sign-up') && <div  className = 'relative z-1 w-full text-center h-fit p-1 bg-black text-red-50 text-xs sm:text-sm'>© 2025 Anmol Educational Books.{<br className = 'block sm:hidden'/>} All Rights Reserved.</div>}
+      {(location.pathname === '/login' || location.pathname === '/sign-up') && <div  className = 'relative z-1 w-full text-center h-fit p-1 bg-black text-red-50 text-xs sm:text-sm'>© 2025 Anmol Educational Books.{<br className = 'block sm:hidden'/>} All Rights Reserved.</div>}
     </>
   );
 }

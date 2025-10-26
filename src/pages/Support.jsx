@@ -1,15 +1,94 @@
 import DoneIcon from '@mui/icons-material/Done';
+import { useRef, useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 
-
+//TODO:update this data
+const ISSUES_DATA = [
+  {
+    issueId: '2123457',
+    issueDate: '2025-10-26T', // Matches new Date().toISOString().slice(0,11)
+    resolveDate: null, // Since resolved is false
+    subject: 'Login Button Not Responding on Mobile',
+    description: 'When users try to log in on an iOS device (Safari), the "Sign In" button is completely unresponsive. It works fine on desktop browsers.',
+    resolved: false,
+    user: 'alice.jones@example.com',
+    trackLink: 'https://localhost:3000/issues/2123457'
+  },
+  {
+    issueId: '2123458',
+    issueDate: '2025-10-26T',
+    resolveDate: '2025-10-29T', // Resolved 3 days later
+    subject: 'Incorrect Tax Calculation in Checkout',
+    description: 'The checkout process is applying an incorrect sales tax rate for customers in the state of New York. It seems to be using the old 8.0% rate instead of the current 8.875%.',
+    resolved: true,
+    user: 'bob.smith@example.com',
+    trackLink: 'https://localhost:3000/issues/2123458'
+  },
+  {
+    issueId: '2123459',
+    issueDate: '2025-10-26T',
+    resolveDate: null,
+    subject: 'Database Connection Timeouts Intermittently',
+    description: 'Seeing random "504 Gateway Timeout" errors on high-traffic pages. Logs indicate the database query is taking too long to respond.',
+    resolved: false,
+    user: 'charlie.brown@example.com',
+    trackLink: 'https://localhost:3000/issues/2123459'
+  },
+  {
+    issueId: '2123460',
+    issueDate: '2025-10-26T',
+    resolveDate: '2025-11-01T', // Resolved 6 days later
+    subject: 'Broken Image Link on About Us Page',
+    description: 'The main header image on the /about page is showing a broken link icon. The asset "team_photo.jpg" seems to be missing from the CDN.',
+    resolved: true,
+    user: 'diana.prince@example.com',
+    trackLink: 'https://localhost:3000/issues/2123460'
+  },
+  {
+    issueId: '2123461',
+    issueDate: '2025-10-26T',
+    resolveDate: null,
+    subject: 'PDF Export Feature Corrupting Filenames',
+    description: 'When exporting reports to PDF, any file name containing a special character (like "&" or "#") results in a corrupted file name on download.',
+    resolved: false,
+    user: 'evan.m@example.com',
+    trackLink: 'https://localhost:3000/issues/2123461'
+  }
+];
 
 //todo: a sidebar will open up which will have a chat app like representation and will poll every 10 second
 //todo : implement this, the issues will show in sorted order from latest to oldest always ,desc by date
 // todo: the issues will only show if the user is logged in 
-// todo: show some text tohelp get the reference 
-const Issue = ({status = 'resolved'})=>{
+// todo: show some text tohelp get the reference
+const ResolveGraphics = ({resolved = false}) => {
+ return  <div className="flex gap-1">
+    <span
+      className={`rounded-full w-5 h-5 ${
+        !resolved ? "bg-red-200" : "bg-green-200"
+      } flex items-center justify-center ${
+        !resolved && "animate-[breathe_2s_ease-in-out_infinite]"
+      }`}
+    >
+      {!resolved ? (
+        <div className={`relative z-10 rounded-full w-3 h-3 bg-red-500 `}></div>
+      ) : (
+        <DoneIcon className="scale-70 text-green-800" />
+      )}
+    </span>
+    <p
+      className={`${
+        !resolved ? "text-red-900" : "text-green-900"
+      } text-xs md:text-sm`}
+    >
+      {resolved ? 'Resolved' : 'Active'}
+    </p>
+  </div>;
+};
+
+const Issue = ({issue = null , setIssueInfo})=>{
     return (
-      <div className="w-full h-fit rounded-sm bg-white py-4 px-4 shadow-sm flex flex-col">
+      <div className="w-full h-fit rounded-sm bg-white py-4 px-4 shadow-sm flex flex-col gap-1">
         <style>
           {`
           @keyframes breathe {
@@ -18,45 +97,39 @@ const Issue = ({status = 'resolved'})=>{
           }`}
         </style>
         <div className="flex gap-2 items-center justify-between">
-          <p className="font-bold text-xl md:text-2xl">#23423525</p>
-          <div className="flex gap-1">
-            <span
-              className={`rounded-full w-5 h-5 ${
-                status === "active" ? "bg-red-200" : "bg-green-200"
-              } flex items-center justify-center ${
-                status === "active" &&
-                "animate-[breathe_2s_ease-in-out_infinite]"
-              }`}
-            >
-              {
-                status === 'active'?<div
-                className={`relative z-10 rounded-full w-3 h-3 bg-red-500 `}
-              ></div>: <DoneIcon className = 'scale-70 text-green-800'/>
-              }
-            </span>
-            <p
-              className={`${
-                status === "active" ? "text-red-900" : "text-green-900"
-              } text-xs md:text-sm`}
-            >
-              {status[0].toUpperCase() + status.slice(1)}
-            </p>
-          </div>
+          <p className="font-bold text-xl md:text-2xl">#{issue.issueId}</p>
+          <ResolveGraphics resolved = {issue.resolved}/>
         </div>
-        <p className="text-gray-600 text-sm md:text-md">
-          {JSON.stringify(new Date()).slice(1, 11)}
-        </p>
-        <button className="px-3 py-1 text-white bg-black w-fit rounded-sm cursor-pointer select-none text-xs md:text-sm">
+        <p className = 'w-full text-sm'>{issue.subject}</p>
+        <div className="text-gray-600 text-sm md:text-md flex gap-1">
+          <p>{issue.issueDate.slice(0,issue.issueDate.length-1)}</p> ------ <p>{issue.resolved ? issue.resolveDate.slice(0,issue.resolveDate.length-1) : <ResolveGraphics resolved = {issue.resolved}/>}</p>
+        </div>
+        {/* TODO: this will open the issue pop up which will show the issue in full page */}
+        <button onClick = {()=>setIssueInfo(issue)} className="px-3 py-1 mt-2 text-white bg-black w-fit rounded-sm cursor-pointer select-none text-xs md:text-sm">
           Open
         </button>
       </div>
     );
 }
 
+const IssueDetail = ({issue , setIssueInfo})=>{
+  const handleClose = (e)=>{
+     setIssueInfo(null)
+  }
+
+  return <div onClick = {handleClose} className = 'fixed z-1000 flex items-center top-0 left-0 bg-[#33333399] w-full h-screen'>
+    <div onClick = {(e)=>{e.stopPropagation()}} className = 'w-8/9 h-5/9 relative top-10 m-auto bg-white rounded-md flex flex-col overflow-y-scroll'>
+      <CloseIcon onClick = {handleClose} className = 'absolute right-2 top-3 cursor-pointer select-none' />
+      <p>{issue.issueId}</p>
+    </div>
+  </div>
+}
 
 const Support = () => {
+  const [issueInfo , setIssueInfo] = useState(null);
+
   return (
-    <div className="w-full h-fit min-h-[100vh]">
+    <div className="relative w-full h-fit min-h-[100vh]">
       <section className="w-full h-fit p-2 px-3 mt-5 mb-10">
         <h2 data-aos = 'fade-up'  className="mt-2 w-full px-1 md:px-4 font-bold text-xl sm:text-3xl lg:text-4xl text-center text-black">
           {"Facing issues ! Don't worry"}
@@ -85,6 +158,15 @@ const Support = () => {
               className="w-full p-1 px-2 bg-white"
             />
           </label>
+          <lable htmlFor='subject'>
+            Subject
+            <input
+              id='subject'
+              type='text'
+              placeholder = "Subject"
+              className="w-full p-1 px-2 bg-white"
+            />
+          </lable>
           <label className="flex flex-col gap-1" htmlFor="problem">
             Issue
             <textarea
@@ -108,10 +190,16 @@ const Support = () => {
           Your Issues
         </p>
         <div className="flex flex-col gap-3">
-          <Issue />
-          <Issue status="active" />
+          {
+            ISSUES_DATA.map((issue,index)=>{
+              return <Issue setIssueInfo = {setIssueInfo} key = {index} issue = {issue}/>
+            })
+          }
         </div>
       </section>
+      {
+        issueInfo && <IssueDetail issue = {issueInfo} setIssueInfo= {setIssueInfo}/>
+      }
     </div>
   );
 }

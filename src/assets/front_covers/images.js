@@ -41,3 +41,8 @@ export const BOOKS =
     art1,art2,art3,art4,art5,art6,art7,art8,cursivea,cursiveb,cursivec,cursive1,cursive2,cursive3,cursive4,cursive5,
     gk1,gk2,gk3,gk4,gk5,gk6,gk7,gk8, hindi1, hindi2, hindi3, hindi4, hindi5, hindi6, hindi7, hindi8
 } 
+
+export default {
+    art1,art2,art3,art4,art5,art6,art7,art8,cursivea,cursiveb,cursivec,cursive1,cursive2,cursive3,cursive4,cursive5,
+    gk1,gk2,gk3,gk4,gk5,gk6,gk7,gk8, hindi1, hindi2, hindi3, hindi4, hindi5, hindi6, hindi7, hindi8
+} 

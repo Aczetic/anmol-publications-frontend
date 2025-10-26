@@ -27,7 +27,7 @@ const BookTitleMarquee = ({title = '' })=>{
             className="w-full h-full bg-cover bg-no-repeat bg-center"
             style={{ backgroundImage: `url(${img})` }}
           ></div>
-          <div className="w-full h-10 bg-black truncate px-2 text-center flex items-center">
+          <div className="w-full h-10 bg-black text-white truncate px-2 text-center flex items-center">
             {<BookTitleMarquee title={title} />}
           </div>
           <button className="w-full h-fit bg-red-500 text-white p-1 select-none cursor-pointer">
@@ -38,10 +38,10 @@ const BookTitleMarquee = ({title = '' })=>{
     );
   };
   
-  const BooksList = ({list = []})=>{
+  const BooksList = ({list = [] , title = 'List Heading'})=>{
     return (
       <div className="w-full h-fit p-2 md:pl-5 py-3 flex flex-col gap-1 bg-pink-400">
-        <div className="text-xl py-2 w-full font-bold">List heading</div>
+        <div className="text-xl py-2 w-full font-bold text-black">{title}</div>
         {/* book list container */}
         <div className="w-full flex gap-6 md:gap-10 overflow-x-scroll pb-3">
           <Book title = "Knowledge Insights Class 1"/>

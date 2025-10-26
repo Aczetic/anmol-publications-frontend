@@ -26,8 +26,9 @@ const Testimonial = ({data})=>{
             <p className = 'text-sm p-3 bg-red-50 grow-1'>
                 {data.review}
             </p>
+            {/* TODO:ratings must be coming from api */}
             <div className = 'w-full p-2 text-sm bg-red-50'>
-            <Rating name="half-rating" defaultValue={data.stars} precision={0.5} style = {{fontSize:'1.1rem'}}/>
+            <Rating name="half-rating" readOnly value={data.stars} precision={0.5} style = {{fontSize:'1.1rem'}}/>
             </div>
         </div>
     </div>
