@@ -203,11 +203,11 @@ const FormattedText = ({text})=>{
 }
 
 const BookDetails = ()=>{
-  const [buyVisible , setBuyVisible] = useState(false);
   const [booksInfo , setBooksInfo] = useState(null); // this is where the books information will reside
   const [currentImage , setCurrentImage ] = useState(0);
   const [infoOption , setInfoOption] = useState('salientFeatures');
-  const user = useSelector(state => state.user);
+  // const user = useSelector(state => state.user);
+  const user = {};
   const rating = (BOOK_INFO.reviews.reduce((a,b)=>{return {stars:a.stars+b.stars} })).stars / BOOK_INFO.reviews.length  
 
   useEffect(()=>{ // here will go the logic for getting the books details
@@ -218,8 +218,8 @@ const BookDetails = ()=>{
 
     return (
       <div className="w-full items-center h-fit min-h-screen flex flex-col">
-        {!booksInfo ? (
-          <Loader1 className="m-auto scale-[50%]" />
+        {!booksInfo ? ( // until books are not loaded show loader
+          <Loader1 className="m-auto scale-50" />
         ) : (
           <>
             {/* search */}

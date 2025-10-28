@@ -107,6 +107,15 @@ const Faqs = () => {
               className="w-full p-1 px-2 bg-white"
             />
           </label>
+          <lable className="flex flex-col gap-1" htmlFor='subject'>
+            Subject
+            <input
+              id='subject'
+              type='text'
+              placeholder = "Subject"
+              className="w-full p-1 px-2 bg-white"
+            />
+          </lable>
           <label className="flex flex-col gap-1" htmlFor="problem">
             Issue
             <textarea
