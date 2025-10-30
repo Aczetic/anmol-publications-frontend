@@ -3,6 +3,8 @@ import Nav from "./components/Nav"
 import Home from "./pages/Home"
 import AboutUs from "./pages/AboutUs"
 import Books from "./pages/Books"
+import ReadBook from './pages/ReadBook.jsx'
+import ReadSample from './pages/ReadSample.jsx'
 import ContactUs from "./pages/ContactUs"
 import Blogs from "./pages/Blogs"
 import NotFound from "./pages/NotFound"
@@ -69,6 +71,8 @@ const App = () => {
           {/*this route will redirect to upper route from client side} */}
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/books" element={<Books />} />
+          <Route path="/read-sample/:id" element={<ReadSample />} />
+          <Route path="/read-book/:id" element={<ReadBook />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/careers" element={<Careers />} />

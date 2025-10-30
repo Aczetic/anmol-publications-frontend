@@ -5,9 +5,9 @@ import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import { Navigation, Autoplay } from 'swiper/modules';
 import Rating from '@mui/material/Rating';
-import TESTIMONIALS from '../constants/TESTIMONIALS.js';
 import PrevIcon from '@mui/icons-material/ArrowBackIosNew';
 import NextIcon from '@mui/icons-material/ArrowForwardIos';
+import TESTIMONIALS_BACKUP from '../constants/TESTIMONIALS';
 
 
 const Testimonial = ({data})=>{
@@ -34,8 +34,8 @@ const Testimonial = ({data})=>{
     </div>
 }
 
-function Testimonials() {
-    //TODO:this should come from an api request
+function Testimonials({testimonials}) {
+  const TESTIMONIALS = testimonials || TESTIMONIALS_BACKUP; // fall back if the server is not working    
   return (
     <>
     <div data-aos = 'fade-up' className = 'w-full h-fit flex flex-col gap-4 px-2 mt-25'>

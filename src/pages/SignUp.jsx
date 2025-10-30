@@ -26,7 +26,7 @@ const authvidc = 'https://frwqfqelivvjucqh.public.blob.vercel-storage.com/authvi
 
 // for normal screens
 const User = z.object({
-  role: z.string().regex(/[user|pricipal|teacher]/,{error:"invalid role"}),
+  role: z.string().regex(/[user|pricipal|teacher|admin]/,{error:"invalid role"}),
   fullname: z.string().min(1,"Full name is required").regex(/[a-zA-Z]/ , {error: "Enter a valid name"}),
   password: z.string()
             .min( 8 , {error: "Atleast 8 characters"})
@@ -50,7 +50,7 @@ const User = z.object({
 
 // for small screens
 const UserMobile = z.object({
-  "role-mobile": z.string().regex(/[user|pricipal|teacher]/,{error:"invalid role"}),
+  "role-mobile": z.string().regex(/[user|pricipal|teacher|admin]/,{error:"invalid role"}),
   "fullname-mobile": z.string().min(1,"Full name is required").regex(/[a-zA-Z]/ , {error: "Enter a valid name"}),
   "password-mobile": z.string()
                     .min( 8 , {error: "Atleast 8 characters"})
@@ -116,7 +116,7 @@ const SignUp = () => {
 // if the user is logged in then go to profile/dashboard
  useEffect(()=>{
   if(user){
-    navigate(user.role!=='principal'?'/profile':'/dashboard');
+    navigate((user.role==='principal' || user.role === 'admin')?'/dashboard':'/profile');
   }
 })
 
@@ -288,6 +288,7 @@ const SignUp = () => {
                         <option value="user">User</option>
                         <option value="teacher">Teacher</option>
                         <option value="principal">Principal</option>
+                        <option value="admin">Admin</option>
                       </select>
                       {errorsMobile.role && (
                         <p className="w-full text-xs h-5 font-normal text-red-700 flex items-center">
@@ -655,6 +656,7 @@ const SignUp = () => {
                         <option value="user">User</option>
                         <option value="teacher">Teacher</option>
                         <option value="principal">Principal</option>
+                        <option value="admin">Admin</option>
                       </select>
                       {errors.role && (
                         <p className="w-full text-xs h-5 font-normal text-red-700 flex items-center">

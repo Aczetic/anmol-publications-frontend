@@ -38,8 +38,6 @@ const SupportFormSchema = z.object({
       resolver: zodResolver(SupportFormSchema),
     });
   
-    useEffect(()=>console.log(errors),[errors])
-  
     const user = useSelector(state => state.user);
   
     const onSubmit = (data)=>{

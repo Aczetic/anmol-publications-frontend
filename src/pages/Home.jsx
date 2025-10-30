@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router';
+import axios from 'axios';
 import heroImage from '../assets/hero.png';
 import logo from '../assets/logo.png';
 import BooksIcon from '@mui/icons-material/MenuBook';
@@ -16,8 +18,9 @@ import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import Testimonial from '../components/Testimonials.jsx';
 import RightArrowIcon from '@mui/icons-material/East';
-
-
+import NumCard from '../components/NumCard.jsx';
+import BOOKS_BACKUP from '../constants/BOOKS.js';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 // swiper dependencies
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -50,10 +53,25 @@ import {
 
 } from "../assets/school_logos/school_logos.js";
 import contactImages from '../assets/contact_comp/images.js';
-import BOOKS from '../constants/BOOKS.js';
-import { useEffect, useRef } from 'react';
 
-
+//CONSTANTS
+const SchoolList = [
+  dps, 
+  fatima,
+  guru_nanak,
+  gyandeep,
+  holy_cross,
+  merci_memorial,
+  rose_buds,
+  sant_pathik_vidyalaya,
+  ss_public_school,
+  st_anjani_public_school,
+  st_dominic,
+  st_francis,
+  st_mary_convent,
+  st_paul_college,
+  st_thomas_college
+];
 
 const School = ({src})=>{
   return <img src = {src} alt = "school-logo" title = "school" className = 'h-[3.5rem] md:h-[5rem]' style = {{mixBlendMode:'multiply'}} loading = "lazy"/>
@@ -242,12 +260,15 @@ const Book = ({data})=>{
         <div className = 'w-full flex flex-col justify-center items-center gap-1 px-2'>
           <p className = 'text-xs font-bold md:text-sm text-center'>{data.name}</p>
           {/* todo: add the dynamic ids in the books */}
-          <button className = 'w-full text-xs md:text-sm py-1 text-white bg-red-500 cursor-pointer select-none rounded-sm'><NavLink to = '/book-details/212345'>Read</NavLink></button>
+          <NavLink to = {'/book-details/'+data.id} className = 'w-full text-xs md:text-sm py-1 text-white bg-red-500 cursor-pointer select-none rounded-sm text-center'>
+              Read
+          </NavLink>
         </div>
    </div>
 }
 
-const OurBooks = ()=>{
+const OurBooks = ({books})=>{
+  const BOOKS = books || BOOKS_BACKUP;
   return <div data-aos = 'fade-up' className = 'w-full h-fit mt-[5rem] flex flex-col gap-4'>
       <div data-aos = 'fade' className = 'flex flex-col gap-1 p-2'>
           <h2 className = 'font-bold text-3xl text-center'> Our Books</h2>
@@ -330,62 +351,20 @@ const Contact = ()=>{
    );
 }
 
-const NumCard = ({target , style = {} , className = ''})=>{
-  const elemRef = useRef();
-  const intervalRef = useRef(null);
-  const handleScroll = ()=>{
-
-    const rect = elemRef.current.getBoundingClientRect();
-    
-    if(rect.top <= window.innerHeight){
-      
-      window.removeEventListener( 'scroll' , handleScroll); // remove after the element is visible
-
-      let val = 0;
-          intervalRef.current = setInterval(()=>{ // start the counter
-          val += 1;
-
-          if(val >= target){
-             elemRef.current.innerText = target+'+';
-             clearInterval(intervalRef.current); // stop the interval
-             return;
-          }
-
-          elemRef.current.innerText = val;
-
-      },Math.ceil(2000/target))
-    }
-  }
-  useEffect(()=>{
-      window.addEventListener('scroll' , handleScroll);
-      handleScroll(); // call it when the component has mounted because the top most element cant' detect scroll
-      return ()=>{
-        clearInterval(intervalRef.current); // this is done to stop the counter when the comp is unmounted before completion
-        window.removeEventListener('scroll' , handleScroll);
-      }
-  })
-  return <p ref = {elemRef} className = {className} style = {{style}}></p>
-}
-
-const SchoolList = [
-  dps, 
-  fatima,
-  guru_nanak,
-  gyandeep,
-  holy_cross,
-  merci_memorial,
-  rose_buds,
-  sant_pathik_vidyalaya,
-  ss_public_school,
-  st_anjani_public_school,
-  st_dominic,
-  st_francis,
-  st_mary_convent,
-  st_paul_college,
-  st_thomas_college
-];
 
 const Home = () => {
+  const [data, setData] = useState({ books: null, testimonials: null });
+
+  useEffect(()=>{
+    axios.get(import.meta.env.VITE_SERVER_URL+'/home')
+    .then(res=>{
+      if(res.data.success){
+        setData(res.data.data);
+      }
+    }).catch(e=>{
+      //
+    })
+  },[])
 
   return <>
     <section role = 'banner' id = 'hero' data-aos = 'fade' data-aos-delay = '300' className = 'w-full min-h-[820px] flex flex-col items-center justify-start overflow-x-hidden' style = {{backgroundImage:`url(${heroImage})` , backgroundSize:'cover' , backgroundPosition:'50% 60%'}}>
@@ -407,6 +386,11 @@ const Home = () => {
           <p className = 'font-extralight'>Schools</p>
         </div>
         <div className = 'flex flex-col gap-1 text-center'>
+          <LocationOnIcon className = 'm-auto'/>
+          <NumCard target = {40} />
+          <p className = 'font-extralight'>Cities</p>
+        </div>
+        <div className = 'flex flex-col gap-1 text-center'>
           <SubjectIcon className = 'm-auto'/>
           <NumCard target = {15}/>
           <p className = 'font-extralight'>Subjects</p>
@@ -424,8 +408,8 @@ const Home = () => {
     <div className = 'flex flex-col gap-4 mt-20 px-2'>
     <Features/>
     </div>
-    <Testimonial/>
-    <OurBooks/>
+    <Testimonial testimonials = {data.testimonials}/>
+    <OurBooks books = {data.books}/>
     <Contact/>
   </>
 }

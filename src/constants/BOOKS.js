@@ -8,7 +8,8 @@ const names = {
 // todo: this method of naming is only until backend not provided otherwise the names will come there 
 const Books = Object.entries(BOOKS).map((book,index)=>{
     return {
-        id:index , 
+        id:index , // TODO: right now this index is being sent at the backend it needs to be 
+        //updated as well otherwise home page books option will not work 
         name : names[book[0].slice(0,book[0].length-1)]+ ' ' + book[0][book[0].length-1].toUpperCase()  , 
         img : book[1]
     }

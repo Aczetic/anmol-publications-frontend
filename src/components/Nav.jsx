@@ -198,7 +198,7 @@ const Nav = () => {
           <p className = 'text-white w-full'>We offer NEP-certified, high-quality educational solutions for Indian schools. Our textbooks come with AI-powered digital services that extend learning beyond the classroom and enhance teaching outcomes.</p>
           <div className = 'flex flex-col gap-2'>
               <a target = '_blank' href = 'https://google.com/maps?q=8/276, Sitapur Rd, Sector 8, Sector 9, Jankipuram Vistar, Khargapur Jagir, Lucknow, Uttar Pradesh 226021' className = 'text-white flex gap-2'>
-                <AddressIcon className = 'text-white' />Plot No. 95/3, S.NN. Villa, New Friends Colony, Sector-6 Jankipuram Vistar, 226021, Lucknow UP
+                <AddressIcon className = 'text-white' />Plot No. 95/3, S.N. Villa, New Friends Colony, Sector-6 Jankipuram Vistar, 226021, Lucknow UP
               </a>
             <a target = "_blank" href = 'mailto:contact@anmoleducationalbooks.com' className = 'text-white flex gap-2'><EmailIcon className = 'text-white' />contact@anmoleducationalbooks.com</a>
             <p className = 'text-white flex gap-2'><LocalPhoneIcon className = 'text-white' /><a href = 'tel:+919839314703'>+91 9839314703</a>  &nbsp; <a href = 'tel:+917905401629'>+91 7905401629</a></p>
@@ -248,7 +248,7 @@ const Nav = () => {
           <p className = 'text-white w-full'>We offer NEP-certified, high-quality educational solutions for Indian schools. Our textbooks come with AI-powered digital services that extend learning beyond the classroom and enhance teaching outcomes.</p>
           <div className = 'flex flex-col gap-2'>
               <a target = '_blank' href = 'https://google.com/maps?q=8/276, Sitapur Rd, Sector 8, Sector 9, Jankipuram Vistar, Khargapur Jagir, Lucknow, Uttar Pradesh 226021' className = 'text-white flex gap-2'>
-                <AddressIcon className = 'text-white' />Plot No. 95/3, S.NN. Villa, New Friends Colony, Sector-6 Jankipuram Vistar, 226021, Lucknow UP
+                <AddressIcon className = 'text-white' />Plot No. 95/3, S.N. Villa, New Friends Colony, Sector-6 Jankipuram Vistar, 226021, Lucknow UP
               </a>
             <a target = "_blank" href = 'mailto:contact@anmoleducationalbooks.com' className = 'text-white flex gap-2'><EmailIcon className = 'text-white' />contact@anmoleducationalbooks.com</a>
             <p className = 'text-white flex gap-2'><LocalPhoneIcon className = 'text-white' /><a href = 'tel:+919839314703'>+91 9839314703</a>  &nbsp; <a href = 'tel:+917905401629'>+91 7905401629</a></p>

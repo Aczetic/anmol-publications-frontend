@@ -5,17 +5,22 @@ import {Autoplay, Navigation} from "swiper/modules"; // may be required for thum
 import Loader1 from "../components/Loader1";
 import CloseIcon from '@mui/icons-material/Close';
 import {BOOKS} from '../assets/front_covers/images.js';
-import {amazon , facebook, flipkart, instagram, whatsapp, x} from '../assets/company_icons/images.js';
+import {amazon , facebook, flipkart, linkedin, whatsapp, x} from '../assets/company_icons/images.js';
 import BooksList from "../components/BooksList.jsx";
 import Search from '../components/Search.jsx';
 import BulletIcon from '@mui/icons-material/RadioButtonChecked';
 import Rating from "@mui/material/Rating";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackwardIcon from '@mui/icons-material/ArrowBackIosNew';
+import CopyIcon from '@mui/icons-material/ContentCopy';
+import { NavLink, useParams } from "react-router";
+import axios from "axios";
+import { toast } from "react-toastify";
  
-const {gk1 , gk2, gk3, gk4} = BOOKS;
+const {gk1 , gk2, gk3, gk4} = BOOKS; // these images are using in image presenter
 // TODO : this must come from the db so remove it later
 const BOOK_INFO ={
+  id : '23432425', // every book will have a different numeric id aprt from  __id which is for db
   name: "Knowledge Insights 1",
   bookDetail: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos iusto
   quasi totam molestiae voluptas vitae corrupti obcaecati
@@ -114,10 +119,55 @@ const BOOK_INFO ={
   tags: ['nep','gk' , 'english' , 'general knowledge'], // this helps in book search
   sampleBook: '', // a link to where the books is located
   // TODO: book upload
-  buyLink : ''
+  buyLinks : [{platform:'amazon' , link:''} , {platform:'flipkart' , link:''}],
+  subscribed : true, // tells whether the user can read full book or not , this is not part of it , it's added
+  bookList : [ // this is not part of it it needs to be added
+    {
+      id: "1",
+      image: "",
+      title: "General Knowledge",
+    },
+    {
+      id: "2",
+      image: "",
+      title: "General Knowledge",
+    },
+    {
+      id: "3",
+      image: "",
+      title: "General Knowledge",
+    },
+    {
+      id: "4",
+      image: "",
+      title: "General Knowledge",
+    },
+  ]
 };
-
-
+// TODO: remove it later
+// NOTE: this is should be the part of book info response
+const book_list = [
+  {
+    id: "1",
+    image: "",
+    title: "General Knowledge",
+  },
+  {
+    id: "2",
+    image: "",
+    title: "General Knowledge",
+  },
+  {
+    id: "3",
+    image: "",
+    title: "General Knowledge",
+  },
+  {
+    id: "4",
+    image: "",
+    title: "General Knowledge",
+  },
+];
 
 const ImagePresenter = ({ images = [], currentImage = 0, setCurrentImage }) => {
   useEffect(()=>{
@@ -173,7 +223,6 @@ const FormattedText = ({text})=>{
   const ref = useRef(null);
   let textElem = document.createElement('p');
   const text2 = text?.replace(/\*{2}(.*?)\*{2}/g , '<b>$1</b>');
-  
   // text = text.split(' ').map((e)=>{
     
   //   if(/^\*{2}.*\*{2}$/.test(e) ){ // if it contains both of them **
@@ -203,22 +252,33 @@ const FormattedText = ({text})=>{
 }
 
 const BookDetails = ()=>{
-  const [booksInfo , setBooksInfo] = useState(null); // this is where the books information will reside
-  const [currentImage , setCurrentImage ] = useState(0);
-  const [infoOption , setInfoOption] = useState('salientFeatures');
-  // const user = useSelector(state => state.user);
-  const user = {};
-  const rating = (BOOK_INFO.reviews.reduce((a,b)=>{return {stars:a.stars+b.stars} })).stars / BOOK_INFO.reviews.length  
+  const [bookInfo , setBookInfo] = useState(null); // this is where the books information will reside
+  const [currentImage , setCurrentImage ] = useState(0); // default image to show in image presenter
+  const [infoOption , setInfoOption] = useState('salientFeatures');// the tabular information
+  const params = useParams();
+  // const user = useSelector(state => state.user);  TODO: do something about this
+  const user = {}; //TODO: do something about it
+  const rating = (BOOK_INFO.reviews.reduce((a,b)=>{return {stars:a.stars+b.stars} })).stars / BOOK_INFO.reviews.length; // average of rating
 
   useEffect(()=>{ // here will go the logic for getting the books details
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/book-details/${params.id}`,{
+      withCredentials:true 
+    })
+    .then(res=>{
+      if(res.data.success){
+        setBookInfo(res.data.data);
+      }
+    }).catch(e=>{
+      toast.error('Some error occurred1');
+    })
     setTimeout(()=>{
-      setBooksInfo({})
+      setBookInfo(BOOK_INFO); // TODO: remove it later this is just for dummy usage until server not functional 
     },500)
   },[])
 
     return (
       <div className="w-full items-center h-fit min-h-screen flex flex-col">
-        {!booksInfo ? ( // until books are not loaded show loader
+        {bookInfo === null ? ( // until books are not loaded show loader
           <Loader1 className="m-auto scale-50" />
         ) : (
           <>
@@ -233,7 +293,11 @@ const BookDetails = ()=>{
             >
               {/* left where the images will be shown*/}
               <div className="w-full md:w-1/3 h-screen max-h-130 flex flex-col">
-                <ImagePresenter images = {BOOK_INFO.images} currentImage = {currentImage} setCurrentImage={setCurrentImage}/>
+                <ImagePresenter
+                  images={bookInfo.images}
+                  currentImage={currentImage}
+                  setCurrentImage={setCurrentImage}
+                />
               </div>
 
               {/* right */}
@@ -252,25 +316,25 @@ const BookDetails = ()=>{
 
                 {/* book details */}
                 <p className="h-fit max-h-[7rem] overflow-y-scroll">
-                  {BOOK_INFO.bookDetail}
+                  {bookInfo.bookDetail}
                 </p>
 
                 {/* other infos in vertical form */}
                 <div className="w-full md:w-2/3 py-2 h-fit max-h-60 overflow-y-scroll flex flex-col gap-2">
                   <div className="w-full grid grid-cols-2">
                     <p className="font-semibold">Subject</p>
-                    <p>{BOOK_INFO.subject}</p>
+                    <p>{bookInfo.subject}</p>
                   </div>
 
                   <div className="w-full grid grid-cols-2">
                     <p className="font-semibold">Edition</p>
                     <p>
-                      {BOOK_INFO.edition +
-                        (BOOK_INFO.edition % 10 === 1
+                      {bookInfo.edition +
+                        (bookInfo.edition % 10 === 1
                           ? "st"
-                          : BOOK_INFO.edition % 10 === 2
+                          : bookInfo.edition % 10 === 2
                           ? "nd"
-                          : BOOK_INFO.edition % 10 === 3
+                          : bookInfo.edition % 10 === 3
                           ? "rd"
                           : "th")}
                     </p>
@@ -278,10 +342,10 @@ const BookDetails = ()=>{
 
                   <div className="w-full grid grid-cols-2">
                     <p className="font-semibold">ISBN</p>
-                    <p>{BOOK_INFO.isbn}</p>
+                    <p>{bookInfo.isbn}</p>
                   </div>
 
-                  {BOOK_INFO.people.map((e, i) => {
+                  {bookInfo.people.map((e, i) => {
                     return (
                       <div className="w-full grid grid-cols-2" key={i}>
                         <p className="font-semibold">{e.designation}</p>
@@ -292,26 +356,26 @@ const BookDetails = ()=>{
 
                   <div className="w-full grid grid-cols-2">
                     <p className="font-semibold">Language</p>
-                    <p>{BOOK_INFO.language}</p>
+                    <p>{bookInfo.language}</p>
                   </div>
 
-                  {BOOK_INFO.seriesName && (
+                  {bookInfo.seriesName && (
                     <div className="w-full grid grid-cols-2">
                       <p className="font-semibold">Series</p>
-                      <p>{BOOK_INFO.seriesName}</p>
+                      <p>{bookInfo.seriesName}</p>
                     </div>
                   )}
 
-                  {BOOK_INFO.class && (
+                  {bookInfo.class && (
                     <div className="w-full grid grid-cols-2">
                       <p className="font-semibold">Class</p>
                       <p>
-                        {BOOK_INFO.class +
-                          (BOOK_INFO.class % 10 === 1
+                        {bookInfo.class +
+                          (bookInfo.class % 10 === 1
                             ? "st"
-                            : BOOK_INFO.class % 10 === 2
+                            : bookInfo.class % 10 === 2
                             ? "nd"
-                            : BOOK_INFO.class % 10 === 3
+                            : bookInfo.class % 10 === 3
                             ? "rd"
                             : "th")}
                       </p>
@@ -323,14 +387,20 @@ const BookDetails = ()=>{
                 <div className="relative w-full mt-1 flex flex-col justify-around gap-2">
                   <div className="w-full md:w-fit flex gap-2">
                     {/* TODO: implement this button */}
-                    <button className="py-2 px-4 text-sm w-full md:w-fit bg-black text-white rounded-sm cursor-pointer select-none">
+                    <NavLink
+                      to={"/read-sample/" + bookInfo.id}
+                      className="py-2 px-4 text-sm w-full md:w-fit bg-black text-white rounded-sm cursor-pointer select-none"
+                    >
                       Read Sample
-                    </button>
+                    </NavLink>
                     {/* TODO: implement this button */}
-                    {user?.subscribed && (
-                      <button className="py-2 px-4 text-sm w-full md:w-fit bg-black text-white rounded-sm cursor-pointer select-none">
-                        Read Full Book
-                      </button>
+                    {bookInfo.subscribed && (
+                      <NavLink
+                        to={"/read-book/" + bookInfo.id}
+                        className="py-2 px-4 text-sm w-full md:w-fit bg-black text-white rounded-sm cursor-pointer select-none"
+                      >
+                        Read Book
+                      </NavLink>
                     )}
                   </div>
 
@@ -339,28 +409,80 @@ const BookDetails = ()=>{
                     {/* TODO: these buttons should redirect to the amazon page if they have it  */}
                     <div className="w-full h-fit flex gap-4 items-center">
                       <b>Buy:</b>
-                      <div className="w-10 h-10 ml-3 md:ml-0 p-2 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full border-solid border-2 border-black">
+                      <NavLink to = {bookInfo.buyLinks[0].link} className="w-10 h-10 ml-3 md:ml-0 p-2 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full border-solid border-2 border-black">
                         <img src={amazon} className="w-full h-full" />
-                      </div>
-                      <div className="w-10 h-10 p-2 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full border-solid border-2 border-black">
+                      </NavLink>
+                      <NavLink to = {bookInfo.buyLinks[1].link} className="w-10 h-10 p-2 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full border-solid border-2 border-black">
                         <img src={flipkart} className="w-full h-full" />
-                      </div>
+                      </NavLink>
                     </div>
 
                     {/* TODO: implement how to do sharing   */}
                     <div className="w-full h-fit flex gap-4 items-center">
                       <b>Share:</b>
-                      <div className="w-10 h-10 p-2 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full border-solid border-2 border-black">
+                      <NavLink
+                        to={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                          'Hey! Checkout this book "' +
+                            bookInfo.name +
+                            '"' +
+                            ", by Anmol Educational Books. Completely aligned with latest NEP Standards, offering instructors unparalleled support tools. Review the full resource details here:" +
+                            " " +
+                            window.location.href
+                        )}`}
+                        className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full "
+                      >
                         <img src={whatsapp} className="w-full h-full" />
-                      </div>
-                      <div className="w-10 h-10 p-2 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full border-solid border-2 border-black">
+                      </NavLink>
+                      <NavLink
+                        to={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                          'Hey! Checkout this book "' +
+                            bookInfo.name +
+                            '"' +
+                            ", by Anmol Educational Books. Completely aligned with latest NEP Standards, offering instructors unparalleled support tools. Review the full resource details here:"
+                        )}&url=${encodeURIComponent(window.location.href)}`}
+                        className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full "
+                      >
                         <img src={x} className="w-full h-full" />
-                      </div>
-                      <div className="w-10 h-10 p-2 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full border-solid border-2 border-black">
-                        <img src={instagram} className="w-full h-full" />
-                      </div>
-                      <div className="w-10 h-10 p-2 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full border-solid border-2 border-black">
-                        <img src={facebook} className="w-full h-full" />
+                      </NavLink>
+                      <NavLink
+                        to={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                          window.location.href
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full"
+                      >
+                        <img
+                          src={linkedin}
+                          className="w-full h-full"
+                          alt="LinkedIn Icon"
+                        />
+                      </NavLink>
+                      <NavLink
+                        to={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                          window.location.href
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full"
+                      >
+                        <img
+                          src={facebook}
+                          className="w-full h-full"
+                          alt="Facebook Icon"
+                        />
+                      </NavLink>
+                      <div
+                        onClick = {()=>{navigator.clipboard.writeText(window.location.href); toast.info('Link copied to clipboard')}}
+                        to={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                          window.location.href
+                        )}`}
+                        title = "Copy Link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 p-1 text-red-800 bg-red-100 overflow-hidden flex items-center justify-center select-none cursor-pointer rounded-full"
+                      >
+                        <CopyIcon/>
                       </div>
                     </div>
                   </div>
@@ -374,7 +496,6 @@ const BookDetails = ()=>{
               className="w-full max-w-[1280px] mt-10 bg-black flex flex-col gap-2 p-2 h-fit text-white "
             >
               {/* options list */}
-              {/* TODO : implement this */}
               <div className="w-full justify-around h-10 flex gap-0 rounded-sm overflow-x-scroll">
                 <p
                   onClick={() => setInfoOption("people")}
@@ -421,7 +542,7 @@ const BookDetails = ()=>{
               <div className="flex overflow-y-scroll h-80 w-full bg-white text-black">
                 <div className="w-full h-fit flex flex-col gap-3 list-disc list-inside p-3">
                   {infoOption === "people"
-                    ? BOOK_INFO[infoOption].map((each, index) => (
+                    ? bookInfo[infoOption].map((each, index) => (
                         <span key={index} className="flex flex-col gap-1">
                           <b>
                             {each.designation} - {each.name}
@@ -430,11 +551,9 @@ const BookDetails = ()=>{
                         </span>
                       ))
                     : infoOption === "reviews"
-                    ? BOOK_INFO[infoOption].map((each, index) => (
+                    ? bookInfo[infoOption].map((each, index) => (
                         <span key={index} className="flex flex-col">
-                          <b>
-                            {each.name}
-                          </b>
+                          <b>{each.name}</b>
                           <Rating
                             name="half-rating"
                             readOnly
@@ -445,7 +564,7 @@ const BookDetails = ()=>{
                           <FormattedText text={each.review} />
                         </span>
                       ))
-                    : BOOK_INFO[infoOption].map((each, index) => (
+                    : bookInfo[infoOption].map((each, index) => (
                         <span key={index} className="flex gap-2">
                           <BulletIcon className="scale-60" />
                           <FormattedText text={each} />
@@ -454,14 +573,12 @@ const BookDetails = ()=>{
                 </div>
               </div>
             </div>
-            {/* TODO: implement this  */}
-            {/* you may also like or similar */}
             <div
               data-aos="fade-up"
               className="w-full max-w-[1280px] mt-15 h-fit flex flex-col"
             >
-              <BooksList title="Others in Series" />
-              <BooksList title="Latest Releases" />
+              <BooksList title="Others in Series" list={bookInfo.bookList} />
+              <BooksList title="Latest Releases" list={bookInfo.bookList} />
             </div>
           </>
         )}

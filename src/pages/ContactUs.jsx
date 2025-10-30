@@ -120,7 +120,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
                     href="https://google.com/maps?q=8/276, Sitapur Rd, Sector 8, Sector 9, Jankipuram Vistar, Khargapur Jagir, Lucknow, Uttar Pradesh 226021"
                     className="font-bold text-xs text-red-100"
                   >
-                    Plot No. 95/3, S.NN. Villa, New Friends Colony, Sector-6
+                    Plot No. 95/3, S.N. Villa, New Friends Colony, Sector-6
                     Jankipuram Vistar, 226021, Lucknow UP
                   </a>
                 </div>

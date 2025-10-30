@@ -1,5 +1,6 @@
 import { NavLink } from "react-router";
 import gk1 from '../assets/front_covers/gk1.jpg'; // TODO: the image needs to be fed through api 
+import BookIcon from '@mui/icons-material/MenuBook';
 
 const BookTitleMarquee = ({title = '' })=>{
     const isAnimated = title.length > 15;
@@ -18,15 +19,15 @@ const BookTitleMarquee = ({title = '' })=>{
       
     </div>
   }
-  
-  const Book = ({title = '' , id = '2123456', img = gk1 || ''}) => {
+  // TODO: empty this later
+  const Book = ({title = 'Book Title' , id = '', img = null}) => {
     return (
       <NavLink to={"/book-details/"+id}>
         <div className="bg-white w-15 min-w-25 h-45 md:w-35 md:min-w-35 md:h-60 text-xs lg:text-sm flex flex-col gap rounded-sm overflow-hidden cursor-pointer">
           <div
-            className="w-full h-full bg-cover bg-no-repeat bg-center"
+            className="w-full text-white bg-red-200 flex items-center justify-center h-full bg-cover bg-no-repeat bg-center"
             style={{ backgroundImage: `url(${img})` }}
-          ></div>
+          >{img || <BookIcon className = 'm-auto'/>}</div>
           <div className="w-full h-10 bg-black text-white truncate px-2 text-center flex items-center">
             {<BookTitleMarquee title={title} />}
           </div>
@@ -40,13 +41,15 @@ const BookTitleMarquee = ({title = '' })=>{
   
   const BooksList = ({list = [] , title = 'List Heading'})=>{
     return (
-      <div className="w-full h-fit p-2 md:pl-5 py-3 flex flex-col gap-1 bg-pink-400">
+      <div className="w-full h-fit p-2 md:pl-5 pt-0 pb-3 flex flex-col gap-1">
         <div className="text-xl py-2 w-full font-bold text-black">{title}</div>
         {/* book list container */}
         <div className="w-full flex gap-6 md:gap-10 overflow-x-scroll pb-3">
-          <Book title = "Knowledge Insights Class 1"/>
-          <Book title = "Knowledge Insights Class 2"/>
-          <Book title = "Knowledge Insights Class 3"/>
+          {
+            list.map((each,index)=>{
+              return <Book key = {each.id||index} img = {each.image} title = {each.title} id = {each.id}/>
+            })
+          }
         </div>
       </div>
     );

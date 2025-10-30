@@ -8,6 +8,7 @@ const Search = () => {
     const [searchResult , setSearchResult] = useState([]);
     return (
       <div
+        data-aos = 'fade'
         id="search"
         className="w-full bg-black flex flex-col items-center justify-center h-fit p-3 relative top-1"
       >
