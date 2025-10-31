@@ -7,7 +7,6 @@ import { setUser } from '../features/userSlice';
 import Loader1 from './Loader1';
 
 const Otp = ({email , path}) => {
-  console.log(email)
   const [input , setInput] = useState('    ');
   const navigate = useNavigate();
   const dispatch = useDispatch();

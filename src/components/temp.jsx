@@ -9,11 +9,6 @@ const OptionsInput = React.forwardRef((props,ref )=>{
     // const [value , setValue] = useState('');
     // const [onFocus , setOnFocus] = useState(false);
 
-
-    useEffect(()=>{
-      
-      inputProps.id === 'city' && console.log(filter);
-    })
     return (
       <>
         <input

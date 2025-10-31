@@ -389,7 +389,7 @@ const BookDetails = ()=>{
                     {/* TODO: implement this button */}
                     <NavLink
                       to={"/read-sample/" + bookInfo.id}
-                      className="py-2 px-4 text-sm w-full md:w-fit bg-black text-white rounded-sm cursor-pointer select-none"
+                      className="py-2 px-4 text-sm w-full md:w-fit text-center bg-black text-white rounded-sm cursor-pointer select-none"
                     >
                       Read Sample
                     </NavLink>
@@ -397,7 +397,7 @@ const BookDetails = ()=>{
                     {bookInfo.subscribed && (
                       <NavLink
                         to={"/read-book/" + bookInfo.id}
-                        className="py-2 px-4 text-sm w-full md:w-fit bg-black text-white rounded-sm cursor-pointer select-none"
+                        className="py-2 px-4 text-sm w-full md:w-fit text-center bg-black text-white rounded-sm cursor-pointer select-none"
                       >
                         Read Book
                       </NavLink>
@@ -418,71 +418,73 @@ const BookDetails = ()=>{
                     </div>
 
                     {/* TODO: implement how to do sharing   */}
-                    <div className="w-full h-fit flex gap-4 items-center">
-                      <b>Share:</b>
-                      <NavLink
-                        to={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-                          'Hey! Checkout this book "' +
-                            bookInfo.name +
-                            '"' +
-                            ", by Anmol Educational Books. Completely aligned with latest NEP Standards, offering instructors unparalleled support tools. Review the full resource details here:" +
-                            " " +
+                    <div className="w-full h-[45px] flex gap-4">
+                      <b className = 'self-center'>Share:</b>
+                    <div className="w-full h-fit flex gap-4 items-center flex-wrap">
+                        <NavLink
+                          to={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                            'Hey! Checkout this book "' +
+                              bookInfo.name +
+                              '"' +
+                              ", by Anmol Educational Books. Completely aligned with latest NEP Standards, offering instructors unparalleled support tools. Review the full resource details here:" +
+                              " " +
+                              window.location.href
+                          )}`}
+                          className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full "
+                        >
+                          <img src={whatsapp} className="w-full h-full" />
+                        </NavLink>
+                        <NavLink
+                          to={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                            'Hey! Checkout this book "' +
+                              bookInfo.name +
+                              '"' +
+                              ", by Anmol Educational Books. Completely aligned with latest NEP Standards, offering instructors unparalleled support tools. Review the full resource details here:"
+                          )}&url=${encodeURIComponent(window.location.href)}`}
+                          className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full "
+                        >
+                          <img src={x} className="w-full h-full" />
+                        </NavLink>
+                        <NavLink
+                          to={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
                             window.location.href
-                        )}`}
-                        className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full "
-                      >
-                        <img src={whatsapp} className="w-full h-full" />
-                      </NavLink>
-                      <NavLink
-                        to={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                          'Hey! Checkout this book "' +
-                            bookInfo.name +
-                            '"' +
-                            ", by Anmol Educational Books. Completely aligned with latest NEP Standards, offering instructors unparalleled support tools. Review the full resource details here:"
-                        )}&url=${encodeURIComponent(window.location.href)}`}
-                        className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full "
-                      >
-                        <img src={x} className="w-full h-full" />
-                      </NavLink>
-                      <NavLink
-                        to={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                          window.location.href
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full"
-                      >
-                        <img
-                          src={linkedin}
-                          className="w-full h-full"
-                          alt="LinkedIn Icon"
-                        />
-                      </NavLink>
-                      <NavLink
-                        to={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                          window.location.href
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full"
-                      >
-                        <img
-                          src={facebook}
-                          className="w-full h-full"
-                          alt="Facebook Icon"
-                        />
-                      </NavLink>
-                      <div
-                        onClick = {()=>{navigator.clipboard.writeText(window.location.href); toast.info('Link copied to clipboard')}}
-                        to={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                          window.location.href
-                        )}`}
-                        title = "Copy Link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 h-10 p-1 text-red-800 bg-red-100 overflow-hidden flex items-center justify-center select-none cursor-pointer rounded-full"
-                      >
-                        <CopyIcon/>
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 p-1 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full"
+                        >
+                          <img
+                            src={linkedin}
+                            className="w-full h-full"
+                            alt="LinkedIn Icon"
+                          />
+                        </NavLink>
+                        <NavLink
+                          to={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                            window.location.href
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 p-1 sm:ml-0 bg-gray-100 overflow-hidden flex items-center select-none cursor-pointer rounded-full"
+                        >
+                          <img
+                            src={facebook}
+                            className="w-full h-full"
+                            alt="Facebook Icon"
+                          />
+                        </NavLink>
+                        <div
+                          onClick = {()=>{navigator.clipboard.writeText(window.location.href); toast.info('Link copied to clipboard')}}
+                          to={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                            window.location.href
+                          )}`}
+                          title = "Copy Link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 p-1 text-red-800 bg-red-100 overflow-hidden flex items-center justify-center select-none cursor-pointer rounded-full"
+                        >
+                          <CopyIcon/>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -493,7 +495,7 @@ const BookDetails = ()=>{
             {/*other information */}
             <div
               data-aos="fade-up"
-              className="w-full max-w-[1280px] mt-10 bg-black flex flex-col gap-2 p-2 h-fit text-white "
+              className="w-full max-w-[1280px] mt-20 bg-black flex flex-col gap-2 p-2 h-fit text-white "
             >
               {/* options list */}
               <div className="w-full justify-around h-10 flex gap-0 rounded-sm overflow-x-scroll">

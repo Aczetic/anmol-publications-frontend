@@ -124,8 +124,6 @@ const SignUp = () => {
   useEffect(()=>{
     const eL = ()=>{
       videoRef.current.style.display = 'block';
-      videoLoaderRef.current.style.display = 'none';
-      console.log("came here")
     }
     document.querySelector('#auth-vid').addEventListener('canplay',eL);
     return ()=>{

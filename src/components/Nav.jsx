@@ -97,7 +97,7 @@ const Nav = () => {
 
             authenticated ?
             <div className = 'px-3 self-center flex items-center' title = {user?.role!=='principal' && user.role !== 'admin'?'profile':'dashboard'}>
-                { (user.role!=='principal')?
+                { (user.role!=='principal' && user.role !== 'admin')?
                   <NavLink to = '/profile'  className = {({isActive})=>isActive ? 'font-semibold':'' + 'flex gap-1'} >
                     <AccountIcon title = 'profile' style = {{fontSize:'1.5rem'}}/> Profile
                   </NavLink>:
@@ -123,12 +123,12 @@ const Nav = () => {
         
         
         {
-          drawerOpen && <div className = 'block lg:hidden fixed w-[100vw] h-[100vh] top-0 left-0 z-998 bg-[#3e2f2f91]' onClick = {handleClose}>
+          drawerOpen && <div className = 'block lg:hidden fixed w-[100vw] h-[100vh]  top-0 left-0 z-998 bg-[#3e2f2f91]' onClick = {handleClose}>
           {/* overlay clicking on it will also close*/}
         </div>
         }
         
-        <div ref = {drawerRef} className = 'block duration-200 absolute z-999 lg:hidden right-0 top-0 w-[12rem] h-[100vh] bg-[#fde7e7]' style = {{transform:'translateX(100%)'}}>
+        <div ref = {drawerRef} className = 'block duration-200 absolute z-999 lg:hidden right-0 top-0 w-[12rem] h-[100vh] overflow-y-scroll bg-[#fde7e7]' style = {{transform:'translateX(100%)'}}>
           
           <CloseIcon className = 'p-1 relative left-1 top-2 text-xl cursor-pointer select-none' style = {{width:'2rem' , height:'2rem'}} onClick = {handleClose}/>
           

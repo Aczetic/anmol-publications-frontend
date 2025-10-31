@@ -67,7 +67,6 @@ const FilterAccordian = ({filters , filterOption, setFilterOption })=>{
   const [open, setOpen] = useState([]);
   
   const handleChange = (e, name, option) => {
-    console.log(filterOption.includes({ name, option }));
     if (e.target.checked) {
       setFilterOption((curr) => [...curr, { name, option }]); // if checked then add it
     } else {

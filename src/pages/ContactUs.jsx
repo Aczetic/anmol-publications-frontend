@@ -190,14 +190,14 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
               />
             </label>
             <label
-              htmlFor="company-name"
+              htmlFor="organization-name"
               className="w-full h-fit flex flex-col gap-1"
             >
-              Company :
+              Organization :
               <input
-                id="company-name"
+                id="organization-name"
                 type="text"
-                placeholder="Your company name"
+                placeholder="Your organization name"
                 className="bg-red-50 truncate py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
               />
             </label>

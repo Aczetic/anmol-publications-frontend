@@ -10,8 +10,8 @@ import sixth from '../assets/our_mission/sixth.jpg';
 const OurMission = () => {
   return (
     <div className="w-full h-fit mb-20">
-      <div className="flex flex-col gap-1 p-2 mt-10">
-            <h2 data-aos = 'fade-up' className="font-bold text-4xl md:text-5xl text-center"> Our Mission</h2>
+      <div className="flex flex-col gap-1 p-2 mt-25">
+            <h1 data-aos = 'fade-up' className="font-bold text-4xl md:text-5xl text-center"> Our Mission</h1>
             <h2 data-aos = 'fade-up' data-ao-delay = '100' className="text-md md:text-lg text-center"> Understand Our Vision</h2>
           </div>  
       <div className="flex flex-col gap-4 mt-10 px-2">
