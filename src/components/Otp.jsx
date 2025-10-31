@@ -69,7 +69,7 @@ const Otp = ({email , path}) => {
           dispatch(setUser(res.data.user)) // set the user data in store
           window.localStorage.setItem('user',JSON.stringify(res.data.user))// set the data also in local storage 
           toast.success(path === 'signup'? 'Signed up successfully !': "Logged in successfully")
-          setTimeout(()=>navigate(res.data.user.role!='principal'?'/profile':'/dashboard'), 2000);
+          setTimeout(()=>navigate(res.data.user.role!='principal' && res.data.user.role != 'admin' ?'/profile':'/dashboard'), 2000);
 
         }else if (res.data.message === 'INCORRECT_OTP'){
           toast.error(`Enter correct OTP you have ${res.data.chances} chances left`);
