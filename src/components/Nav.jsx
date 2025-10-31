@@ -144,7 +144,7 @@ const Nav = () => {
           {
             authenticated?  
             <div title = {user.role!=='principal'?'profile':'dashboard'} className = 'flex px-2 items-center h-10 w-fit gap-1 cursor-pointer select-none'>
-            { user.role!=='principal'?
+            { user.role!=='principal' && user.role !== 'admin'?
               <NavLink to = '/profile'  className = {({isActive})=>isActive ? 'font-bold':'' + 'flex gap-1'} >
                 <AccountIcon title = 'profile' style = {{fontSize:'1.5rem'}}/> Profile
               </NavLink>:
