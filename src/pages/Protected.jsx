@@ -34,7 +34,7 @@ const Protected = ({children})=>{
     });
 
     return <>
-            {user ? <Outlet/> : <div className = 'w-screen h-screen flex justify-center items-center'><Loader1 className = 'scale-70'/></div>}
+            {user ? <Outlet/> : <div className = 'w-screen h-screen flex justify-center items-center'><Loader1 className = 'relative top-[-2rem] scale-70 w-20 md:w-30'/></div>}
           </>
 }
 

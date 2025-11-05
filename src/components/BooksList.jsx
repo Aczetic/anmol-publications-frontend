@@ -55,7 +55,7 @@ const BookTitleMarquee = ({title = '' , offset = 15 , speed = 5 , className = ''
     }
     return (
       <div className="w-full md:max-w-[calc(100vw_-_240px)] h-fit p-2 md:pl-5 pt-0 pb-3 flex flex-col gap-1">
-        <div className="text-xl flex gap-4 py-2 w-full font-bold text-black">
+        <div className="text-xl flex items-center gap-4 py-2 w-full font-bold text-black">
           {title}
           {window.innerWidth > window.innerHeight && (
             <>
