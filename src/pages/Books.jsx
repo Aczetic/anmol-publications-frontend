@@ -335,7 +335,7 @@ const Books = () => {
     <div className="w-full min-h-screen flex flex-col items-center relative">
       <Search />
       <Hero/>
-      <h1 data-aos = 'fade-up' className = 'w-full font-semibold text-4xl text-white md:text-black bg-black md:bg-transparent py-5 md:pt-6 text-center'>Browse Our Books</h1>
+      <h1 data-aos = 'fade-up' className = 'w-full font-semibold text-2xl md:text-4xl text-white md:text-black bg-black md:bg-transparent py-5 md:pt-6 text-center'>Browse Our Books</h1>
       {/* here the books will show up */}
       <div data-aos = 'fade-up' id="main" className="w-full h-fit flex flex-col items-center">
         <div className="w-full max-w-[1480px] flex flex-col md:flex-row 600 h-fit">
