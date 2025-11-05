@@ -9,10 +9,52 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod"
+import z from "zod";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Success from "../components/Success";
+import { toast } from "react-toastify";
 //todo: connect the backend and states with validation using react-hook-form on sending message show a pop giving message "message send successfully with confetti "
 
+ const ContactUsSchema = z.object({
+     fullName : z.string('Enter a valid full name').min(3,'Invalid value'),
+     organization:z.string('Enter a valid name').min(3,'Too small organization name'),
+     phone : z.string('Enter a valid phone no').max(10,'Enter a valid phone no').regex(/[1-9][0-9]{9}/, 'Enter a valid phone number'),
+     email: z.email('Invalid email id'),
+     subject:z.string('Enter a valid subject').min(10,'Min 10 characters').max(30, 'Max 30 characters'),
+     message:z.string('Enter a valid message').min(20, 'Min 20 characters').max(300,'Max 300 characters'),
+ })
+
   const ContactUs = () => {
+    const {
+      register,
+      handleSubmit,
+      reset,
+      formState:{errors}
+    } = useForm({
+      resolver: zodResolver(ContactUsSchema)
+    })
+    const [visible , setVisible] = useState(false);
+
+    const onSubmit = (data)=>{
+      axios.post(`${import.meta.env.VITE_SERVER_URL}/contact-us`,data,{
+        withCredentials:true,
+        headres:{
+          'Content-Type' : 'application/json',
+        }
+      }).then(res=>{
+        if(res.data.success){
+          setVisible(true);
+          reset();
+        }
+      }).catch(e=>{
+        toast.error("Some error occurred !");
+      })
+    }
+
+    useEffect(()=>console.log(errors), [errors]); 
     return (
     <div id="contact-us" className="w-full h-fit">
       <div
@@ -128,7 +170,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
             </div>
            
           </div>
-          <div className="border-solid border-red-400 border-t-3 mt-3 px-2">
+          <div className="border-solid border-red-400 border-t-3 mt-2 px-2">
             <p className="font-bold text-xs mt-2 text-red-100">
               Follow us on social media
             </p>
@@ -158,7 +200,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
               <a
                 target="_blank"
                 className="w-8 h-8 bg-white flex items-center justify-center rounded-full"
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/company/anmol-educational-books/"
               >
                 <LinkedInIcon className="text-red-500 scale-80" />
               </a>
@@ -166,6 +208,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
           </div>
         </div>
         <form
+          onSubmit = {handleSubmit(onSubmit)}
           id="form"
           className="bg-white rounded-xs flex flex-col py-7 text-xs sm:text-[0.9rem] pb-10 px-3 md:px-6 lg:px-8 relative md:top-[-11rem] order-0 md:order-1 w-full md:min-w-80 md:max-w-120 md:flex-2/3 h-120 border-solid border-3 border-red-100"
         >
@@ -173,92 +216,106 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
           <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-500 text-nowrap flex items-end gap-2">
             Send us a message <MessageIcon className="scale-70 md:scale-100" />
           </p>
-          <div
-            id="first-row"
-            className="w-full h-fit  p-1 flex flex-col sm:flex-row justify-between gap-3 sm:mt-2 md:mt-3"
-          >
-            <label
-              htmlFor="full-name"
-              className="w-full h-fit flex flex-col gap-1"
+          <div className = 'h-full w-full flex flex-col overflow-y-scroll'>
+            <div
+              id="first-row"
+              className="w-full h-fit  p-1 flex flex-col sm:flex-row justify-between gap-3 sm:mt-2"
             >
-              Full Name :
-              <input
-                id="full-name"
-                type="text"
-                placeholder="Your full name"
-                className="bg-red-50 py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
-              />
-            </label>
-            <label
-              htmlFor="organization-name"
-              className="w-full h-fit flex flex-col gap-1"
+              <label
+                htmlFor="fullName"
+                className="w-full h-fit flex flex-col gap-1"
+              >
+                Full Name :
+                <input
+                  id="fullName"
+                  type="text"
+                  placeholder="Your full name"
+                  className="bg-red-50 py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
+                  {...register("fullName")}
+                />
+                <p className = 'text-red-500 text-xs md:text-[0.8rem]'>{errors.fullName && errors.fullName.message}</p>
+              </label>
+              <label
+                htmlFor="organization"
+                className="w-full h-fit flex flex-col gap-1"
+              >
+                Organization :
+                <input
+                  id="organization"
+                  type="text"
+                  placeholder="Your organization name"
+                  className="bg-red-50 truncate py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
+                  {...register("organization")}
+                />
+                <p className = 'text-red-500 text-xs md:text-[0.8rem]'>{errors.organization && errors.organization.message}</p>
+              </label>
+            </div>
+            <div
+              id="second-row"
+              className="w-full h-fit  p-1 flex flex-col sm:flex-row justify-between gap-3 sm:mt-2 md:mt-2"
             >
-              Organization :
-              <input
-                id="organization-name"
-                type="text"
-                placeholder="Your organization name"
-                className="bg-red-50 truncate py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
-              />
-            </label>
-          </div>
-          <div
-            id="second-row"
-            className="w-full h-fit  p-1 flex flex-col sm:flex-row justify-between gap-3 sm:mt-2 md:mt-3"
-          >
-            <label htmlFor="phone" className="w-full h-fit flex flex-col gap-1">
-              Phone :
-              <input
-                id="phone"
-                type="text"
-                placeholder="Your phone number"
-                className="bg-red-50 truncate py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
-              />
-            </label>
-            <label htmlFor="email" className="w-full h-fit flex flex-col gap-1">
-              Email :
-              <input
-                id="email"
-                type="email"
-                placeholder="Your email"
-                className="bg-red-50 py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
-              />
-            </label>
-          </div>
-          <div
-            id="third-row"
-            className="w-full h-fit  p-1 flex flex-col sm:flex-row justify-between gap-3 sm:mt-2 md:mt-3"
-          >
-            <label
-              htmlFor="subject"
-              className="w-full h-fit flex flex-col gap-1"
+              <label htmlFor="phone" className="w-full h-fit flex flex-col gap-1">
+                Phone :
+                <input
+                  id="phone"
+                  type="text"
+                  placeholder="Your phone number"
+                  className=  "bg-red-50 truncate py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
+                  {...register("phone")}
+                />
+                <p className = 'text-red-500 text-xs md:text-[0.8rem]'>{errors.phone && errors.phone.message}</p>
+              </label>
+              <label htmlFor="email" className="w-full h-fit flex flex-col gap-1">
+                Email :
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Your email"
+                  className="bg-red-50 py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
+                  {...register("email")}
+                />
+                <p className = 'text-red-500 text-xs md:text-[0.8rem]'>{errors.email && errors.email.message}</p>
+              </label>
+            </div>
+            <div
+              id="third-row"
+              className="w-full h-fit  p-1 flex flex-col sm:flex-row justify-between gap-3 sm:mt-2 md:mt-2"
             >
-              Subject :
-              <input
-                id="subject"
-                type="text"
-                placeholder="Subject of your message"
-                className="bg-red-50 truncate py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
-              />
-            </label>
-          </div>
-          <div
-            id="fourth-row"
-            className="w-full h-fit grow-1  p-1 flex flex-col sm:flex-row justify-between gap-3 sm:mt-2 md:mt-3"
-          >
-            <label
-              htmlFor="message"
-              className="w-full h-full flex flex-col gap-1"
+              <label
+                htmlFor="subject"
+                className="w-full h-fit flex flex-col gap-1"
+              >
+                Subject :
+                <input
+                  id="subject"
+                  type="text"
+                  placeholder="Subject of your message"
+                  className="bg-red-50 truncate py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
+                  {...register("subject")}
+                />
+                <p className = 'text-red-500 text-xs md:text-[0.8rem]'>{errors.subject && errors.subject.message}</p>
+              </label>
+            </div>
+            <div
+              id="fourth-row"
+              className="w-full h-fit grow-1  p-1 flex flex-col sm:flex-row justify-between gap-3 sm:mt-2 md:mt-2"
             >
-              Message :
-              <textarea
-                id="message"
-                type="text"
-                placeholder="Enter your message here"
-                maxLength="300"
-                className="bg-red-50 resize-none h-full py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
-              />
-            </label>
+              <label
+                htmlFor="message"
+                className="w-full h-full flex flex-col gap-1"
+              >
+                Message :
+                <textarea
+                  id="message"
+                  type="text"
+                  placeholder="Enter your message here (max 300)"
+                  maxLength="300"
+                  className="bg-red-50 resize-none h-20 py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
+                  {...register("message")}
+                />
+                <p className = 'text-red-500 text-xs md:text-[0.8rem]'>{errors.message && errors.message.message}</p>
+              </label>
+            </div>
           </div>
           <button className="text-center w-full p-2 text-white bg-red-500 relative top-3 rounded-sm cursor-pointer select-none">
             Send Message
@@ -283,6 +340,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
           ></iframe>
         </div>
       </div>
+      <Success message = "Message Sent!" state = {visible} setState = {setVisible}/>
     </div>
   );
 };

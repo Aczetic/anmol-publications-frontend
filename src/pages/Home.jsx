@@ -253,18 +253,18 @@ const Features = () => {
 
 const Book = ({data})=>{
   // TODO: implement the button
-   return <div className = 'w-30 h-42 md:w-35 md:h-52 flex flex-col gap-2 p-1'>
+   return <NavLink to = {'/book-details/'+data.id} className = 'w-30 h-42 md:w-35 md:h-52 flex flex-col gap-2 p-1'>
         <div className = 'w-full h-35 flex justify-center items-center'>
           <img src = {data.img} alt = {data.name} className = 'w-20 md:w-25 h-full' style = {{objectFit : 'cover', objectPosition:'5% 0'}} loading = "lazy"/>
         </div>
         <div className = 'w-full flex flex-col justify-center items-center gap-1 px-2'>
           <p className = 'text-xs font-bold md:text-sm text-center'>{data.name}</p>
           {/* todo: add the dynamic ids in the books */}
-          <NavLink to = {'/book-details/'+data.id} className = 'w-full text-xs md:text-sm py-1 text-white bg-red-500 cursor-pointer select-none rounded-sm text-center'>
+          <button className = 'w-full text-xs md:text-sm py-1 text-white bg-red-500 cursor-pointer select-none rounded-sm text-center'>
               Read
-          </NavLink>
+          </button>
         </div>
-   </div>
+   </NavLink>
 }
 
 const OurBooks = ({books})=>{

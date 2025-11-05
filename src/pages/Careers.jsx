@@ -5,39 +5,38 @@ import creativity_lottie from '../assets/lottie/creativity.lottie?url'
 import integrity_lottie from '../assets/lottie/integrity.lottie?url'
 import teamwork_lottie from '../assets/lottie/teamwork.lottie?url'
 import impact_lottie from '../assets/lottie/impact.lottie?url'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { NavLink } from 'react-router';
+import { toast } from 'react-toastify';
 
-const Job = ()=>{
+const Job = ({job})=>{
   const [isReadMore , setIsReadMore] = useState(false);
   // todo:implement apply 
   return (
     <div className="relative w-full rounded-sm max-w-100 min-h-20 h-fit flex flex-col gap-1 border-red-500 border-solid border-1 py-4 px-4 bg-white">
       <div className="w-full flex justify-between items-center h-10">
         {/* job title */}
-        <p className="w-full font-bold text-xl leading-5">Software Developer</p>
+        <p className="w-full font-bold text-xl leading-5">{job.title}</p>
         {/* apply button */}
-        <button className=" w-fit text-xs md:text-sm rounded-sm select-none px-4 py-2 md:py-1 text-white bg-red-500 cursor-pointer">
+        <NavLink to = 'mailto:careers@anmoleducationalbooks.com' className=" w-fit text-xs md:text-sm rounded-sm select-none px-4 py-2 md:py-1 text-white bg-red-500 cursor-pointer">
           Apply
-        </button>
+        </NavLink>
       </div>
       {/* location */}
-      <p className="w-full text-gray-800 text-sm md:text-md ">Greater Noida , UP</p>
+      <p className="w-full text-gray-800 text-sm md:text-md ">{job.city}", "{job.state}</p>
       {/* job type */}
-      <p className="w-full text-gray-800 text-sm md:text-md">Full Time</p>
+      <p className="w-full text-gray-800 text-sm md:text-md">{job.shift}</p>
       {/* requirements */}
       <p className="w-full  text-gray-800">Requirements :</p>
       <ul className="w-full text-xs text-gray-800 sm:text-sm pl-6 list-disc">
-        <li>2+ years in editing or publishing</li>
-        <li>Strong English grammar & communication skills</li>
-        <li>Familiarity with academic publishing is a plus</li>
+        {job.requirements.map((each,index)=><li key = {index}>{each}</li>)}
       </ul>
       {/* responsibilities */}
       {isReadMore && <>
           <p className="w-full  text-gray-800 mt-2">Responsibilities :</p>
           <ul className="w-full text-xs text-gray-800 sm:text-sm pl-6 list-disc">
-            <li>2+ years in editing or publishing</li>
-            <li>Strong English grammar & communication skills</li>
-            <li>Familiarity with academic publishing is a plus</li>
+            {job.responsibilities.map((each,index)=><li key = {index}>{each}</li>)}
           </ul>
         </>
       }
@@ -55,6 +54,85 @@ const Job = ()=>{
 
 
 const Careers = () => {
+  const [jobs, setJobs] = useState([ // todo: remove it later
+    {
+      jobId:'134134',
+      title: "Software Engineer",
+      city: "Gurgao",
+      state: "Haryana",
+      shift: "part-time",
+      requirements: [
+        "2+ years in editing or publishing",
+        "Strong English grammar & communication skills",
+        "Familiarity with academic publishing is a plus",
+      ],
+      responsibilities: [
+        "2+ years in editing or publishing",
+        "Strong English grammar & communication skills",
+        "Familiarity with academic publishing is a plus",
+      ],
+    },
+    {
+      jobId:'1341334',
+      title: "Software Engineer",
+      city: "Gurgao",
+      state: "Haryana",
+      shift: "part-time",
+      requirements: [
+        "2+ years in editing or publishing",
+        "Strong English grammar & communication skills",
+        "Familiarity with academic publishing is a plus",
+      ],
+      responsibilities: [
+        "2+ years in editing or publishing",
+        "Strong English grammar & communication skills",
+        "Familiarity with academic publishing is a plus",
+      ],
+    },
+    {
+      jobId:'1342134',
+      title: "Software Engineer",
+      city: "Gurgao",
+      state: "Haryana",
+      shift: "part-time",
+      requirements: [
+        "2+ years in editing or publishing",
+        "Strong English grammar & communication skills",
+        "Familiarity with academic publishing is a plus",
+      ],
+      responsibilities: [
+        "2+ years in editing or publishing",
+        "Strong English grammar & communication skills",
+        "Familiarity with academic publishing is a plus",
+      ],
+    },
+    {
+      jobId:'1342134',
+      title: "Software Engineer",
+      city: "Gurgao",
+      state: "Haryana",
+      shift: "part-time",
+      requirements: [
+        "2+ years in editing or publishing",
+        "Strong English grammar & communication skills",
+        "Familiarity with academic publishing is a plus",
+      ],
+      responsibilities: [
+        "2+ years in editing or publishing",
+        "Strong English grammar & communication skills",
+        "Familiarity with academic publishing is a plus",
+      ],
+    },
+  ]);
+  useEffect(()=>{
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/jobs`).then((res)=>{
+      if(res.data.success){
+        setJobs(res.data.data);
+      }
+    }).catch(e=>{
+      toast.error("Some error occurred !");
+    })
+  },[]);
   return (
     <div className="w-full h-fit mb-10">
       {/* header */}
@@ -154,6 +232,7 @@ const Careers = () => {
               collaboration is valued, and growth is encouraged. Our values are
               simple yet powerful: integrity, creativity, teamwork, and impact.
             </p>
+            {/* animations */}
             <div
               data-aos="fade-up"
               data-aos-delay="150"
@@ -211,12 +290,9 @@ const Careers = () => {
         <p className="font-bold text-center text-4xl">Open Roles</p>
        <div className ='w-full max-w-250 flex flex-wrap gap-4 justify-around'>
             {/* single job */}
-            {/* todo: make it dynamic */}
-            <Job/>
-            <Job/>
-            <Job/>
-            <Job/>
-
+            {jobs.map(job=>{
+             return <Job job = {job}/>
+            })}
         </div>
       </div>
     </div>

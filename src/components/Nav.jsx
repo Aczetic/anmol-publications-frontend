@@ -206,7 +206,7 @@ const Nav = () => {
               <a target = '_blank' href = 'https://www.facebook.com/p/Anmol-Educational-Books-100064159837773/'><FacebookIcon /></a>
               <a target = '_blank' href = 'https://www.instagram.com/anmoleducationalbooks/'><InstagramIcon /></a>
               <a target = '_blank' href = 'https://x.com/AnmolBooks'><XIcon /></a>
-              <a target = '_blank' href = 'https://linkedin.com'><LinkedInIcon /></a>
+              <a target = '_blank' href = 'https://www.linkedin.com/company/anmol-educational-books/'><LinkedInIcon /></a>
               <a href="https://wa.me/917905401629" target="_blank" ><WhatsAppIcon/></a>
             </div>
           </div>
@@ -256,7 +256,7 @@ const Nav = () => {
               <a target = '_blank' href = 'https://www.facebook.com/p/Anmol-Educational-Books-100064159837773/'><FacebookIcon /></a>
               <a target = '_blank' href = 'https://www.instagram.com/anmoleducationalbooks/'><InstagramIcon /></a>
               <a target = '_blank' href = 'https://x.com/AnmolBooks'><XIcon /></a>
-              <a target = '_blank' href = 'https://linkedin.com'><LinkedInIcon /></a>
+              <a target = '_blank' href = 'https://www.linkedin.com/company/anmol-educational-books/'><LinkedInIcon /></a>
               <a href="https://wa.me/917905401629" target="_blank" ><WhatsAppIcon/></a>
             </div>
           </div>

@@ -15,3 +15,4 @@ const Loader1 = ({className = ''}) => {
 };
 
 export default Loader1;
+  

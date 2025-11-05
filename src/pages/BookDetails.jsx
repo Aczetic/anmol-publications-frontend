@@ -283,13 +283,13 @@ const BookDetails = ()=>{
         ) : (
           <>
             {/* search */}
-            <div data-aos="fade" className="w-full justify-center">
+            <div data-aos="fade" className="w-full justify-center relative z-10">
               <Search />
             </div>
             {/* book details */}
             <div
               data-aos="fade-up"
-              className="w-full max-w-[1280px] h-fit flex flex-col md:flex-row gap-0 md:gap-2 py-2 px-1"
+              className="w-full max-w-[1280px] relative z-0 h-fit flex flex-col md:flex-row gap-0 md:gap-2 py-2 px-1"
             >
               {/* left where the images will be shown*/}
               <div className="w-full md:w-1/3 h-screen max-h-130 flex flex-col">
@@ -386,14 +386,12 @@ const BookDetails = ()=>{
                 {/* other buttons and social media apps buttons */}
                 <div className="relative w-full mt-1 flex flex-col justify-around gap-2">
                   <div className="w-full md:w-fit flex gap-2">
-                    {/* TODO: implement this button */}
                     <NavLink
                       to={"/read-sample/" + bookInfo.id}
                       className="py-2 px-4 text-sm w-full md:w-fit text-center bg-black text-white rounded-sm cursor-pointer select-none"
                     >
                       Read Sample
                     </NavLink>
-                    {/* TODO: implement this button */}
                     {bookInfo.subscribed && (
                       <NavLink
                         to={"/read-book/" + bookInfo.id}
@@ -498,10 +496,10 @@ const BookDetails = ()=>{
               className="w-full max-w-[1280px] mt-20 bg-black flex flex-col gap-2 p-2 h-fit text-white "
             >
               {/* options list */}
-              <div className="w-full justify-around h-10 flex gap-0 rounded-sm overflow-x-scroll">
+              <div className="w-full justify-around h-10 flex gap-[0.1rem] bg-gray-200 rounded-sm overflow-x-scroll md:overflow-x-hidden">
                 <p
                   onClick={() => setInfoOption("people")}
-                  className={`w-full max-w-35 md:max-w-full h-full cursor-pointer shrink-0 md:shrink-1 select-none ${
+                  className={`w-full max-w-45 md:max-w-full h-full cursor-pointer shrink-0 md:shrink-1 select-none ${
                     infoOption === "people"
                       ? "bg-red-500 text-white"
                       : "bg-white text-black"

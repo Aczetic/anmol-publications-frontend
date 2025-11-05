@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {Swiper , SwiperSlide} from "swiper/react";
 import {Autoplay, Navigation} from "swiper/modules";
 import Loader1 from "../components/Loader1";
@@ -175,6 +175,78 @@ const Books = () => {
           id: "3",
           image: "",
           title: "General Knowledge",
+        }, {
+          id: "12",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "24",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "35",
+          image: "",
+          title: "General Knowledge",
+        }, {
+          id: "16",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "27",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "33",
+          image: "",
+          title: "General Knowledge",
+        }, {
+          id: "11",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "23",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "32",
+          image: "",
+          title: "General Knowledge",
+        }, {
+          id: "17",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "25",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "38",
+          image: "",
+          title: "General Knowledge",
+        }, {
+          id: "14564",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "256456",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "334524",
+          image: "",
+          title: "General Knowledge",
+        }, {
+          id: "145245",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "2245234",
+          image: "",
+          title: "General Knowledge",
+        },  {
+          id: "354345",
+          image: "",
+          title: "General Knowledge",
         },
       ],
       },
@@ -205,7 +277,7 @@ const Books = () => {
     {id:'', title:'Book',image:'',},
 ]);
   const [filterMobileOpen, setFilterMobileOpen] = useState(false);
-
+ 
   useEffect(()=>{
     axios.get(import.meta.env.VITE_SERVER_URL+'/books',{
       withCredentials:true
@@ -217,31 +289,47 @@ const Books = () => {
       toast.error('Some error occurred !');
     })
   },[])
-
+  
   useEffect(()=>{
     const controller = new AbortController();
 
-     if(filterOption.length > 0){ // when filters are selected
-        axios.post(`${import.meta.env.VITE_SERVER_URL}/filter`,filterOption,{
-          headers:{'Content-Type':'application/json'},
-          signal:controller.signal,  
-        })
-        .then(res=>{
-          if(res.data.success){
-            setFilterResult(res.data)
-          }
-        })
-        .catch(e=>{
-          if(e.name !== 'CanceledError')
-            toast.error('Some Error occurred !');
-        });
-     }else if(filterOption.length === 0 && filterResult.length > 0){ // if no filters left then empty the filter result 
+    if(filterOption.length > 0){ // when filters are selected
+      axios.post(`${import.meta.env.VITE_SERVER_URL}/filter`,filterOption,{
+        headers:{'Content-Type':'application/json'},
+        signal:controller.signal,  
+      })
+      .then(res=>{
+        if(res.data.success){
+          setFilterResult(res.data)
+        }
+      })
+      .catch(e=>{
+        if(e.name !== 'CanceledError')
+          toast.error('Some Error occurred !');
+      });
+    }else if(filterOption.length === 0 && filterResult.length > 0){ // if no filters left then empty the filter result 
       setFilterResult([]);
       setFilterOption([]);
-     }
-
-     return ()=>controller.abort(); // cancel the previous request if a new one is made
+    }
+    
+    return ()=>controller.abort(); // cancel the previous request if a new one is made
   },[filterOption])
+  
+  const LoadMoreSettings = useRef({
+    page:1
+  })
+  
+  const LoadMore = ()=>{
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/books?page=${++(LoadMoreSettings.current.page)}`).
+    then(res=>{
+      if(res.data.success){
+        setData(curr=>{
+          return {...curr, booksList:[...curr.booksList , ...res.data.data]}} )
+      }
+    }).catch(e=>{
+       toast.error("Some error occurred!");
+    })
+  }
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center relative">
@@ -313,6 +401,7 @@ const Books = () => {
           </div>
         </div>
       </div>
+      <button onClick = {LoadMore} className = 'w-full text-sm text-black flex flex-col items-center text-center pb-10 cursor-pointer select-none'>Load More<ArrowDownIcon/></button>
     </div>
   );
 }
