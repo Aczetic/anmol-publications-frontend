@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {Swiper , SwiperSlide} from "swiper/react";
 import {Autoplay, Navigation} from "swiper/modules";
-import Loader1 from "../components/Loader1";
-import CloseIcon from '@mui/icons-material/Close';
 import SortIcon from '@mui/icons-material/Sort';
 import DownIcon from '@mui/icons-material/ExpandCircleDown';
 import { NavLink } from "react-router";
@@ -15,11 +13,13 @@ import AnnouncementIcon from '@mui/icons-material/Campaign';
 
 const Hero = ({announcements=[1,2,4]})=>{
   const [hero,setHero] = useState(()=>window.innerHeight>window.innerWidth?'imageSmall' : 'imageLarge');
-  const handleResize = ()=>{console.log('called')
+  
+  const handleResize = ()=>{
     if(window.innerHeight > window.innerWidth)
       setHero('imageSmall');
     else setHero('imageLarge');
   }
+  
   useEffect(()=>{
     window.addEventListener('resize',handleResize);
     return ()=>window.removeEventListener('resize',handleResize);
