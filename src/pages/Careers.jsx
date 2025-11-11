@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router';
 import { toast } from 'react-toastify';
+import Loader1 from '../components/Loader1';
 
 const Job = ({job})=>{
   const [isReadMore , setIsReadMore] = useState(false);
@@ -55,75 +56,8 @@ const Job = ({job})=>{
 
 const Careers = () => {
   const [jobs, setJobs] = useState([ // todo: remove it later
-    {
-      jobId:'134134',
-      title: "Software Engineer",
-      city: "Gurgao",
-      state: "Haryana",
-      shift: "part-time",
-      requirements: [
-        "2+ years in editing or publishing",
-        "Strong English grammar & communication skills",
-        "Familiarity with academic publishing is a plus",
-      ],
-      responsibilities: [
-        "2+ years in editing or publishing",
-        "Strong English grammar & communication skills",
-        "Familiarity with academic publishing is a plus",
-      ],
-    },
-    {
-      jobId:'1341334',
-      title: "Software Engineer",
-      city: "Gurgao",
-      state: "Haryana",
-      shift: "part-time",
-      requirements: [
-        "2+ years in editing or publishing",
-        "Strong English grammar & communication skills",
-        "Familiarity with academic publishing is a plus",
-      ],
-      responsibilities: [
-        "2+ years in editing or publishing",
-        "Strong English grammar & communication skills",
-        "Familiarity with academic publishing is a plus",
-      ],
-    },
-    {
-      jobId:'1342134',
-      title: "Software Engineer",
-      city: "Gurgao",
-      state: "Haryana",
-      shift: "part-time",
-      requirements: [
-        "2+ years in editing or publishing",
-        "Strong English grammar & communication skills",
-        "Familiarity with academic publishing is a plus",
-      ],
-      responsibilities: [
-        "2+ years in editing or publishing",
-        "Strong English grammar & communication skills",
-        "Familiarity with academic publishing is a plus",
-      ],
-    },
-    {
-      jobId:'1342134',
-      title: "Software Engineer",
-      city: "Gurgao",
-      state: "Haryana",
-      shift: "part-time",
-      requirements: [
-        "2+ years in editing or publishing",
-        "Strong English grammar & communication skills",
-        "Familiarity with academic publishing is a plus",
-      ],
-      responsibilities: [
-        "2+ years in editing or publishing",
-        "Strong English grammar & communication skills",
-        "Familiarity with academic publishing is a plus",
-      ],
-    },
   ]);
+
   useEffect(()=>{
     axios.get(`${import.meta.env.VITE_SERVER_URL}/jobs`).then((res)=>{
       if(res.data.success){
@@ -131,6 +65,77 @@ const Careers = () => {
       }
     }).catch(e=>{
       toast.error("Some error occurred !");
+      // todo: remove it later
+      setJobs([ 
+        {
+          jobId:'134134',
+          title: "Software Engineer",
+          city: "Gurgao",
+          state: "Haryana",
+          shift: "part-time",
+          requirements: [
+            "2+ years in editing or publishing",
+            "Strong English grammar & communication skills",
+            "Familiarity with academic publishing is a plus",
+          ],
+          responsibilities: [
+            "2+ years in editing or publishing",
+            "Strong English grammar & communication skills",
+            "Familiarity with academic publishing is a plus",
+          ],
+        },
+        {
+          jobId:'131334',
+          title: "Software Engineer",
+          city: "Gurgao",
+          state: "Haryana",
+          shift: "part-time",
+          requirements: [
+            "2+ years in editing or publishing",
+            "Strong English grammar & communication skills",
+            "Familiarity with academic publishing is a plus",
+          ],
+          responsibilities: [
+            "2+ years in editing or publishing",
+            "Strong English grammar & communication skills",
+            "Familiarity with academic publishing is a plus",
+          ],
+        },
+        {
+          jobId:'12134',
+          title: "Software Engineer",
+          city: "Gurgao",
+          state: "Haryana",
+          shift: "part-time",
+          requirements: [
+            "2+ years in editing or publishing",
+            "Strong English grammar & communication skills",
+            "Familiarity with academic publishing is a plus",
+          ],
+          responsibilities: [
+            "2+ years in editing or publishing",
+            "Strong English grammar & communication skills",
+            "Familiarity with academic publishing is a plus",
+          ],
+        },
+        {
+          jobId:'134214',
+          title: "Software Engineer",
+          city: "Gurgao",
+          state: "Haryana",
+          shift: "part-time",
+          requirements: [
+            "2+ years in editing or publishing",
+            "Strong English grammar & communication skills",
+            "Familiarity with academic publishing is a plus",
+          ],
+          responsibilities: [
+            "2+ years in editing or publishing",
+            "Strong English grammar & communication skills",
+            "Familiarity with academic publishing is a plus",
+          ],
+        },
+      ])
     })
   },[]);
   return (
@@ -290,9 +295,9 @@ const Careers = () => {
         <p className="font-bold text-center text-4xl">Open Roles</p>
        <div className ='w-full max-w-250 flex flex-wrap gap-4 justify-around'>
             {/* single job */}
-            {jobs.map(job=>{
-             return <Job job = {job}/>
-            })}
+            {jobs.length > 0 ? jobs.map((job)=>{
+             return <Job key = {job.jobId} job = {job}/>
+            }) : <Loader1 className = 'w-20'/>}
         </div>
       </div>
     </div>

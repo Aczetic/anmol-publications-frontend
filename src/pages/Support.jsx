@@ -7,8 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import Success from '../components/Success';
+import Success from "../components/Success";
 import SupportForm from '../components/SupportForm';
+import Loader1 from '../components/Loader1';
 
 //TODO:update this data
 // NOTE : use the first for schema
@@ -228,54 +229,86 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
 
 const Support = () => {
   const [issueInfo , setIssueInfo] = useState(false); // state to show/hide issue detail
-  const [issues , setIssues] = useState(ISSUES_DATA); // TODO: make this [] later
+  const [issues , setIssues] = useState([]); // TODO: make this [] later
   const [success, setSuccess] = useState(false);
   const [message , setMessage] = useState('');
+  const [loader , setLoader ] = useState(false);
+  const user = useSelector(state=>state.user);
 
-  // useEffect(()=>{
-  //   axios.get(import.meta.env.VITE_SERVER_URL+'/issues',{
-  //     withCredentials:true,
-  //   }).then((res)=>{
-  //     if(res.data.success){
-  //       setIssues(res.data.issues)// set the issues to state
-  //     }
-  //   }).catch(e=>{
-  //     toast.error("Some error occurred");
-  //   })  
-  // },[])
+
+  useEffect(()=>{
+    setLoader(true);
+    axios.get(import.meta.env.VITE_SERVER_URL+'/issues',{
+      withCredentials:true,
+    }).then((res)=>{
+      if(res.data.success){
+        setIssues(res.data.issues)// set the issues to state
+      }
+      setLoader(false);
+    }).catch(e=>{
+      toast.error("Some error occurred");
+      setLoader(false);
+      // todo: remove it later
+      setIssues(ISSUES_DATA);
+    })  
+  },[])
 
 
 
   return (
     <div className="relative w-full h-fit min-h-[100vh]">
       <section className="w-full h-fit p-2 px-3 mt-5 mb-10">
-        <h2 data-aos = 'fade-up'  className="mt-2 w-full px-1 md:px-4 font-bold text-xl sm:text-3xl lg:text-4xl text-center text-black">
+        <h2
+          data-aos="fade-up"
+          className="mt-2 w-full px-1 md:px-4 font-bold text-xl sm:text-3xl lg:text-4xl text-center text-black"
+        >
           {"Facing issues ! Don't worry"}
         </h2>
-        <h2 data-aos = 'fade-up' data-aos-delay = '100' className="w-full text-center text-md md:text-xl">
+        <h2
+          data-aos="fade-up"
+          data-aos-delay="100"
+          className="w-full text-center text-md md:text-xl"
+        >
           {"Raise an issue with the support team"}
         </h2>
 
         {/* issue can only be raised if logged in  */}
-        <SupportForm/>
+        <SupportForm />
       </section>
 
       {/* active issues will go here */}
-      <section data-aos = 'fade-up' data-aos-delay = '100' className="w-full max-w-150 mx-auto h-fit p-2 px-3 mt-5 mb-10">
+      <section
+        data-aos="fade-up"
+        data-aos-delay="100"
+        className="w-full max-w-150 mx-auto h-fit p-2 px-3 mt-5 mb-10"
+      >
         <p className="p-2 w-full text-center text-xl md:text-2xl font-bold gap-2">
           Your Issues
         </p>
         <div className="flex flex-col gap-3">
-          {
-            issues.length === 0 ? <p className = 'w-full text-center'>No issues yet</p> : issues.map((issue,index)=>{
-              return <Issue setIssueInfo = {setIssueInfo} key = {index} issue = {issue}/>
+          {!user ? (
+            <p className="w-full text-center">Log In to see your issues</p>
+          ) : loader ? (
+            <Loader1 className="w-15 mx-auto" />
+          ) : issues.length === 0 ? (
+            <p className="w-full text-center">No issues yet</p>
+          ) : (
+            issues.map((issue, index) => {
+              return (
+                <Issue setIssueInfo={setIssueInfo} key={index} issue={issue} />
+              );
             })
-          }
+          )}
         </div>
       </section>
-      {
-        issueInfo && <IssueDetail issue = {issueInfo} setIssueInfo= {setIssueInfo} setSuccess = {setSuccess} setMessage = {setMessage}/>
-      }
+      {issueInfo && (
+        <IssueDetail
+          issue={issueInfo}
+          setIssueInfo={setIssueInfo}
+          setSuccess={setSuccess}
+          setMessage={setMessage}
+        />
+      )}
       <Success message={message} state={success} setState={setSuccess} />
     </div>
   );

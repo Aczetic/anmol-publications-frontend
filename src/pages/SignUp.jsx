@@ -8,6 +8,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import PhoneIcon from '@mui/icons-material/LocalPhone';
 import SchoolIcon from '@mui/icons-material/LocationCity';
 import AddressIcon from '@mui/icons-material/LocationPin';
+import CalendarIcon from '@mui/icons-material/CalendarMonth';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import logo from '../assets/logo.png';
 import { useEffect, useRef, useState } from 'react';
@@ -44,6 +45,7 @@ const User = z.object({
   phone: z.string().max(10,'Enter a valid phone number').regex(/[1-9][0-9]{9}/, {error:"Enter a valid phone number"}),
   "school-name": z.string().min( 5 , "Invalid school name"),
   state: z.string().min(1 , "State is required"),
+  birthday: z.string('Enter a valid date').refine((val)=> new Date(val) !== 'Invalid Date', 'Enter a valid date').refine(val=>val === '' ? true : new Date(val) > new Date(Date.now() - 100*365*24*60*60*1000), 'Should be < 100 Years').refine(val=>val==='' ? true : new Date(val) < new Date(Date.now() - 18*365*24*60*60*1000), "Should be > 18 years"),
   city: z.string().min(1 , "City is required"),
   address: z.string().min(1 , "Address is required")
 }).refine((data)=> data.password === data['confirm-password'],{error:"Both passwords must match" , path : ['confirm-password']})
@@ -64,8 +66,10 @@ const UserMobile = z.object({
                     .refine( value => /[A-Z]/.test(value) , {error: "Missing an upper case letter"})
                     .refine( value => /[0-9]/.test(value) , {error: "Missing a number" })
                     .refine( value => /[*\.!@#$%^&*=\-_+]/.test(value) , {error: "Missing *.!@#$%^&*=-_+"}),
+  "birthday-mobile": z.date('Enter a valid date').min(Date.now - 1606541400000).max(Date.now + 1606541400000),
   "email-mobile": z.email({error:'Enter a valid email address'}),
   "phone-mobile": z.string().max(10,"Enter a valid phone number").regex(/[1-9][0-9]{9}/, {error:"Enter a valid phone number"}),
+  "birthday-mobile": z.string('Enter a valid date').refine((val)=> new Date(val) !== 'Invalid Date', 'Enter a valid date').refine(val=>val === '' ? true : new Date(val) > new Date(Date.now() - 100*365*24*60*60*1000), 'Should be < 100 Years').refine(val=>val==='' ? true : new Date(val) < new Date(Date.now() - 18*365*24*60*60*1000), "Should be > 18 years"),
   "school-name-mobile": z.string().min( 5 , "Invalid school name"),
   "state-mobile": z.string().min(1 , "State is required"),
   "city-mobile":  z.string().min(1 , "City is required"),
@@ -425,6 +429,31 @@ const SignUp = () => {
                     </label>
                   </div>
 
+                  {/* birthday */}
+                  <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
+                    <label
+                      htmlFor="birdthday-mobile"
+                      className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+                    >
+                      <CalendarIcon className="absolute z-100 right-1 top-7 text-white scale-70" />
+                      Birthday :
+                      <input
+                        {...registerMobile('birthday-mobile')}
+                        id="birthday-mobile"
+                        placeholder="Enter your birthday"
+                        type="date"
+                        className="bg-[#6a6868b3] resize-none w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                        
+                      />
+                    {errorsMobile["birthday-mobile"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-400 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errorsMobile["birthday-mobile"].message}
+                        </p>
+                      )}
+                    </label>
+                  </div>    
+
                   {/* school name*/}
                   <div className="w-full border-box px-1 flex flex-col sm:flex-row gap-4 justify-center mt-3">
                     <label
@@ -595,8 +624,8 @@ const SignUp = () => {
               </form>
             </div>
           ) : (
-            <div className = 'w-full h-full flex items-center justify-center'>
-              <div className = 'w-fit h-fit p-5 flex glass-card'>
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="w-fit h-fit p-5 flex glass-card">
                 <Otp email={watchMobileEmail} path="signup" />
               </div>
             </div>
@@ -798,8 +827,31 @@ const SignUp = () => {
                     </label>
                   </div>
 
+                  {/* birthday     */}
+                  <div className="w-full flex gap-2 h-fit">
+                    <label
+                      htmlFor="birdthday"
+                      className="relative w-full text-red-50 font-semibold flex flex-col gap-1 border-box "
+                    >
+                      <CalendarIcon className="absolute z-100 right-1 top-7 text-[#d73f3f86] scale-70" />
+                      Birthday :
+                      <input
+                        {...register('birthday')}
+                        id="birthday"
+                        defaultValue = {null}
+                        placeholder="Enter your birthday"
+                        type="date"
+                        className="p-1 px-2 text-sm text-red-800 font-normal outline-0 focus:outline-3 focus:outline-red-300 bg-[#ffeeeedd] w-full rounded-sm"
+                      />
+                      {errors["birthday"] && (
+                        <p className="w-full text-xs h-5 font-normal text-red-700 flex items-center">
+                          <ErrorOutlineIcon className="scale-70" />
+                          {errors["birthday"].message}
+                        </p>
+                      )}
+                    </label>
+                  </div>
                   {/* school name  */}
-
                   <div className="w-full flex gap-2 h-fit">
                     <label
                       htmlFor="school-name"
