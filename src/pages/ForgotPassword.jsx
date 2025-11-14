@@ -106,6 +106,10 @@ const ForgotPassword = () => {
           } else if (res.data.message === "OLD_PASSWORD") {
             toast.info("New password can't be same as old password !");
             reset();
+          
+          }else if (res.data.message === "INVALID_TOKEN") {
+             toast.error('Invalid token !');
+             navigate('/login');
           }
 
           setLoading(false);
