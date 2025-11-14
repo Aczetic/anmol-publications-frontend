@@ -45,7 +45,7 @@ const User = z.object({
   phone: z.string().max(10,'Enter a valid phone number').regex(/[1-9][0-9]{9}/, {error:"Enter a valid phone number"}),
   "school-name": z.string().min( 5 , "Invalid school name"),
   state: z.string().min(1 , "State is required"),
-  birthday: z.string('Enter a valid date').refine((val)=> new Date(val) !== 'Invalid Date', 'Enter a valid date').refine(val=>val === '' ? true : new Date(val) > new Date(Date.now() - 100*365*24*60*60*1000), 'Should be < 100 Years').refine(val=>val==='' ? true : new Date(val) < new Date(Date.now() - 18*365*24*60*60*1000), "Should be > 18 years"),
+  birthday: z.string('Enter a valid date').refine((val)=> new Date(val) !== 'Invalid Date', 'Enter a valid date').refine(val=>val === '' ? true : new Date(val) > new Date(Date.now() - 100*365*24*60*60*1000), 'Age must be < 100 Years').refine(val=>val==='' ? true : new Date(val) < new Date(Date.now() - 18*365*24*60*60*1000), "Age must be > 18 years"),
   city: z.string().min(1 , "City is required"),
   address: z.string().min(1 , "Address is required")
 }).refine((data)=> data.password === data['confirm-password'],{error:"Both passwords must match" , path : ['confirm-password']})
@@ -66,10 +66,9 @@ const UserMobile = z.object({
                     .refine( value => /[A-Z]/.test(value) , {error: "Missing an upper case letter"})
                     .refine( value => /[0-9]/.test(value) , {error: "Missing a number" })
                     .refine( value => /[*\.!@#$%^&*=\-_+]/.test(value) , {error: "Missing *.!@#$%^&*=-_+"}),
-  "birthday-mobile": z.date('Enter a valid date').min(Date.now - 1606541400000).max(Date.now + 1606541400000),
   "email-mobile": z.email({error:'Enter a valid email address'}),
   "phone-mobile": z.string().max(10,"Enter a valid phone number").regex(/[1-9][0-9]{9}/, {error:"Enter a valid phone number"}),
-  "birthday-mobile": z.string('Enter a valid date').refine((val)=> new Date(val) !== 'Invalid Date', 'Enter a valid date').refine(val=>val === '' ? true : new Date(val) > new Date(Date.now() - 100*365*24*60*60*1000), 'Should be < 100 Years').refine(val=>val==='' ? true : new Date(val) < new Date(Date.now() - 18*365*24*60*60*1000), "Should be > 18 years"),
+  "birthday-mobile": z.string('Enter a valid date').refine((val)=> new Date(val) !== 'Invalid Date', 'Enter a valid date').refine(val=>val === '' ? true : new Date(val) > new Date(Date.now() - 100*365*24*60*60*1000), 'Age must be < 100 Years').refine(val=>val==='' ? true : new Date(val) < new Date(Date.now() - 18*365*24*60*60*1000), "Age must be > 18 years"),
   "school-name-mobile": z.string().min( 5 , "Invalid school name"),
   "state-mobile": z.string().min(1 , "State is required"),
   "city-mobile":  z.string().min(1 , "City is required"),
@@ -435,7 +434,7 @@ const SignUp = () => {
                       htmlFor="birdthday-mobile"
                       className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
                     >
-                      <CalendarIcon className="absolute z-100 right-1 top-7 text-white scale-70" />
+                      <CalendarIcon className="absolute z-100 right-1 top-5 md:top-[1.6rem] lg:top-7 text-white scale-70" />
                       Birthday :
                       <input
                         {...registerMobile('birthday-mobile')}

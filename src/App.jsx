@@ -26,6 +26,7 @@ import Profile from "./pages/Profile.jsx"
 import Protected from "./pages/Protected.jsx"
 import TermsAndConditions from './pages/TermsAndConditions.jsx';
 import BookDetails from "./pages/BookDetails.jsx"
+import ForgotPassword from "./pages/ForgotPassword.jsx"
 
 // ..
 AOS.init({
@@ -83,6 +84,7 @@ const App = () => {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path ='/book-details/:id' element = {<BookDetails/>}/>
           <Route path = '/terms-and-conditions' element = {<TermsAndConditions/>} />
+          <Route path = '/forgot-password' element = {<ForgotPassword/>} />
           <Route element={<Protected />}>
             <Route path="/testpaper-generator" element={<TestpaperGenerator />} />
             <Route path="/dashboard" element={<Dashboard />} />

@@ -3,6 +3,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import CloseIcon from '@mui/icons-material/Close';
 import logo from '../assets/logo.png';
 import { useEffect, useRef, useState } from 'react';
 import auth_ss from '../assets/contact_comp/it_all_starts_with_a_book.jpg';
@@ -18,7 +19,9 @@ import Otp from '../components/Otp.jsx';
 
 const authvidc = 'https://frwqfqelivvjucqh.public.blob.vercel-storage.com/authvidc-vfLNjW2yIgKQnjZcoo6WYiW6GuPQlz.mp4' // auth video 
 
-
+const ForgotPasswordEmail = z.object({
+  email: z.email('Enter a valid email')
+})
 const User = z.object({
    email : z.email("Enter a valid email"),
    password : z.string()
@@ -49,6 +52,9 @@ const Login = () => {
   const user = useSelector((state)=>state.user);
   const dispatch = useDispatch();
   const [otpFormVisible , setOtpFormVisible] = useState(false);
+  const [forgotPassword, openForgotPassword] = useState(false);
+  const [sendingLink , setSendingLink] = useState(false);
+  
 
   const {
     register,
@@ -155,6 +161,43 @@ const Login = () => {
        
     })
  }
+
+
+ // forgot password form
+ const {
+    register:registerForgotPassword,
+    handleSubmit:handleSubmitForgotPassword,
+    formState : {errors : errorsForgotPassword},
+    reset,
+ } = useForm({
+    resolver: zodResolver(ForgotPasswordEmail)
+ })
+ 
+
+ const sendVerificationLink = (data)=>{
+
+    setSendingLink(true);
+    axios.post(import.meta.env.VITE_SERVER_URL+'/auth/forgot-password' , data , {
+      headers:{
+        'Content-Type':'application/json'
+      }
+    }).then(res=>{
+      if (res.data.success) {
+        toast.success("Link sent! Check your email");
+        openForgotPassword(false);
+        reset();
+      
+      }
+
+      setSendingLink(false);
+
+    }).catch(e=>{
+      setSendingLink(false);
+      toast.error("Some error occurred!");
+    })
+ }
+
+
 //TODO:remove it later
   const onError = (err)=>{
     // console.log(err);
@@ -289,6 +332,12 @@ const Login = () => {
                           {errorsMobile["password-mobile"].message}
                         </p>
                       )}
+                      <p
+                        onClick={() => openForgotPassword(true)}
+                        className="text-xs font-normal text-red-100 w-full  select-none cursor-pointer"
+                      >
+                        Forgot password
+                      </p>
                     </label>
                   </div>
                 </div>
@@ -317,7 +366,6 @@ const Login = () => {
             </div>
           )}
         </div>
-        <div className="w-full bg-red-500"></div>
       </div>
 
       {/* right side */}
@@ -399,6 +447,12 @@ const Login = () => {
                         {errors.password.message}
                       </p>
                     )}
+                    <p
+                      onClick={() => openForgotPassword(true)}
+                      className="text-sm font-normal text-black w-full select-none cursor-pointer"
+                    >
+                      Forgot password
+                    </p>
                   </label>
                 </div>
                 <button className="w-full border-box text-center bg-black text-white cursor-pointer select-none text-xs md:text-sm rounded-sm mt-3">
@@ -420,6 +474,65 @@ const Login = () => {
         )}
         {otpFormVisible && <Otp email={watchEmail} path="login" />}
       </div>
+
+      {/* forgot password side */}
+      {forgotPassword && (
+        <div
+          onClick={(e) => {
+            e.target === e.currentTarget && openForgotPassword(false);
+          }} // only close when the bg is clicekd
+          className="w-screen h-screen fixed top-0 left-0 backdrop-blur-xs bg-[#00000093] flex flex-col gap-3 items-center justify-center px-5"
+        > 
+          <CloseIcon className = 'absolute top-5 right-5 text-white'/>
+          <p className="w-full text-center text-white font-semibold text-xl md:text-2xl">
+            Forgot Password
+          </p>
+          <div className="glass-card relative p-5 flex flex-col gap-3 w-full max-w-90 h-fit bg-red-500">
+            <p className="w-full text-white text-xs md:text-sm">
+              Enter the email with which you have an active account. A
+              verification link will be sent on this email. <b>Do not</b>{" "}
+              share this link with anyone ! Follow the link and update your
+              password.
+            </p>
+            <form
+              onSubmit={handleSubmitForgotPassword(sendVerificationLink)}
+              className="border-box"
+            >
+              <label
+                htmlFor="email"
+                className="w-full font-semibold text-xs md:text-sm flex flex-col gap-1 text-white relative"
+              >
+                Email :
+                <input
+                  {...registerForgotPassword("email")}
+                  id="email"
+                  type="text"
+                  placeholder="Enter email"
+                  className="bg-[#6a6868b3] w-full p-1 px-2 text-xs md:text-sm rounded-xs placeholder:text-[#ffffffb1]  text-white font-normal outline-0 outline-xs focus:outline-white focus:outline-2"
+                />
+                <EmailIcon className="scale-70 absolute top-[1.2rem] md:top-[1.6rem] right-1" />
+                {errorsForgotPassword["email"] && (
+                  <p className="w-full text-red-300 font-normal">
+                    <ErrorOutlineIcon className="scale-70" />
+                    {errorsForgotPassword["email"].message}
+                  </p>
+                )}
+              </label>
+              <button className="w-full px-2 text-white text-xs md:text-sm bg-black rounded-sm cursor-pointer select-none mt-3 flex items-center">
+                {sendingLink ? (
+                  <div className="relative border-box w-full h-10 flex justify-center items-center">
+                    <Loader1 className="w-full h-8 top-0 text-center" />
+                  </div>
+                ) : (
+                  <div className="w-full h-10 flex items-center justify-center">
+                    Send &nbsp; Link
+                  </div>
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
