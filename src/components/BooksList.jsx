@@ -59,8 +59,8 @@ const BookTitleMarquee = ({title = '' , offset = 15 , speed = 5 , className = ''
           {title}
           {window.innerWidth > window.innerHeight && (
             <>
-              <ArrowCircleLeftIcon onClick={scrollRight}/>
-              <ArrowCircleRightIcon onClick={scrollLeft}/>
+              <ArrowCircleLeftIcon className = 'cursor-pointer' onClick={scrollRight}/>
+              <ArrowCircleRightIcon className = 'cursor-pointer' onClick={scrollLeft}/>
             </>
           )}
         </div>

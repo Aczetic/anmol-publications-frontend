@@ -161,7 +161,7 @@ const TermsAndConditions = () => {
 
                             <h3 className="text-xl font-semibold text-gray-800 border-l-4 border-blue-500 pl-3">Governing Law</h3>
                             <p>These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law principles.</p>
-                            <p>Any dispute arising out of or related to these Terms or your use of the site or products shall be subject to the exclusive jurisdiction of the courts located in [Specify City/State, e.g., Lucknow, Uttar Pradesh, India].</p>
+                            <p>Any dispute arising out of or related to these Terms or your use of the site or products shall be subject to the exclusive jurisdiction of the courts located in Lucknow, Uttar Pradesh, India.</p>
                         </div>
                     </section>
                 );
