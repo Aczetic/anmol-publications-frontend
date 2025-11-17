@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router';
 import axios from 'axios';
 import heroImage from '../assets/hero.png';
@@ -21,7 +21,6 @@ import RightArrowIcon from '@mui/icons-material/East';
 import NumCard from '../components/NumCard.jsx';
 import BOOKS_BACKUP from '../constants/BOOKS.js';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-
 // swiper dependencies
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -53,6 +52,9 @@ import {
 
 } from "../assets/school_logos/school_logos.js";
 import contactImages from '../assets/contact_comp/images.js';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import Loader1 from '../components/Loader1.jsx';
 
 //CONSTANTS
 const SchoolList = [
@@ -267,17 +269,19 @@ const Book = ({data})=>{
    </NavLink>
 }
 
-const OurBooks = ({books})=>{
+const OurBooks = ({books = null})=>{
   const BOOKS = books || BOOKS_BACKUP;
   return <div data-aos = 'fade-up' className = 'w-full h-fit mt-[5rem] flex flex-col gap-4'>
       <div data-aos = 'fade' className = 'flex flex-col gap-1 p-2'>
           <h2 className = 'font-bold text-3xl text-center'> Our Books</h2>
           <h2 className = 'text-sm text-center'> Try some books</h2>
       </div>
-    <div className = 'w-full flex flex-col gap-15'>
+    {
+      BOOKS == null ? <Loader1 className = 'w-15 mx-auto' /> : <div className = 'w-full flex flex-col gap-15'>
       <Marquee width = '1100px' pauseOnHover = {true}  List = {BOOKS.map((book)=> <Book key = {book.id} data = {book}/> )}/>
       <Marquee width = '1100px' pauseOnHover = {true}  List = {BOOKS.map((book)=> <Book key = {book.id} data = {book}/> )} dir = {-1}/>
     </div>
+    }
   </div>
 }
 
@@ -354,17 +358,30 @@ const Contact = ()=>{
 
 const Home = () => {
   const [data, setData] = useState({ books: null, testimonials: null });
+  const profile = useSelector(state=>state.profile);
 
-  useEffect(()=>{
-    axios.get(import.meta.env.VITE_SERVER_URL+'/home')
-    .then(res=>{
-      if(res.data.success){
-        setData(res.data.data);
-      }
-    }).catch(e=>{
-      //
-    })
-  },[])
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_SERVER_URL}/misc/testimonial`)
+      .then((res) => {
+        if (res.data.success) {
+          setData((curr) => {
+            return { ...curr, testimonials: res.data.data };
+          });
+        }
+      })
+      .then(() => axios.get(`${import.meta.env.VITE_SERVER_URL}/books`))
+      .then((res) => {
+        if (res.data.success) {
+          setData((curr) => {
+            return { ...curr, books: res.data.data };
+          });
+        }
+      })
+      .catch((e) => {
+        toast.error("Some error occurred!");
+      });
+  }, []);
 
   return <>
     <section role = 'banner' id = 'hero' data-aos = 'fade' data-aos-delay = '300' className = 'w-full min-h-[820px] flex flex-col items-center justify-start overflow-x-hidden' style = {{backgroundImage:`url(${heroImage})` , backgroundSize:'cover' , backgroundPosition:'50% 60%'}}>

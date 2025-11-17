@@ -43,7 +43,7 @@ const User = z.object({
             .refine( value => /[*\.!@#$%^&*=\-_+]/.test(value) , {error: "Missing *.!@#$%^&*=-_+"}),
   email: z.email({error:'Enter a valid email address'}),
   phone: z.string().max(10,'Enter a valid phone number').regex(/[1-9][0-9]{9}/, {error:"Enter a valid phone number"}),
-  "school-name": z.string().min( 5 , "Invalid school name"),
+  "school-name": z.string().min( 5 , "Invalid school name").transform(val=>val.trim()),
   state: z.string().min(1 , "State is required"),
   birthday: z.string('Enter a valid date').refine((val)=> new Date(val) !== 'Invalid Date', 'Enter a valid date').refine(val=>val === '' ? true : new Date(val) > new Date(Date.now() - 100*365*24*60*60*1000), 'Age must be < 100 Years').refine(val=>val==='' ? true : new Date(val) < new Date(Date.now() - 18*365*24*60*60*1000), "Age must be > 18 years"),
   city: z.string().min(1 , "City is required"),
@@ -69,7 +69,7 @@ const UserMobile = z.object({
   "email-mobile": z.email({error:'Enter a valid email address'}),
   "phone-mobile": z.string().max(10,"Enter a valid phone number").regex(/[1-9][0-9]{9}/, {error:"Enter a valid phone number"}),
   "birthday-mobile": z.string('Enter a valid date').refine((val)=> new Date(val) !== 'Invalid Date', 'Enter a valid date').refine(val=>val === '' ? true : new Date(val) > new Date(Date.now() - 100*365*24*60*60*1000), 'Age must be < 100 Years').refine(val=>val==='' ? true : new Date(val) < new Date(Date.now() - 18*365*24*60*60*1000), "Age must be > 18 years"),
-  "school-name-mobile": z.string().min( 5 , "Invalid school name"),
+  "school-name-mobile": z.string().min( 5 , "Invalid school name").transform(val=>val.trim()),
   "state-mobile": z.string().min(1 , "State is required"),
   "city-mobile":  z.string().min(1 , "City is required"),
   "address-mobile": z.string().min(1 , "Address is required")
