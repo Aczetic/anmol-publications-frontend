@@ -120,7 +120,7 @@ const BOOK_INFO ={
   sampleBook: '', // a link to where the books is located
   // TODO: book upload
   buyLinks : [{platform:'amazon' , link:''} , {platform:'flipkart' , link:''}],
-  subscribed : true, // tells whether the user can read full book or not , this is not part of it , it's added
+  subscribed : false, // tells whether the user can read full book or not , this is not part of it , it's added
   bookList : [ // this is not part of it it needs to be added
     {
       id: "1",
