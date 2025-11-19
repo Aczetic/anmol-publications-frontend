@@ -122,7 +122,7 @@ export default async (req,res)=>{
                     </html>`, // html body
             });
             console.log('contact us mail sent');
-            res.status(201).send({
+            res.status(201).json({
               success: true,
               message: 'SUCCESS'
             });

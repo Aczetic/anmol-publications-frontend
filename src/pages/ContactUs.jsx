@@ -24,7 +24,7 @@ import { toast } from "react-toastify";
      phone : z.string('Enter a valid phone no').max(10,'Enter a valid phone no').regex(/[1-9][0-9]{9}/, 'Enter a valid phone number'),
      email: z.email('Invalid email id'),
      subject:z.string('Enter a valid subject').min(10,'Min 10 characters').max(30, 'Max 30 characters'),
-     message:z.string('Enter a valid message').min(20, 'Min 20 characters').max(300,'Max 300 characters'),
+     message:z.string('Enter a valid message').min(20, 'Min 20 characters').max(500,'Max 500 characters'),
  })
 
   const ContactUs = () => {
@@ -308,8 +308,8 @@ import { toast } from "react-toastify";
                 <textarea
                   id="message"
                   type="text"
-                  placeholder="Enter your message here (max 300)"
-                  maxLength="300"
+                  placeholder="Enter your message here (max 500)"
+                  maxLength="500"
                   className="bg-red-50 resize-none h-20 py-1 px-2 w-full outline-2 rounded-xs outline-red-100 outline-solid focus:outline-gray-700"
                   {...register("message")}
                 />
