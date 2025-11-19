@@ -39,9 +39,9 @@ import { toast } from "react-toastify";
     const [visible , setVisible] = useState(false);
 
     const onSubmit = (data)=>{
-      axios.post(`${import.meta.env.VITE_SERVER_URL}/misc/contact-us`,data,{
+      axios.post(`/api/contact-us`,data,{
         withCredentials:true,
-        headres:{
+        headers:{
           'Content-Type' : 'application/json',
         }
       }).then(res=>{
