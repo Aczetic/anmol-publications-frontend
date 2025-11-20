@@ -15,6 +15,7 @@ import z from "zod";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Success from "../components/Success";
+import Loader2 from '../components/Loader2';
 import { toast } from "react-toastify";
 //todo: connect the backend and states with validation using react-hook-form on sending message show a pop giving message "message send successfully with confetti "
 
@@ -37,9 +38,11 @@ import { toast } from "react-toastify";
       resolver: zodResolver(ContactUsSchema)
     })
     const [visible , setVisible] = useState(false);
+    const [loader, setLoader] = useState(false);
 
     const onSubmit = (data)=>{
-      axios.post(`/api/contact-us`,data,{
+       setLoader(true);
+      axios.post(`/api/contact-us`,data,{ // serverless request
         withCredentials:true,
         headers:{
           'Content-Type' : 'application/json',
@@ -52,6 +55,7 @@ import { toast } from "react-toastify";
       }).catch(e=>{
         toast.error("Some error occurred !");
       })
+      setTimeout(()=>setLoader(false),4000);
     }
 
     useEffect(()=>console.log(errors), [errors]); 
@@ -317,8 +321,8 @@ import { toast } from "react-toastify";
               </label>
             </div>
           </div>
-          <button className="text-center w-full p-2 text-white bg-red-500 relative top-3 rounded-sm cursor-pointer select-none">
-            Send Message
+          <button className={`text-center w-full flex items-center justify-center overflow-hidden h-10 p-2 text-white ${loader?'bg-black':'bg-red-500'} relative top-3 rounded-sm cursor-pointer select-none`}>
+            {loader? <Loader2 className = 'w-15 scale-300'/> : "Send Message"}
           </button>
         </form>
       </div>
