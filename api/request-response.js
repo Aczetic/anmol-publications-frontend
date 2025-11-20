@@ -1,5 +1,5 @@
 import axios from 'axios';
-import nm from 'node_mailer';
+import nm from 'nodemailer';
 
 const sendMail = async (req,res)=>{
     try{
