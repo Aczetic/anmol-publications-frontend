@@ -130,7 +130,8 @@ export default async (req,res)=>{
                 console.log(e);
                 res.status(500).json({
                     success: false,
-                    message: 'INTERNAL_SERVER_ERROR'
+                    message: 'INTERNAL_SERVER_ERROR',
+                    e
                 })
             })
     
