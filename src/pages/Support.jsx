@@ -99,7 +99,7 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
   };
   
   const handleRequestResponse = ()=>{
-      axios.post('/api/request-response/'+issue.issueId , {
+      axios.post('/api/request-response/' , {
         withCredentials : true
       },{
         email: issue.user,
