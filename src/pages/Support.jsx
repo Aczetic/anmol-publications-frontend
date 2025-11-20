@@ -99,7 +99,7 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
   };
   
   const handleRequestResponse = ()=>{
-      axios.post('/issues/request-response/'+issue.issueId , {
+      axios.post('/api/request-response/'+issue.issueId , {
         withCredentials : true
       },{
         email: issue.user,
@@ -195,10 +195,10 @@ const Support = () => {
       }
       setLoader(false);
     }).catch(e=>{
-      if(e?.response?.data?.message === 'UNAUTHORIZED');
-      else{
-        toast.error("Some error occurred");
-      }
+      // if(e?.response?.data?.message === 'UNAUTHORIZED');
+      // else{
+      //   toast.error("Some error occurred");
+      // }
       setLoader(false);
     })  
   }

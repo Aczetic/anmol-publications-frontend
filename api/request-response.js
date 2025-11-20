@@ -113,7 +113,7 @@ const sendMail = async (req,res)=>{
 
 export default async (req,res)=>{
 
-    if (true) {
+
         
         if (req.method === "POST") {
               
@@ -138,8 +138,5 @@ export default async (req,res)=>{
             res.header("Allow", "POST");
             res.status(405).end("Method not allowed");
         }
-    
-    } else {
-    }
-    
+  
 }
