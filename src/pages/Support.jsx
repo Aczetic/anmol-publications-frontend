@@ -100,11 +100,11 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
   
   const handleRequestResponse = ()=>{
       axios.post('/api/request-response/' , {
-        withCredentials : true
-      },{
         email: issue.user,
         issueId: issue.issueId
-      }).then(res=>{
+      },{
+        withCredentials : true
+      },).then(res=>{
         
         if(res.data.success){
            setSuccess(true);
