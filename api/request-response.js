@@ -11,7 +11,7 @@ const sendMail = async (req,res)=>{
             }
         })
 
-        await transporter.sendmail({
+        await transporter.sendMail({
             from: req.body.email,
             to: process.env.CONTACT_US_EMAIL,
             subject: 'Response request for issue'+req.body.issueId,
