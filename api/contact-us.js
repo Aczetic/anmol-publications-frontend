@@ -7,7 +7,7 @@ let timeout = null;
 export default async (req,res)=>{
     if(requestCount < 1){
         if(timeout == null){
-            timeout = setTimeout(()=>{ requestCount = 0; timeout = null },5000);
+            timeout = setTimeout(()=>{ requestCount = 0; timeout = null },50000);
         }
 
         if(req.method === 'POST'){
