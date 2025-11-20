@@ -50,12 +50,13 @@ import { toast } from "react-toastify";
       }).then(res=>{
         if(res.data.success){
           setVisible(true);
+          setLoader(false);
           reset();
         }
       }).catch(e=>{
         toast.error("Some error occurred !");
+        setLoader(false);
       })
-      setTimeout(()=>setLoader(false),4000);
     }
 
     useEffect(()=>console.log(errors), [errors]); 

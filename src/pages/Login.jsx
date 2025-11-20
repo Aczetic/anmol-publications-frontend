@@ -183,7 +183,7 @@ const Login = () => {
       }
     }).then(res=>{
       if (res.data.success) {
-        toast.success("Link sent! Check your email");
+        toast.success("Link sent! Check your email. \n May take upto 10 minutes");
         openForgotPassword(false);
         reset();
       

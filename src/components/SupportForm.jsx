@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Success from '../components/Success';
+import { useNavigate } from 'react-router';
 
 
 const SupportFormSchema = z.object({
@@ -26,7 +27,7 @@ const SupportFormSchema = z.object({
       .max(300, "Not more than 200 words"),
   });
   
-  const SupportForm = () => {
+  const SupportForm = ({refresh=null}) => {
     const [successVisible , setSuccessVisible] = useState(false);
   
     const {
@@ -39,21 +40,26 @@ const SupportFormSchema = z.object({
     });
   
     const user = useSelector(state => state.user);
+    const navigate = useNavigate();
   
     const onSubmit = (data)=>{
       
-      axios.post(import.meta.env.VITE_SERVER_URL+'/issue',{...data},{
+      axios.post(import.meta.env.VITE_SERVER_URL+'/issues',{...data},{
        withCredentials:true,
        headers:{
          'Content-Type':'application/json',
        }  
       }).then(res=>{
          if(res.data.success){
+           refresh&&refresh();
            setSuccessVisible(true); 
            reset(); // reset the form
          }
       }).catch(e=>{
-         if(e.message === 'Network Error'){
+
+        if(e.response.data.message === 'UNAUTHORIZED'){
+          navigate('/login');
+        }else if(e.message === 'Network Error'){
              toast.error("Unable to connect with server !");
          }else toast.error("Some error occurred!");
       })
@@ -85,7 +91,6 @@ const SupportFormSchema = z.object({
             <input
               id="email"
               type="email"
-              defaultValue={user?.email}
               placeholder="Your email , you're logged in with"
               className="w-full p-1 px-2 bg-white"
               {...register("email")}

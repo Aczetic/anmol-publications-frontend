@@ -11,61 +11,6 @@ import Success from "../components/Success";
 import SupportForm from '../components/SupportForm';
 import Loader1 from '../components/Loader1';
 
-//TODO:update this data
-// NOTE : use the first for schema
-const ISSUES_DATA = [
-  {
-    issueId: '2123457',
-    issueDate: '2025-10-26T', // Matches new Date().toISOString().slice(0,11)
-    resolveDate: null, // Since resolved is false
-    subject: 'Login Button Not Responding on Mobile',
-    description: 'When users try to log in on an iOS device (Safari), the "Sign In" button is completely unresponsive. It works fine on desktop browsers.',
-    resolved: false,
-    user: 'alice.jones@example.com',
-    responseRequestDate :null, // if no reply comes a request can be generated but once in 24 hours
-    trackLink: 'https://localhost:3000/issues/2123457'
-  },
-  {
-    issueId: '2123458',
-    issueDate: '2025-10-26T',
-    resolveDate: '2025-10-29T', // Resolved 3 days later
-    subject: 'Incorrect Tax Calculation in Checkout',
-    description: 'The checkout process is applying an incorrect sales tax rate for customers in the state of New York. It seems to be using the old 8.0% rate instead of the current 8.875%.',
-    resolved: true,
-    user: 'bob.smith@example.com',
-    trackLink: 'https://localhost:3000/issues/2123458'
-  },
-  {
-    issueId: '2123459',
-    issueDate: '2025-10-26T',
-    resolveDate: null,
-    subject: 'Database Connection Timeouts Intermittently',
-    description: 'Seeing random "504 Gateway Timeout" errors on high-traffic pages. Logs indicate the database query is taking too long to respond.',
-    resolved: false,
-    user: 'charlie.brown@example.com',
-    trackLink: 'https://localhost:3000/issues/2123459'
-  },
-  {
-    issueId: '2123460',
-    issueDate: '2025-10-26T',
-    resolveDate: '2025-11-01T', // Resolved 6 days later
-    subject: 'Broken Image Link on About Us Page',
-    description: 'The main header image on the /about page is showing a broken link icon. The asset "team_photo.jpg" seems to be missing from the CDN.',
-    resolved: true,
-    user: 'diana.prince@example.com',
-    trackLink: 'https://localhost:3000/issues/2123460'
-  },
-  {
-    issueId: '2123461',
-    issueDate: '2025-10-26T',
-    resolveDate: null,
-    subject: 'PDF Export Feature Corrupting Filenames',
-    description: 'When exporting reports to PDF, any file name containing a special character (like "&" or "#") results in a corrupted file name on download.',
-    resolved: false,
-    user: 'evan.m@example.com',
-    trackLink: 'https://localhost:3000/issues/2123461'
-  }
-];
 
 //todo: a sidebar will open up which will have a chat app like representation and will poll every 10 second
 //todo: implement this, the issues will show in sorted order from latest to oldest always ,desc by date
@@ -114,10 +59,10 @@ const Issue = ({ issue = null, setIssueInfo }) => {
       <p className="w-full text-sm">{issue.subject}</p>
       {/* dates */}
       <div className="text-gray-600 text-sm md:text-md flex gap-1">
-        <p>{issue.issueDate.slice(0, issue.issueDate.length - 1)}</p> ------{" "}
+        <p>{issue.issueDate.slice(0, 10)}</p> ------{" "}
         <div>
           {issue.resolved ? (
-            issue.resolveDate.slice(0, issue.resolveDate.length - 1)
+            issue?.resolveDate?.slice(0, 10)
           ) : (
             <ResolveGraphics resolved={issue.resolved} />
           )}
@@ -134,11 +79,11 @@ const Issue = ({ issue = null, setIssueInfo }) => {
   );
 };
 
-const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = null})=>{
+const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = null, refresh = null})=>{
   
   const handleResolve = () => {
     axios
-      .get(import.meta.env.VITE_SERVER_URL+'/issue/resolve/'+issue.issueId, {
+      .get(import.meta.env.VITE_SERVER_URL+'/issues/resolve/'+issue.issueId, {
         withCredentials: true,
       })
       .then((res) => {
@@ -146,6 +91,7 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
           setSuccess(true);
           setMessage("Issue Resolved");
           setIssueInfo(false);
+          refresh();// re-fetch the issues
         }
       }).catch(e=>{
         toast.error("Some error occurred !")
@@ -153,9 +99,13 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
   };
   
   const handleRequestResponse = ()=>{
-      axios.get(import.meta.env.VITE_SERVER_URL+'/issues/request-response/'+issue.issueId , {
+      axios.post('/issues/request-response/'+issue.issueId , {
         withCredentials : true
+      },{
+        email: issue.user,
+        issueId: issue.issueId
       }).then(res=>{
+        
         if(res.data.success){
            setSuccess(true);
            setIssueInfo(false);
@@ -186,15 +136,15 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
           onClick={handleClose}
           className="absolute right-2 top-3 cursor-pointer select-none"
         />
-        <p className="w-full text-center p-3 font-bold text-3xl">
+        <p className="w-full text-center mt-3 p-3 font-bold text-lg sm:text-2xl md:text-3xl">
           #{issue.issueId}
         </p>
         {/* date */}
         <div className="text-gray-600 text-sm md:text-md flex justify-center gap-1">
-          <p>{issue.issueDate.slice(0, issue.issueDate.length - 1)}</p> ------{" "}
+          <p>{issue.issueDate.slice(0, 10)}</p> ------{" "}
           <div>
             {issue.resolved ? (
-              issue.resolveDate.slice(0, issue.resolveDate.length - 1)
+              issue.resolveDate.slice(0, 10)
             ) : (
               <ResolveGraphics resolved={issue.resolved} />
             )}
@@ -206,12 +156,12 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
           }
         </div>
         <div className = 'w-full h-fit px-3 py-4'>
-          <p className = 'font-semibold text-sm text-gray-500'>Subject :</p> 
+          <p className = 'font-bold text-sm text-gray-500'>Subject :</p> 
           <p className = 'w-full bg-gray-100 text-sm md:text-[1rem] '>{issue.subject}</p>
         </div>
         <div className = 'w-full h-fit px-3 py-2 '>
-          <p className = 'font-semibold text-sm text-gray-500'>Detail :</p> 
-          <p className = 'w-full h-fit text-sm md:text-[1rem] max-h-[10rem] overflow-y-scroll bg-gray-100'>{issue.description}</p>
+          <p className = 'font-bold text-sm text-gray-500'>Detail :</p> 
+          <p className = 'w-full h-fit text-sm md:text-[1rem] max-h-[10rem] overflow-y-scroll bg-gray-100'>{issue.issue}</p>
         </div>
         {/* TODO:implement it */}
         {
@@ -235,22 +185,26 @@ const Support = () => {
   const [loader , setLoader ] = useState(false);
   const user = useSelector(state=>state.user);
 
-
-  useEffect(()=>{
+  const getIssues = ()=>{
     setLoader(true);
     axios.get(import.meta.env.VITE_SERVER_URL+'/issues',{
       withCredentials:true,
     }).then((res)=>{
       if(res.data.success){
-        setIssues(res.data.issues)// set the issues to state
+        setIssues(res.data.data)// set the issues to state
       }
       setLoader(false);
     }).catch(e=>{
-      toast.error("Some error occurred");
+      if(e?.response?.data?.message === 'UNAUTHORIZED');
+      else{
+        toast.error("Some error occurred");
+      }
       setLoader(false);
-      // todo: remove it later
-      setIssues(ISSUES_DATA);
     })  
+  }
+
+  useEffect(()=>{
+   getIssues();
   },[])
 
 
@@ -273,7 +227,7 @@ const Support = () => {
         </h2>
 
         {/* issue can only be raised if logged in  */}
-        <SupportForm />
+        <SupportForm refresh = {getIssues}/>
       </section>
 
       {/* active issues will go here */}
@@ -307,6 +261,7 @@ const Support = () => {
           setIssueInfo={setIssueInfo}
           setSuccess={setSuccess}
           setMessage={setMessage}
+          refresh = {getIssues}
         />
       )}
       <Success message={message} state={success} setState={setSuccess} />

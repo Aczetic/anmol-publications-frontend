@@ -1,5 +1,5 @@
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';  
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SupportForm from '../components/SupportForm';
 import Loader1 from '../components/Loader1';
 import { NavLink } from 'react-router';
@@ -7,23 +7,25 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 
-
+//fragments were used beacuse of key warning
 const FormatText = ({text=''})=>{
-  const textArr = text.split(' ').map(each=>{
+  const textArr = text.split(' ').map((each,index)=>{
     if( each[0] === '['){
       const words = each.split(',');
-      return <>
+      return <React.Fragment key = {index}>
       <NavLink className = 'font-bold text-red-500' to ={words[1].slice(0,words[1].length-1)} >{words[0].slice(1).split('-').join(' ')}</NavLink>{" "}
-      </>
+      </React.Fragment>
     
     }else if( each.includes('-')){ // if not for link then for boldness
      
-      return <>
-      <b>{each.split('-').join(' ')}</b>{" "}
-      </>
+      return <React.Fragment key = {index}>
+      <b key = {crypto.randomUUID()}>{each.split('-').join(' ')}</b>{" "}
+      </React.Fragment>
     
     }else{
-      return each+' ';
+      return <React.Fragment key = {index}>
+        {each+' '}
+      </React.Fragment>
     }
   })
   return <>
@@ -62,7 +64,7 @@ const FAQS = [
     answer:`We maintain rigorous-oversight of evolving educational guidelines and syllabus changes. Since the majority of our learning suite is -web—delivered, content synchronization is highly efficient. Updates to all digital services including the LMS and associated resources are deployed automatically and instantaneously, requiring no-manual-action from teachers or students to ensure immediate curriculum alignment.`
   }
   
-]
+]// let it be here don't remove it , will give idea to what to do
 
 const Faq = ({question='' , answer=''})=>{
     const [visible , setVisible] = useState(false);
@@ -96,11 +98,11 @@ const Faqs = () => {
     .then(res=>{
       if(res.data.success){
         setFaqs(res.data.data);
+        console.log(res.data.data);
       }
     }).catch(e=>{
       toast.error("Some error occurred!");
     })
-    setTimeout(()=>setFaqs(FAQS),500); //todo: remove this later
   },[])
 
   return (
