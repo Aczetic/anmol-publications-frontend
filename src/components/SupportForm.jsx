@@ -55,7 +55,19 @@ const SupportFormSchema = z.object({
            setSuccessVisible(true); 
            reset(); // reset the form
          }
-      }).catch(e=>{
+         return res;
+      }).then(
+        (res)=>{
+          axios.post('/api/request-response',{
+            email: res.data.data[0].user,
+            issueId: res.data.data[0].issueId
+          },{
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+        }
+      ).catch(e=>{
 
         if(e.response.data.message === 'UNAUTHORIZED'){
           navigate('/login');
