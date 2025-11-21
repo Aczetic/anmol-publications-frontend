@@ -7,6 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Success from '../components/Success';
 import { useNavigate } from 'react-router';
+import Loader2 from './Loader2';
 
 
 const SupportFormSchema = z.object({
@@ -29,6 +30,7 @@ const SupportFormSchema = z.object({
   
   const SupportForm = ({refresh=null}) => {
     const [successVisible , setSuccessVisible] = useState(false);
+    const [loader , setLoader] = useState(false);
   
     const {
       register,
@@ -43,38 +45,40 @@ const SupportFormSchema = z.object({
     const navigate = useNavigate();
   
     const onSubmit = (data)=>{
-      
-      axios.post(import.meta.env.VITE_SERVER_URL+'/issues',{...data},{
-       withCredentials:true,
-       headers:{
-         'Content-Type':'application/json',
-       }  
-      }).then(res=>{
-         if(res.data.success){
-           refresh&&refresh();
-           setSuccessVisible(true); 
-           reset(); // reset the form
-         }
-         return res;
-      }).then(
-        (res)=>{
-          axios.post('/api/request-response',{
-            email: res.data.data.user,
-            issueId: res.data.data.issueId
-          },{
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-        }
-      ).catch(e=>{
-
-        if(e.response.data.message === 'UNAUTHORIZED'){
-          navigate('/login');
-        }else if(e.message === 'Network Error'){
-             toast.error("Unable to connect with server !");
-         }else toast.error("Some error occurred!");
-      })
+      if(!loader){
+        setLoader(true);
+        axios.post(import.meta.env.VITE_SERVER_URL+'/issues',{...data},{
+         withCredentials:true,
+         headers:{
+           'Content-Type':'application/json',
+         }  
+        }).then(res=>{
+           if(res.data.success){
+             refresh&&refresh(); // refresh the issues
+             setSuccessVisible(true); 
+             reset(); // reset the form
+           }
+           return res;
+        }).then(
+          (res)=>{
+            axios.post('/api/request-response',{
+              email: res.data.data.user,
+              issueId: res.data.data.issueId
+            },{
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then(()=>{setLoader(false)})
+          }
+        ).catch(e=>{
+          setLoader(false);
+          if(e.response.data.message === 'UNAUTHORIZED'){
+            navigate('/login');
+          }else if(e.message === 'Network Error'){
+               toast.error("Unable to connect with server !");
+           }else toast.error("Some error occurred!");
+        })
+      }  
    } 
   
     return (
@@ -139,8 +143,8 @@ const SupportFormSchema = z.object({
             )}
           </label>
           {/* todo:implement this  */}
-          <button className="w-fit px-3 mt-3 rounded-sm select-none cursor-pointer py-1 bg-red-500 text-white">
-            Submit
+          <button className={`w-fit px-3 mt-3 rounded-sm select-none cursor-pointer py-1 ${loader?'bg-black':'bg-red-500'} text-white`}>
+            {loader?<Loader2 className = 'w-11 scale-300'/>:"Submit"}
           </button>
         </form>
         {/* success markup */}
