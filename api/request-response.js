@@ -61,7 +61,7 @@ const sendMail = async (req,res)=>{
                         <td style="padding: 0 30px 30px 30px;">
                             <table border="0" cellpadding="10" cellspacing="0" width="100%" style="font-size: 15px; border-collapse: collapse;">
                                 <tr>
-                                    <td width="30%" style="background-color: #f9f9f9; padding: 12px 15px; border-radius: 4px 0 0 4px; font-weight: bold; color: #555555;">Issue ID</td>
+                                    <td width="30%" style="background-color: #f9f9f9; padding: 12px 15px; text-wrap:nowrap; border-radius: 4px 0 0 4px; font-weight: bold; color: #555555;">Issue ID</td>
                                     <td width="70%" style="background-color: #ffffff; padding: 12px 15px; border-left: 1px solid #e0e0e0; border-radius: 0 4px 4px 0; color: #CC0000; font-weight: bold;">${req.body.issueId}</td>
                                 </tr>
                             </table>
@@ -73,7 +73,7 @@ const sendMail = async (req,res)=>{
                             <table border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td align="center" bgcolor="#CC0000" style="border-radius: 6px;">
-                                        <a href="https://admin.anmoleducationalbooks.com/issues/"${req.body.issueId} target="_blank" style="font-size: 16px; font-family: Inter, Arial, sans-serif; color: #ffffff; text-decoration: none; border-radius: 6px; padding: 12px 25px; border: 1px solid #CC0000; display: inline-block; font-weight: bold;">
+                                        <a href=${"https://admin.anmoleducationalbooks.com/issues/"+req.body.issueId} target="_blank" style="font-size: 16px; font-family: Inter, Arial, sans-serif; color: #ffffff; text-decoration: none; border-radius: 6px; padding: 12px 25px; border: 1px solid #CC0000; display: inline-block; font-weight: bold;">
                                             VIEW ISSUE TICKET
                                         </a>
                                     </td>
