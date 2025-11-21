@@ -112,21 +112,31 @@ const sendMail = async (req,res)=>{
     }
 }
 
+let count = 0;
+let timeout = null;
+
 export default async (req,res)=>{
 
+    if(count < 500){
+        count++;
+        if(timeout == null){
+            timeout = setTimeout(()=>{
+                timeout = null;
+                count = 0;
+            },2000)
+        }
 
-        
         if (req.method === "POST") {
               
             axios.get(
                 "https://api.anmoleducationalbooks.com/issues/request-response/" +
                 req.body.issueId
             ).then(resp=>{
-
+    
                 if(resp.data.success){
                     sendMail(req,res);
                 }
-
+    
             }).catch(e=>{
                 console.log(e);
                 res.status(500).json({
@@ -139,5 +149,13 @@ export default async (req,res)=>{
             res.header("Allow", "POST");
             res.status(405).end("Method not allowed");
         }
+    
+    }else{
+        res.status(429).json({
+            success: false,
+            message: 'TOO_MANY_REQUEST'
+        })
+    }
+        
   
 }
