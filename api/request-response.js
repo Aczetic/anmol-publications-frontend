@@ -135,6 +135,11 @@ export default async (req,res)=>{
     
                 if(resp.data.success){
                     sendMail(req,res);
+                }else{
+                    res.status(200).json({ // don't send mail for duplicate request just send ok response
+                        success: true,
+                        message: 'SUCCESS'
+                    })
                 }
     
             }).catch(e=>{
