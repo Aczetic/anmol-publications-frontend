@@ -81,7 +81,10 @@ const Issue = ({ issue = null, setIssueInfo }) => {
 
 const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = null, refresh = null})=>{
   
+  const [loader , setLoader] = useState(false);
+
   const handleResolve = () => {
+    setLoader(true);
     axios
       .get(import.meta.env.VITE_SERVER_URL+'/issues/resolve/'+issue.issueId, {
         withCredentials: true,
@@ -91,14 +94,17 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
           setSuccess(true);
           setMessage("Issue Resolved");
           setIssueInfo(false);
+          setLoader(false);
           refresh();// re-fetch the issues
         }
       }).catch(e=>{
         toast.error("Some error occurred !")
+        setLoader(false);
       });
   };
   
   const handleRequestResponse = ()=>{
+    setLoader(true);
       axios.post('/api/request-response/' , {
         email: issue.user,
         issueId: issue.issueId
@@ -110,8 +116,10 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
            setSuccess(true);
            setIssueInfo(false);
            setMessage('Response requested');
-        }
+           setLoader(false);
+          }
       }).catch(e=>{
+        setLoader(false);
         toast.error("Some error occurred !");
       })
   }
@@ -165,9 +173,11 @@ const IssueDetail = ({issue , setIssueInfo , setSuccess = null, setMessage = nul
         </div>
         {/* TODO:implement it */}
         {
+          // same loader to disable both buttons when one is clicked
           !issue.resolved && <div className = 'w-full flex'>
-              <div onClick = {handleRequestResponse} className = 'btn-primary ml-3 mt-4 text-sm md:text-[1rem] '>Request Response</div>
-              <div onClick = {handleResolve} style= {{backgroundColor:'green'}} className = 'btn-primary text-sm md:text-[1rem] ml-3 mt-4'>Resolve</div>
+              {loader?<div className='h-fit bg-black px-12 rounded-sm py-2 ml-3 mt-4 text-sm md:text-[1rem] '><Loader1 className = 'w-9 scale-190'/></div> :<div onClick = {handleRequestResponse} className = 'btn-primary ml-3 mt-4 text-sm md:text-[1rem] '>Request Response</div>}
+              {loader?<div className='h-fit bg-black px-6 rounded-sm py-2 ml-3 mt-4 text-sm md:text-[1rem] '><Loader1 className = 'w-9 scale-190'/></div> :<div onClick = {handleResolve} style= {{backgroundColor:'green'}} className = 'btn-primary text-sm md:text-[1rem] ml-3 mt-4'>Resolve</div>}
+              
             </div>
         }
       </div>
