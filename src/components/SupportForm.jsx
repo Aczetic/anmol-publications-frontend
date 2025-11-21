@@ -59,8 +59,8 @@ const SupportFormSchema = z.object({
       }).then(
         (res)=>{
           axios.post('/api/request-response',{
-            email: res.data.data[0].user,
-            issueId: res.data.data[0].issueId
+            email: res.data.data.user,
+            issueId: res.data.data.issueId
           },{
             headers: {
               'Content-Type': 'application/json'
