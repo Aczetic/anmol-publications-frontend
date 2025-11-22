@@ -10,7 +10,7 @@ export default (req,res)=>{
             const randomRoute = routes[Math.floor(Math.random()*routes.length)];
            
             axios.get('https://api.anmoleducationalbooks.com/'+randomRoute)
-            .then(res=>{
+            .then(resp=>{
 
                 console.log('pinged route : ', randomRoute);
                 const randTime = Math.floor(Math.random()*15*60*1000);                    
