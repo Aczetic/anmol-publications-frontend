@@ -72,7 +72,7 @@ const SupportFormSchema = z.object({
           }
         ).catch(e=>{
           setLoader(false);
-          if(e.response.data.message === 'UNAUTHORIZED'){
+          if(e?.response?.data?.message === 'UNAUTHORIZED'){
             navigate('/login');
           }else if(e.message === 'Network Error'){
                toast.error("Unable to connect with server !");
