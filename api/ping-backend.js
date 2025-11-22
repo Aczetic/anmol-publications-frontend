@@ -18,7 +18,8 @@ export default ()=>{
                 setTimeout(()=>{
                     axios.get('/ping-backend')
                 }, randTime )
-            
+                
+                res.send('success');
             }).catch(e=>{
                 console.log(e);
             })
