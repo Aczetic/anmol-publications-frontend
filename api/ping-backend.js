@@ -12,13 +12,7 @@ export default (req,res)=>{
     .then((resp) => {
       console.log("pinged route : ", randomRoute);
       
-      const randTime = Math.floor(Math.random() * 15 * 60 * 1000);
-
-      setTimeout(() => {
-        axios.get("/ping-backend");
-      }, randTime);
-
-      res.status(200).send("success");
+      res.status(200).send("success , route : "+randomRoute);
    
     })
     
