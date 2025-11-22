@@ -9,7 +9,7 @@ export default ()=>{
         timeout = setTimeout(()=>{
             const randomRoute = routes[Math.floor(Math.random()*routes.length)];
            
-            axios.get('http://api.anmoleducationalbooks.com/'+randomRoute)
+            axios.get('https://api.anmoleducationalbooks.com/'+randomRoute)
             .then(res=>{
 
                 console.log('pinged route : ', randomRoute);
