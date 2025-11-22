@@ -4,7 +4,7 @@ let timeout = null;
 
 const routes = ['ping', 'ping2' , 'faqs' , 'misc/testimonial' , 'books'];
 
-export default ()=>{
+export default (req,res)=>{
     if(timeout === null){
         timeout = setTimeout(()=>{
             const randomRoute = routes[Math.floor(Math.random()*routes.length)];
@@ -19,7 +19,7 @@ export default ()=>{
                     axios.get('/ping-backend')
                 }, randTime )
                 
-                res.send('success');
+                res.status(200).send('success');
             }).catch(e=>{
                 console.log(e);
             })
