@@ -2,7 +2,7 @@ import axios from "axios"
 
 let timeout = null;
 
-const routes = ['ping', 'ping2' , 'faqs' , 'misc/testimonial' , 'books'];
+const routes = ['ping1', 'ping2' , 'faqs' , 'misc/testimonial' , 'books'];
 
 export default (req,res)=>{
   const randomRoute = routes[Math.floor(Math.random() * routes.length)];
