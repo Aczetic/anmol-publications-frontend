@@ -28,7 +28,7 @@ import TermsAndConditions from './pages/TermsAndConditions.jsx';
 import BookDetails from "./pages/BookDetails.jsx"
 import ForgotPassword from "./pages/ForgotPassword.jsx"
 
-// ..
+/// ..
 AOS.init({
   duration:800,
   once:true,
