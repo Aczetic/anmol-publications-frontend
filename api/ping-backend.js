@@ -6,7 +6,7 @@ const routes = ['ping1', 'ping2' , 'faqs' , 'misc/testimonial' , 'books'];
 
 export default (req,res)=>{
   const randomRoute = routes[Math.floor(Math.random() * routes.length)];
-  const randomTime = Math.floor(Math.random()*5*60*1000);
+  const randomTime = Math.floor(Math.random()*15*60*1000);
   console.log('request_made');
   setTimeout(()=>{
     axios
