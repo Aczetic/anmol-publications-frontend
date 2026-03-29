@@ -14,7 +14,7 @@ const names = {
 
 // todo: this method of naming is only until backend not provided otherwise the names will come there 
 const Books = [...Object.entries(BOOKS).map((book,index)=>{
-    console.log(book);
+   
     return {
         id:index , // TODO: right now this index is being sent at the backend it needs to be 
         //updated as well otherwise home page books option will not work 
@@ -22,7 +22,7 @@ const Books = [...Object.entries(BOOKS).map((book,index)=>{
         img : book[1]
     }
 }),...Object.entries(EBOOKS).map((book,index)=>{
-    console.log(book);
+   
     return {
         id:index , // TODO: right now this index is being sent at the backend it needs to be 
         //updated as well otherwise home page books option will not work 

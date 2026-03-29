@@ -137,154 +137,30 @@ const FilterAccordian = ({filters , filterOption, setFilterOption })=>{
 
 const Books = () => {
   // TODO: empty this later
-  const [data, setData] = useState({
-    announcements: [
-      {
-        imageLarge: "",
-        imageSmall: "",
-        id: "",
-        link: "",
-      },{
-        imageLarge: "",
-        imageSmall: "",
-        id: "",
-        link: "",
-      },
-    ],
-    booksList: [
-      {
-        heading : 'List Heading',
-        books : [{
-          id: "1",
-          image: "",
-          title: "General Knowledge",
-        }],
-      },
-      {
-        heading : 'List Heading',
-        books : [
-          {
-          id: "1",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "2",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "3",
-          image: "",
-          title: "General Knowledge",
-        }, {
-          id: "12",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "24",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "35",
-          image: "",
-          title: "General Knowledge",
-        }, {
-          id: "16",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "27",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "33",
-          image: "",
-          title: "General Knowledge",
-        }, {
-          id: "11",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "23",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "32",
-          image: "",
-          title: "General Knowledge",
-        }, {
-          id: "17",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "25",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "38",
-          image: "",
-          title: "General Knowledge",
-        }, {
-          id: "14564",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "256456",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "334524",
-          image: "",
-          title: "General Knowledge",
-        }, {
-          id: "145245",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "2245234",
-          image: "",
-          title: "General Knowledge",
-        },  {
-          id: "354345",
-          image: "",
-          title: "General Knowledge",
-        },
-      ],
-      },
-      {
-        heading : 'List Heading',
-        books : [{
-          id: "1",
-          image: "",
-          title: "General Knowledge",
-        }],
-      },
-    ],
-    filters: [
-      { name: "book_title", options: ["one", "two", "three"] },
-      { name: "subject", options: ["one", "two", "three"] },
-      { name: "class", options: ["one", "two", "three"] },
-      { name: "latest_release", options: ["one", "two", "three"] },
-      { name: "board", options: ["one", "two", "three"] },
-  ],
-  });
+  const [data, setData] = useState({announcements: [] , booksList : [] , filters: []});
   const [filterOption , setFilterOption] = useState([]);
   const [filterResult , setFilterResult] = useState([ // todo : empty it
-    {id:'', title:'Book',image:'',},
-    {id:'', title:'Book',image:'',},
-    {id:'', title:'Book',image:'',},
-    {id:'', title:'Book',image:'',},
-    {id:'', title:'Book',image:'',},
-    {id:'', title:'Book',image:'',},
+    {id:'', title:'Book',images:[''],},
+    {id:'', title:'Book',images:[''],},
+    {id:'', title:'Book',images:[''],},
+    {id:'', title:'Book',images:[''],},
+    {id:'', title:'Book',images:[''],},
+    {id:'', title:'Book',images:[''],},
 ]);
   const [filterMobileOpen, setFilterMobileOpen] = useState(false);
  
+  // to get the books list by heading categorization
+  
   useEffect(()=>{
-    axios.get(import.meta.env.VITE_SERVER_URL+'/books',{
+    console.log("runnin")
+    axios.get(import.meta.env.VITE_SERVER_URL+'/books/books-list',{
       withCredentials:true
     }).then(res=>{
       if(res.data.success){
-        setData(data)
+        console.log(res.data.data);
+        setData(res.data.data);
       }
+      console.log("running")
     }).catch(e=>{
       toast.error('Some error occurred !');
     })
@@ -294,7 +170,7 @@ const Books = () => {
     const controller = new AbortController();
 
     if(filterOption.length > 0){ // when filters are selected
-      axios.post(`${import.meta.env.VITE_SERVER_URL}/filter`,filterOption,{
+      axios.post(`${import.meta.env.VITE_SERVER_URL}/books/filter`,filterOption,{
         headers:{'Content-Type':'application/json'},
         signal:controller.signal,  
       })
@@ -320,11 +196,11 @@ const Books = () => {
   })
   
   const LoadMore = ()=>{
-    axios.get(`${import.meta.env.VITE_SERVER_URL}/books?page=${++(LoadMoreSettings.current.page)}`).
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/books/books-list?page=${++(LoadMoreSettings.current.page)}`).
     then(res=>{
       if(res.data.success){
         setData(curr=>{
-          return {...curr, booksList:[...curr.booksList , ...res.data.data]}} )
+          return {...curr, booksList:[...curr.booksList , ...res.data.data.booksList]}} )
       }
     }).catch(e=>{
        toast.error("Some error occurred!");

@@ -31,7 +31,7 @@ const BookTitleMarquee = ({title = '' , offset = 15 , speed = 5 , className = ''
           <div
             className="w-full text-white bg-red-200 flex items-center justify-center h-full bg-cover bg-no-repeat bg-center"
             style={{ backgroundImage: `url(${img})` }}
-          >{img || <BookIcon className = 'm-auto'/>}</div>
+          >{img? '' : <BookIcon className = 'm-auto'/>}</div>
           <div className="w-full h-10 bg-black text-white truncate px-2 text-center flex items-center">
             {<BookTitleMarquee title={title} />}
           </div>
@@ -73,8 +73,8 @@ const BookTitleMarquee = ({title = '' , offset = 15 , speed = 5 , className = ''
             return (
               <Book
                 key={each.id || index}
-                img={each.image}
-                title={each.title}
+                img={each.images[0]}
+                title={each.name}
                 id={each.id}
               />
             );
