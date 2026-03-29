@@ -20,34 +20,22 @@ import { toast } from "react-toastify";
 const {gk1 , gk2, gk3, gk4} = BOOKS; // these images are using in image presenter
 // TODO : this must come from the db so remove it later
 const BOOK_INFO ={
-  id : '23432425', // every book will have a different numeric id aprt from  __id which is for db
-  name: "Knowledge Insights 1",
-  bookDetail: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos iusto
-  quasi totam molestiae voluptas vitae corrupti obcaecati
-  repudiandae, nam modi sit, tenetur ullam blanditiis dicta. Ea iste
-  corrupti consequuntur provident quia tempore odio eligendi!
-  Reprehenderit velit libero accusantium pariatur et! Earum
-  doloribus voluptas nulla fugit sapiente temporibus voluptates
-  excepturi ut a eum numquam reprehenderit sed debitis, sit placeat
-  repellendus laudantium asperiores soluta, error, nisi possimus
-  consectetur. Ipsam eum illum ad quo nesciunt vitae, sapiente
-  fugiat iure earum, voluptatem officiis natus iusto facilis.
-  Impedit eligendi nemo reprehenderit accusantium consequuntur optio
-  dolorem incidunt nesciunt, quas, error omnis. Ipsum maxime ut
-  quisquam odit.`,
-  seriesName: "Knowledge Insights",
-  salientFeatures: [
-    "The series guides learners through the seven stages of a brain-based approach to learning. Here is a preview of the various stages the learners are taken through in each chapter:",
-    "**Ponder** - aids the **learners in** pre-acquisition of concepts by setting the context, while preparing them to read the text with the aid of the glossary and in-text questions.",
-    "**Prepare** - immerses the learners into the context and initiates holistic learning. It helps in the acquisition of newer perspectives through task-based activities.",
-    "**Practise** - lays out the canvas for the stage of elaboration, in which the learners analyse and evaluate the text while applying their understanding of it.",
-    "**Perfect** - aids memory encoding through drilling of vocabulary and grammar topics. It helps with incubation of concepts.",
-    "**Perform** - functions as a confidence check for learners and ensures verification of their performative skills. This stage of summing up allows a functional integration of acquired concepts, leading to a celebration of learning.",
-    "**Integrates** Task-based Language (TBL) Learning Approach",
-    "Inculates **NEP 2020** Skills",
-    "Aligned to Sustainable Development Goals"
+  "id": "23432425",
+  "name": "Knowledge Insights 1",
+  "bookDetail": "Knowledge Insights 1 is a thoughtfully designed General Knowledge book aimed at young learners. It introduces students to the world around them through engaging topics, interactive exercises, and age-appropriate content. The book follows a structured, brain-based learning approach that nurtures curiosity, critical thinking, and real-life application of knowledge. With a blend of facts, activities, stories, and reasoning exercises, it supports holistic development while aligning with modern educational frameworks like NEP 2020.",
+  "seriesName": "Knowledge Insights",
+  "salientFeatures": [
+    "The series guides learners through the seven stages of a brain-based approach to learning.",
+    "Ponder - helps learners prepare for new concepts with context-setting, glossary support, and in-text questions.",
+    "Prepare - introduces learners to new ideas through engaging, task-based activities.",
+    "Practise - encourages analysis and application of concepts through structured exercises.",
+    "Perfect - strengthens vocabulary and grammar through reinforcement and repetition.",
+    "Perform - enables learners to evaluate their understanding and apply knowledge confidently.",
+    "Integrates Task-based Language (TBL) Learning Approach.",
+    "Encourages skills aligned with NEP 2020.",
+    "Aligned with Sustainable Development Goals."
   ],
-  supportingMaterial: [
+  "supportingMaterial": [
     "Teacher’s Support Book",
     "I-book with interactive activities",
     "Fun animations",
@@ -57,92 +45,64 @@ const BOOK_INFO ={
     "Exciting games",
     "Extensive lesson plans"
   ],
-  people : [
+  "people": [
     {
       "name": "Tarun Kumar Singh",
       "designation": "Senior Content Developer",
-      "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
+      "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex content into user-friendly learning material."
     },
     {
       "name": "Anamika Sirvastava",
       "designation": "Creative Writer",
-      "about": "A published author and freelance copywriter known for developing engaging narrative content. Graduated Magna Cum Laude with a BA in English Literature. Has written over 50 short stories and contributed articles to several prominent digital magazines. Successfully completed a 12-month intensive fiction writing fellowship."
-    },
-    // {
-    //   "name": "Priya Sharma",
-    //   "designation": "Technical Writer",
-    //   "about": "Expert in developing detailed user manuals and internal process documentation for the financial technology (FinTech) sector. Completed a BSc in Computer Science and a Certification in Technical Writing. Has successfully streamlined documentation processes, reducing onboarding time for new users by 20%."
-    // },
-    // {
-    //   "name": "Alexandr Volkov",
-    //   "designation": "UX Content Strategist",
-    //   "about": "Focuses on microcopy and in-app messaging to improve user flow and conversion rates. Holds a degree in Linguistics and Human-Computer Interaction (HCI). Previous roles include driving the voice and tone guidelines for a global e-commerce brand and optimizing CTA language based on A/B testing results."
-    // },
-    // {
-    //   "name": "Dr. Sofia Al-Farsi",
-    //   "designation": "Academic Writer",
-    //   "about": "PhD in History with a specialization in 20th-century political movements. Published two peer-reviewed monographs and numerous journal articles. Currently works as a research editor and provides consultative services for academic publishing and grant applications."
-    // }
-  ],
-  class: "1", // 0 means not meant for any class
-  subject:"General Knowledge",
-  language : "English",
-  edition: 1,
-  publishedBy: 'Anmol Educational Books',
-  printedBy: "IMPRESSIONS PRINTING AND PACKAGING LTD",
-  publishYear: "2025",
-  isbn: "978-81-958453-6-1",
-  nepYear: "2020",
-  reviews: [
-    {
-    "name": "Priya L.",
-    "stars": 4.0,
-    "review": "Outstanding series! It successfully moves beyond simple facts, serving as a true extension of NCF 2023 and NEP guidelines. The inclusion of life skills, quizzes, and stories truly brings general knowledge alive in the classroom. The unit on 'Me and My Surroundings' is perfect for younger grades."
-    },
-    {
-    "name": "Rajesh K.",
-    "stars": 4.5,
-    "review": "Very impressed with the depth and relevance. The eight pages of updated 'Current Affairs' and the dedicated 'Yog page' are invaluable additions. It is one of the rare series to feature comprehensive verbal and non-verbal reasoning exercises, making it excellent for developing aptitude. Highly recommended for holistic learning."
-    },
-    {
-    "name": "Aisha M.",
-    "stars": 4.0,
-    "review": "A truly comprehensive and co-scholastic resource. The seven basic units, especially 'Language and Literature' and 'Science and Technology,' are well-structured for the respective age groups. My only suggestion for improvement would be adding a third model test paper for more regular assessment opportunities."
-    },
-    {
-    "name": "Vikas T.",
-    "stars": 5.0,
-    "review": "This series ensures learning at the initiative of the students, making the content interactive and highly engaging. The focus on connecting knowledge to the student’s life and world is evident in every unit. The 'Mental Maths and Reasoning' section is a powerful tool for cognitive development."
+      "about": "A published author and freelance copywriter known for developing engaging narrative content. Graduated with a BA in English Literature and has written numerous short stories and educational pieces for young learners."
     }
-    ],
-  images: [gk1 , gk2, gk3 , gk4], // TODO: book image upload
-  tags: ['nep','gk' , 'english' , 'general knowledge'], // this helps in book search
-  sampleBook: '', // a link to where the books is located
-  // TODO: book upload
-  buyLinks : [{platform:'amazon' , link:''} , {platform:'flipkart' , link:''}],
-  subscribed : false, // tells whether the user can read full book or not , this is not part of it , it's added
-  bookList : [ // this is not part of it it needs to be added
+  ],
+  "class": "1",
+  "subject": "General Knowledge",
+  "language": "English",
+  "edition": 1,
+  "publishedBy": "Anmol Educational Books",
+  "printedBy": "IMPRESSIONS PRINTING AND PACKAGING LTD",
+  "publishYear": "2025",
+  "isbn": "978-81-958453-6-1",
+  "nepYear": "2020",
+  "reviews": [
     {
-      id: "1",
-      image: "",
-      title: "General Knowledge",
+      "name": "Priya L.",
+      "stars": 4.0,
+      "review": "Outstanding series! It successfully moves beyond simple facts and aligns well with modern education policies. The inclusion of life skills, quizzes, and stories makes learning engaging."
     },
     {
-      id: "2",
-      image: "",
-      title: "General Knowledge",
+      "name": "Rajesh K.",
+      "stars": 4.5,
+      "review": "Very impressed with the depth and relevance. The reasoning sections and current affairs content make it a valuable resource for overall development."
     },
     {
-      id: "3",
-      image: "",
-      title: "General Knowledge",
+      "name": "Aisha M.",
+      "stars": 4.0,
+      "review": "A comprehensive and well-structured resource. Covers diverse topics effectively for young learners."
     },
     {
-      id: "4",
-      image: "",
-      title: "General Knowledge",
+      "name": "Vikas T.",
+      "stars": 5.0,
+      "review": "Highly engaging and interactive. Encourages independent learning and connects knowledge to real-life situations."
+    }
+  ],
+  "images": [gk1,gk2,gk3,gk4],
+  "tags": ["nep", "gk", "english", "general knowledge"],
+  "sampleBook": "",
+  "buyLinks": [
+    {
+      "platform": "amazon",
+      "link": ""
     },
-  ]
+    {
+      "platform": "flipkart",
+      "link": ""
+    }
+  ],
+  "subscribed": false,
+  
 };
 // TODO: remove it later
 // NOTE: this is should be the part of book info response
@@ -180,7 +140,7 @@ const ImagePresenter = ({ images = [], currentImage = 0, setCurrentImage }) => {
     <div className="w-full h-full flex flex-col">
       <div className="relative w-full grow-1 flex items-center justify-center">
         {/* navigation */}
-        <div className="absolute m-auto md:m-0 md:top-9/10 w-full flex justify-between md:justify-center md:gap-3">
+       {images.length > 2 && <div className="absolute m-auto md:m-0 md:bottom-1/90 w-full flex justify-between md:justify-center md:gap-3">
           <ArrowBackwardIcon
             onClick={() => {
               setCurrentImage(
@@ -195,21 +155,21 @@ const ImagePresenter = ({ images = [], currentImage = 0, setCurrentImage }) => {
             }
             className="cursor-pointer selet-none"
           />
-        </div>
+        </div>}
         {/* big image */}
         <img
           src={images[currentImage]}
-          className="max-h-80 md:max-h-100 object-contain"
+          className="max-h-80 md:max-h-90 object-contain"
         />
       </div>
-      <div className="w-full pb-1 flex gap-3 px-2 overflow-x-scroll items-center shrink-0 h-20">
+      <div className="w-full pb-1 flex gap-3 px-2 overflow-x-scroll justify-center items-center shrink-0 h-20">
         {images.map((_, index) => {
           return (
             <div
               key={index}
               onClick={() => setCurrentImage(index)}
-              className={`bg-black m-auto shrink-0 w-13 h-9/10 bg-cover ${currentImage === index && 'outline-4'}`}
-              style={{ backgroundImage: `url(${_})` }}
+              className={`bg-black shrink-0 w-13 h-9/10 bg-cover ${currentImage === index && 'outline-4'}`}
+              style={{ backgroundImage: `url(${_})`, marginLeft: (index === 0 && images.length > 4) ? '3.5rem' : 0 }}
             ></div>
           );
         })}
@@ -261,7 +221,7 @@ const BookDetails = ()=>{
   const rating = (BOOK_INFO.reviews.reduce((a,b)=>{return {stars:a.stars+b.stars} })).stars / BOOK_INFO.reviews.length; // average of rating
 
   useEffect(()=>{ // here will go the logic for getting the books details
-    axios.get(`${import.meta.env.VITE_SERVER_URL}/book-details/${params.id}`,{
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/books/book-details/${params.id}`,{
       withCredentials:true 
     })
     .then(res=>{
@@ -271,9 +231,9 @@ const BookDetails = ()=>{
     }).catch(e=>{
       toast.error('Some error occurred1');
     })
-    setTimeout(()=>{
-      setBookInfo(BOOK_INFO); // TODO: remove it later this is just for dummy usage until server not functional 
-    },500)
+    // setTimeout(()=>{
+    //   setBookInfo(BOOK_INFO); // TODO: remove it later this is just for dummy usage until server not functional 
+    // },500)
   },[])
 
     return (
@@ -292,7 +252,7 @@ const BookDetails = ()=>{
               className="w-full max-w-[1280px] relative z-0 h-fit flex flex-col md:flex-row gap-0 md:gap-2 py-2 px-1"
             >
               {/* left where the images will be shown*/}
-              <div className="w-full md:w-1/3 h-screen max-h-130 flex flex-col">
+              <div className="w-full md:w-1/3 h-screen min-w-[20rem] max-h-130 flex flex-col">
                 <ImagePresenter
                   images={bookInfo.images}
                   currentImage={currentImage}
@@ -304,7 +264,7 @@ const BookDetails = ()=>{
               <div className="grow-1 text-sm md:text-md lg:text-[1rem] h-screen max-h-fit md:max-h-130 flex flex-col gap-5 md:gap-2 justify-between pt-4 px-3">
                 {/* heading region */}
                 <div>
-                  <h1 className="font-bold text-3xl">Knowledge Insights</h1>
+                  <h1 className="font-bold text-3xl">{bookInfo.name}</h1>
                   <Rating
                     name="half-rating"
                     readOnly
@@ -577,8 +537,9 @@ const BookDetails = ()=>{
               data-aos="fade-up"
               className="w-full max-w-[1280px] mt-15 h-fit flex flex-col"
             >
-              <BooksList title="Others in Series" list={bookInfo.bookList} />
-              <BooksList title="Latest Releases" list={bookInfo.bookList} />
+              {/* TODO: implement it, the other books shall be added within the handler and will not be stored in the db level */}
+              {/* {bookInfo.bookList.length > 0 && <BooksList title="Others in Series" list={bookInfo.bookList} />}
+              {bookInfo.bookList.length > 0 && <BooksList title="Latest Releases" list={bookInfo.bookList} />} */}
             </div>
           </>
         )}

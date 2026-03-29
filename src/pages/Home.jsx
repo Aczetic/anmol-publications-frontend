@@ -274,8 +274,8 @@ const Book = ({data})=>{
 
 //todo: remove this backup when books are uploaded
 const OurBooks = ({books = null})=>{
-  // const BOOKS = books?.length !== 0 ? books : BOOKS_BACKUP;
-  const BOOKS = BOOKS_BACKUP;
+   const BOOKS = books?.length !== 0 ? books : BOOKS_BACKUP;
+  // const BOOKS = BOOKS_BACKUP;
   return <div data-aos = 'fade-up' className = 'w-full h-fit mt-[5rem] flex flex-col gap-4'>
       <div data-aos = 'fade' className = 'flex flex-col gap-1 p-2'>
           <h2 className = 'font-bold text-3xl text-center'> Our Books</h2>
@@ -363,6 +363,7 @@ const Contact = ()=>{
 
 const Home = () => {
   const [data, setData] = useState({ books: null, testimonials: null });
+  const [books, setBooks] = useState([]);
   const profile = useSelector(state=>state.profile);
 
   useEffect(() => {
