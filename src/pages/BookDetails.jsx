@@ -59,30 +59,30 @@ const BOOK_INFO ={
   ],
   people : [
     {
-      "name": "Evelyn Reed",
+      "name": "Tarun Kumar Singh",
       "designation": "Senior Content Developer",
       "about": "A results-driven professional with 8+ years of experience in technical writing and content strategy. Holds a Master’s degree in Communications from Stanford University. Led the documentation team for the launch of three major B2B SaaS platforms. Specializes in transforming complex API documentation into user-friendly guides and tutorials."
     },
     {
-      "name": "Marcus Chen",
+      "name": "Anamika Sirvastava",
       "designation": "Creative Writer",
       "about": "A published author and freelance copywriter known for developing engaging narrative content. Graduated Magna Cum Laude with a BA in English Literature. Has written over 50 short stories and contributed articles to several prominent digital magazines. Successfully completed a 12-month intensive fiction writing fellowship."
     },
-    {
-      "name": "Priya Sharma",
-      "designation": "Technical Writer",
-      "about": "Expert in developing detailed user manuals and internal process documentation for the financial technology (FinTech) sector. Completed a BSc in Computer Science and a Certification in Technical Writing. Has successfully streamlined documentation processes, reducing onboarding time for new users by 20%."
-    },
-    {
-      "name": "Alexandr Volkov",
-      "designation": "UX Content Strategist",
-      "about": "Focuses on microcopy and in-app messaging to improve user flow and conversion rates. Holds a degree in Linguistics and Human-Computer Interaction (HCI). Previous roles include driving the voice and tone guidelines for a global e-commerce brand and optimizing CTA language based on A/B testing results."
-    },
-    {
-      "name": "Dr. Sofia Al-Farsi",
-      "designation": "Academic Writer",
-      "about": "PhD in History with a specialization in 20th-century political movements. Published two peer-reviewed monographs and numerous journal articles. Currently works as a research editor and provides consultative services for academic publishing and grant applications."
-    }
+    // {
+    //   "name": "Priya Sharma",
+    //   "designation": "Technical Writer",
+    //   "about": "Expert in developing detailed user manuals and internal process documentation for the financial technology (FinTech) sector. Completed a BSc in Computer Science and a Certification in Technical Writing. Has successfully streamlined documentation processes, reducing onboarding time for new users by 20%."
+    // },
+    // {
+    //   "name": "Alexandr Volkov",
+    //   "designation": "UX Content Strategist",
+    //   "about": "Focuses on microcopy and in-app messaging to improve user flow and conversion rates. Holds a degree in Linguistics and Human-Computer Interaction (HCI). Previous roles include driving the voice and tone guidelines for a global e-commerce brand and optimizing CTA language based on A/B testing results."
+    // },
+    // {
+    //   "name": "Dr. Sofia Al-Farsi",
+    //   "designation": "Academic Writer",
+    //   "about": "PhD in History with a specialization in 20th-century political movements. Published two peer-reviewed monographs and numerous journal articles. Currently works as a research editor and provides consultative services for academic publishing and grant applications."
+    // }
   ],
   class: "1", // 0 means not meant for any class
   subject:"General Knowledge",

@@ -255,23 +255,27 @@ const Features = () => {
 
 const Book = ({data})=>{
   // TODO: implement the button
-   return <NavLink to = {'/book-details/'+data.id} className = 'w-30 h-42 md:w-35 md:h-52 flex flex-col gap-2 p-1'>
-        <div className = 'w-full h-35 flex justify-center items-center'>
-          <img src = {data.img} alt = {data.name} className = 'w-20 md:w-25 h-full' style = {{objectFit : 'cover', objectPosition:'5% 0'}} loading = "lazy"/>
+   return <NavLink to = {'/book-details/'+data.id} className = 'w-30 h-42 md:w-35 md:h-52 flex flex-col justify-between p-1'>
+    <div className = "w-full flex flex-col h-[83%] items-center">
+
+        <div className = 'w-full h-[75%] flex justify-center items-center'>
+          <img src = {data.img} alt = {data.name} className = 'w-20 md:w-25 h-full' style = {{objectFit : 'contain', objectPosition:'center'}} loading = "lazy"/>
         </div>
-        <div className = 'w-full flex flex-col justify-center items-center gap-1 px-2'>
+        <div className = 'w-full h-full flex flex-col justify-center items-center gap-1 px-2 '>
           <p className = 'text-xs font-bold md:text-sm text-center'>{data.name}</p>
+        </div>
+    </div>
           {/* todo: add the dynamic ids in the books */}
-          <button className = 'w-full text-xs md:text-sm py-1 text-white bg-red-500 cursor-pointer select-none rounded-sm text-center'>
+          <button className = 'w-full h-[15%] text-xs md:text-sm py-1 text-white bg-red-500 cursor-pointer select-none rounded-sm text-center'>
               Read
           </button>
-        </div>
    </NavLink>
 }
 
 //todo: remove this backup when books are uploaded
 const OurBooks = ({books = null})=>{
-  const BOOKS = books?.length !== 0 ? books : BOOKS_BACKUP;
+  // const BOOKS = books?.length !== 0 ? books : BOOKS_BACKUP;
+  const BOOKS = BOOKS_BACKUP;
   return <div data-aos = 'fade-up' className = 'w-full h-fit mt-[5rem] flex flex-col gap-4'>
       <div data-aos = 'fade' className = 'flex flex-col gap-1 p-2'>
           <h2 className = 'font-bold text-3xl text-center'> Our Books</h2>
