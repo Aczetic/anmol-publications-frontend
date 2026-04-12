@@ -43,7 +43,7 @@ const BookTitleMarquee = ({title = '' , offset = 15 , speed = 5 , className = ''
     );
   };
   
-  const BooksList = ({list = [] , title = 'List Heading'})=>{
+  const BooksList = ({list = [] , title = 'List Heading' , isFullWidth = false})=>{
     const ref = useRef(null);
     const scrollLeft = ()=>{
       const scrollTo = window.innerWidth + ref.current.scrollLeft - 200;
@@ -54,7 +54,7 @@ const BookTitleMarquee = ({title = '' , offset = 15 , speed = 5 , className = ''
       ref.current.scroll(scrollTo,0);
     }
     return (
-      <div className="w-full md:max-w-[calc(100vw_-_240px)] h-fit p-2 md:pl-5 pt-0 pb-3 flex flex-col gap-1">
+      <div className={`w-full md:max-w-[calc(100vw_-_${isFullWidth?'0px':'240px'})] h-fit p-2 md:pl-5 pt-0 pb-3 flex flex-col gap-1`}>
         <div className="text-xl flex items-center gap-4 py-2 w-full font-bold text-black">
           {title}
           {window.innerWidth > window.innerHeight && (

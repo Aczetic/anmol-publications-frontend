@@ -176,16 +176,13 @@ const Books = () => {
       })
       .then(res=>{
         if(res.data.success){
-          setFilterResult(res.data)
+          setFilterResult(res.data.data)
         }
       })
       .catch(e=>{
         if(e.name !== 'CanceledError')
           toast.error('Some Error occurred !');
       });
-    }else if(filterOption.length === 0 && filterResult.length > 0){ // if no filters left then empty the filter result 
-      setFilterResult([]);
-      setFilterOption([]);
     }
     
     return ()=>controller.abort(); // cancel the previous request if a new one is made
@@ -253,9 +250,9 @@ const Books = () => {
                   {filterResult.map((each, index) => (
                     <Book
                       key={each.id || index}
-                      title={each.title}
+                      title={each.name}
                       id={each.id}
-                      image={each.image}
+                      img={each.images[0]}
                     />
                   ))}
                 </div>
@@ -277,7 +274,7 @@ const Books = () => {
           </div>
         </div>
       </div>
-      <button onClick = {LoadMore} className = 'w-full text-sm text-black flex flex-col items-center text-center pb-10 cursor-pointer select-none'>Load More<ArrowDownIcon/></button>
+      {(filterOption.length === 0 && filterResult.length === 0) && <button onClick = {LoadMore} className = 'w-full text-sm text-black flex flex-col items-center text-center pb-10 cursor-pointer select-none'>Load More<ArrowDownIcon/></button>}
     </div>
   );
 }

@@ -234,7 +234,7 @@ const BookDetails = ()=>{
     // setTimeout(()=>{
     //   setBookInfo(BOOK_INFO); // TODO: remove it later this is just for dummy usage until server not functional 
     // },500)
-  },[])
+  },[params.id])
 
     return (
       <div className="w-full items-center h-fit min-h-screen flex flex-col">
@@ -538,8 +538,8 @@ const BookDetails = ()=>{
               className="w-full max-w-[1280px] mt-15 h-fit flex flex-col"
             >
               {/* TODO: implement it, the other books shall be added within the handler and will not be stored in the db level */}
-              {/* {bookInfo.bookList.length > 0 && <BooksList title="Others in Series" list={bookInfo.bookList} />}
-              {bookInfo.bookList.length > 0 && <BooksList title="Latest Releases" list={bookInfo.bookList} />} */}
+              {bookInfo.booksList.length > 0 && <BooksList title="Others in Series" list={bookInfo.booksList} isFullWidth = {true}/>}
+              {/*bookInfo.bookList.length > 0 && <BooksList title="Latest Releases" list={bookInfo.bookList} />} */}
             </div>
           </>
         )}
