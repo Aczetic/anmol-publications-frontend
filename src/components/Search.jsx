@@ -7,28 +7,6 @@ import {BOOKS} from '../assets/front_covers/images.js';
 import { BookTitleMarquee } from "./BooksList";
 import { NavLink } from "react-router";
 
-const SearchResultsSchema = [
-  {
-    id:'234324',
-    name:'General Knowledge Book hello world h',
-    bookDetail: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos debitis temporibus esse provident. Nobis cupiditate eligendi error ex enim modi! Qui recusandae, provident beatae doloremque delectus molestias veritatis dolores, repellendus eveniet labore praesentium illo aperiam nisi rerum perferendis consectetur voluptate unde! Dolorem maiores earum dolores obcaecati rerum porro beatae.',
-    subject:"General Knowledge",
-    language:"English",
-    edition:1,
-    class:8,
-    image:BOOKS.gk1
-  },
-  {
-    id:'2343224',
-    name:'General Knowledge Book hello world h',
-    bookDetail: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos debitis temporibus esse provident. Nobis cupiditate eligendi error ex enim modi! Qui recusandae, provident beatae doloremque delectus molestias veritatis dolores, repellendus eveniet labore praesentium illo aperiam nisi rerum perferendis consectetur voluptate unde! Dolorem maiores earum dolores obcaecati rerum porro beatae.',
-    subject:"General Knowledge",
-    language:"English",
-    edition:1,
-    class:8,
-    image:BOOKS.gk2
-  }
-] // todo: remove it later
 
 const ResultCard = ({data = {
 
@@ -61,11 +39,11 @@ const ResultCard = ({data = {
 
 const Search = () => {
     const [searchText , setSearchText] = useState('');
-    const [searchResult , setSearchResult] = useState([]);
+    const [searchResult , setSearchResult] = useState(null);
     const [inFocus , setInFocus] = useState(false);
 
     const handleSearch = ()=>{
-      axios.post(`${import.meta.env.VITE_SERVER_URL}/books/filter?q=${searchText}`).
+      axios.get(`${import.meta.env.VITE_SERVER_URL}/books/search?q=${searchText}`).
       then(res=>{
           if(res.data.success){
               setInFocus(true);
@@ -79,12 +57,13 @@ const Search = () => {
 
     useEffect(()=>{
       let timeout = null;
-
+      setSearchResult(null);
+      
       if(searchText !== ''){
 
         timeout = setTimeout(()=>{
 
-          axios.post(`${import.meta.env.VITE_SERVER_URL}/books/filter?q=${searchText}`).
+          axios.get(`${import.meta.env.VITE_SERVER_URL}/books/search?q=${searchText}`).
          
           then(res=>{
             if(res.data.success){
@@ -97,7 +76,7 @@ const Search = () => {
 
         },500)
       }else{
-        setSearchResult([]);
+        setSearchResult(null);
       }
 
       return ()=>{clearTimeout(timeout)}
@@ -134,7 +113,7 @@ const Search = () => {
         {searchText && (
           <div className=" absolute top-[54px] z-3000 w-full max-w-[1280px] bg-red-50 h-fit flex shadow-2xl">
             <div className="w-full flex flex-col justify-center items-center text-white bg-white gap-[0.2rem]">
-              {searchResult.length > 0 ? (
+              {searchResult && searchResult.length > 0 ? (
                 inFocus &&
                 searchResult.map((data, index) => (
                   <ResultCard
@@ -145,7 +124,7 @@ const Search = () => {
                     data={data}
                   />
                 ))
-              ) : (
+              ) :(searchResult &&  searchResult.length === 0)? <span className = "w-full text-black text-center p-2">Nothing Found!</span> :(
                 <Loader1 className="w-20" />
               )}
             </div>
