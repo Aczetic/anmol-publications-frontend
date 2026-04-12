@@ -25,11 +25,17 @@ const ResultCard = ({data = {
       <div className = 'flex flex-col w-[90%] font-semibold text-black overflow-x-hidden'>
         <BookTitleMarquee title = {data.name} offset = {window.innerWidth / 12} speed = {10} className = 'w-full truncate'/>
         <p className = 'w-full text-xs md:text-sm text-nowrap truncate shrink-0 font-normal'>{data.bookDetail}</p>
-        <div className = 'w-full h-full text-black flex flex-col'>
-          <span className = 'text-xs md:text-sm grid grid-cols-[10%_2%_88%]'>
-            <p className = 'font-semibold'>Subject</p>:<p className = 'font-normal'>{data.subject}</p>
-            <p className = 'font-semibold'>Language</p>:<p className = 'font-normal'>{data.language}</p>
-            <p className = 'font-semibold'>Class</p>:<p className = 'font-normal'>{data.class}</p>
+        <div className = 'w-full h-full text-black flex flex-col mt-1'>
+          <span className = 'text-xs md:text-sm '>
+            <span className = 'flex gap-1'>
+              <p className = 'font-semibold'>Subject</p>:<p className = 'font-normal'>{data.subject}</p>
+            </span>
+            <span className = 'flex gap-1'>
+              <p className = 'font-semibold'>Language</p>:<p className = 'font-normal'>{data.language}</p>
+            </span>
+            <span className = 'flex gap-1'>
+              <p className = 'font-semibold'>Class</p>:<p className = 'font-normal'>{data.class}</p>
+            </span>
           </span>
         </div>
       </div>
@@ -58,7 +64,7 @@ const Search = () => {
     useEffect(()=>{
       let timeout = null;
       setSearchResult(null);
-      
+
       if(searchText !== ''){
 
         timeout = setTimeout(()=>{
