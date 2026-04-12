@@ -42,7 +42,7 @@ const ResultCard = ({data = {
 
   return <NavLink onClick = {onClick} to = {'/book-details/'+data.id} className = 'w-full h-fit bg-red-50 flex gap-2 p-2 md:px-4 cursor-pointer'>
       <div className = 'w-20 shrink-0 h-full'>
-        <img src = {data.image} className = 'h-full'/>
+        <img src = {data.images[0]} className = 'h-full'/>
       </div>
       <div className = 'flex flex-col w-[90%] font-semibold text-black overflow-x-hidden'>
         <BookTitleMarquee title = {data.name} offset = {window.innerWidth / 12} speed = {10} className = 'w-full truncate'/>
@@ -65,7 +65,7 @@ const Search = () => {
     const [inFocus , setInFocus] = useState(false);
 
     const handleSearch = ()=>{
-      axios.get(`${import.meta.env.VITE_SERVER_URL}/books/search?q=${searchText}`).
+      axios.post(`${import.meta.env.VITE_SERVER_URL}/books/filter?q=${searchText}`).
       then(res=>{
           if(res.data.success){
               setInFocus(true);
@@ -84,7 +84,7 @@ const Search = () => {
 
         timeout = setTimeout(()=>{
 
-          axios.get(`${import.meta.env.VITE_SERVER_URL}/books/search?q=${searchText}`).
+          axios.post(`${import.meta.env.VITE_SERVER_URL}/books/filter?q=${searchText}`).
          
           then(res=>{
             if(res.data.success){

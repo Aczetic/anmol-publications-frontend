@@ -274,7 +274,7 @@ const Books = () => {
           </div>
         </div>
       </div>
-      {(filterOption.length === 0 && filterResult.length === 0) && <button onClick = {LoadMore} className = 'w-full text-sm text-black flex flex-col items-center text-center pb-10 cursor-pointer select-none'>Load More<ArrowDownIcon/></button>}
+      {(filterOption.length === 0) && <button onClick = {LoadMore} className = 'w-full text-sm text-black flex flex-col items-center text-center pb-10 cursor-pointer select-none'>Load More<ArrowDownIcon/></button>}
     </div>
   );
 }
