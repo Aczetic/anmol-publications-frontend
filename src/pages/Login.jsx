@@ -1,4 +1,5 @@
-import { NavLink, useNavigate } from 'react-router';
+import { NavLink, useNavigate, useSearchParams } from 'react-router';
+import { getRedirect, withRedirect } from '../utils/redirect';
 import EmailIcon from '@mui/icons-material/Email';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -49,6 +50,8 @@ const Login = () => {
   const videoLoaderRef = useRef(null);
   const [logging , setLogging ] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = getRedirect(searchParams); // page to go back to after login e.g. read sample
   const user = useSelector((state)=>state.user);
   const dispatch = useDispatch();
   const [otpFormVisible , setOtpFormVisible] = useState(false);
@@ -206,7 +209,7 @@ const Login = () => {
 // if the user is logged in then go to profile/dashboard
  useEffect(()=>{
     if(user){
-      navigate(user.role!=='principal'?'/profile':'/dashboard');
+      navigate(redirect || (user.role!=='principal'?'/profile':'/dashboard'), {replace: true});
     }
  })
 
@@ -352,7 +355,7 @@ const Login = () => {
                 </button>
                 <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
                   {"Don't have an account"} ? &nbsp;
-                  <NavLink className="font-semibold" to="/sign-up">
+                  <NavLink className="font-semibold" to={withRedirect("/sign-up", redirect)}>
                     Sign Up
                   </NavLink>
                 </div>
@@ -464,7 +467,7 @@ const Login = () => {
                 </button>
                 <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
                   {"Don't have an account"} ? &nbsp;
-                  <NavLink className="font-semibold" to="/sign-up">
+                  <NavLink className="font-semibold" to={withRedirect("/sign-up", redirect)}>
                     Sign Up
                   </NavLink>
                 </div>

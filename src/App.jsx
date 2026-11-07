@@ -74,7 +74,6 @@ const App = () => {
           {/*this route will redirect to upper route from client side} */}
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/books" element={<Books />} />
-          <Route path="/read-sample/:id" element={<ReadSample />} />
           <Route path="/read-book/:id" element={<ReadBook />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/blogs" element={<Blogs />} />
@@ -91,6 +90,7 @@ const App = () => {
             <Route path="/testpaper-generator" element={<TestpaperGenerator />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/read-sample/:id" element={<ReadSample />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>

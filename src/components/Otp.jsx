@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
+import { getRedirect } from '../utils/redirect';
 import { toast } from 'react-toastify';
 import { setUser } from '../features/userSlice';
 import Loader1 from './Loader1';
@@ -9,6 +10,8 @@ import Loader1 from './Loader1';
 const Otp = ({email , path}) => {
   const [input , setInput] = useState('    ');
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = getRedirect(searchParams); // set when login was opened from a protected page e.g. read sample
   const dispatch = useDispatch();
   const [isSubmitting , setIsSubmitting] = useState(false);
   const inputsRef = useRef(0);
@@ -68,7 +71,7 @@ const Otp = ({email , path}) => {
           dispatch(setUser(res.data.user)) // set the user data in store
           window.localStorage.setItem('user',JSON.stringify(res.data.user))// set the data also in local storage 
           toast.success(path === 'signup'? 'Signed up successfully !': "Logged in successfully")
-          setTimeout(()=>navigate(res.data.user.role!='principal' && res.data.user.role != 'admin' ?'/profile':'/dashboard'), 2000);
+          setTimeout(()=>navigate(redirect || (res.data.user.role!='principal' && res.data.user.role != 'admin' ?'/profile':'/dashboard'), {replace: true}), 2000);
 
         }else if (res.data.message === 'INCORRECT_OTP'){
           toast.error(`Enter correct OTP you have ${res.data.chances} chances left`);

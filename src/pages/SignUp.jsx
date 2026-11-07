@@ -1,4 +1,5 @@
-import { NavLink, useNavigate } from 'react-router';
+import { NavLink, useNavigate, useSearchParams } from 'react-router';
+import { getRedirect, withRedirect } from '../utils/redirect';
 import z from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod"
 import EmailIcon from '@mui/icons-material/Email';
@@ -80,6 +81,8 @@ const SignUp = () => {
   const [passwordVisible ,setPasswordVisible] = useState(false);
   const [confirmPasswordVisible ,setConfirmPasswordVisible] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = getRedirect(searchParams); // page to go back to after sign up e.g. read sample
   const videoRef = useRef(null);
   const videoLoaderRef = useRef(null);
   const [signingup , setSigningup] = useState(false);
@@ -119,7 +122,7 @@ const SignUp = () => {
 // if the user is logged in then go to profile/dashboard
  useEffect(()=>{
   if(user){
-    navigate((user.role==='principal' || user.role === 'admin')?'/dashboard':'/profile');
+    navigate(redirect || ((user.role==='principal' || user.role === 'admin')?'/dashboard':'/profile'), {replace: true});
   }
 })
 
@@ -616,7 +619,7 @@ const SignUp = () => {
                 </button>
                 <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
                   {"Already have an account."} ? &nbsp;
-                  <NavLink className="font-semibold" to="/login">
+                  <NavLink className="font-semibold" to={withRedirect("/login", redirect)}>
                     Log In
                   </NavLink>
                 </div>
@@ -999,7 +1002,7 @@ const SignUp = () => {
                 </button>
                 <div className="w-full py-2 flex justify-center h-fit text-xs md:text-sm font-light text-white">
                   {"Already have an account."} ? &nbsp;
-                  <NavLink className="font-semibold" to="/login">
+                  <NavLink className="font-semibold" to={withRedirect("/login", redirect)}>
                     Log In
                   </NavLink>
                 </div>
