@@ -4,9 +4,12 @@ import { useEffect, useRef, useState } from "react";
 // to switch to the paid version just replace the files in public/dflip
 const DFLIP_LOCATION = "/dflip/";
 let dflipLoader = null; // shared promise so that jQuery and dflip are loaded only once
-// spreads kept downloaded around the open one -> 2 behind + open + 3 ahead = 12 pages (more ahead as books are mostly read forward)
-const SPREADS_BEHIND = 2;
-const SPREADS_AHEAD = 3;
+// pages kept downloaded before and after the visible page(s)
+const PAGES_BEHIND = 6;
+const PAGES_AHEAD = 6;
+// dflip draws the pages of stackCount / 2 spreads around the open one (default 6 -> only the previous and next spread)
+// so it is raised to also render PAGES_BEHIND / PAGES_AHEAD pages , not just download them
+const STACK_COUNT = 2 * (Math.max(PAGES_BEHIND, PAGES_AHEAD) + 1);
 
 const loadScript = (src) =>
   new Promise((resolve, reject) => {
@@ -34,7 +37,12 @@ const loadDflip = () => {
       return Promise.all([
         loadScript(DFLIP_LOCATION + "js/libs/three.min.js"),
         loadScript(DFLIP_LOCATION + "js/dflip.min.js"),
-      ]).then(() => jQuery);
+      ]).then(() => {
+        // by default dflip draws pages only when no flip animation is running , so while turning pages fast
+        // the pages stay blank till you stop , this makes it keep drawing them during the animation as well
+        window.DEARFLIP.defaults.instantTextureProcess = true;
+        return jQuery;
+      });
     }).catch((e) => {
       dflipLoader = null; // allow retry
       throw e;
@@ -52,14 +60,19 @@ const FlipBook = ({ source, className = "" }) => {
     let app = null;
     let cancelled = false;
 
-    // for image books, keep the spreads around the open one downloaded so flipping either way looks continuous
-    // e.g. while 8,9 is open -> 4..7 + 8,9 + 10..15 are ready , the browser cache serves them when dflip asks for them
+    // for image books, keep the pages before and after the visible ones downloaded so flipping either way looks continuous
+    // e.g. on page 6 -> 7..12 (and 1..5) are ready , moving to 7 only downloads 13 as the rest are already there
+    // the browser cache serves them when dflip asks for them
     const preloaded = new Set();
     const preloadNearbyPages = (flipbook) => {
       if (!Array.isArray(source)) return; // pdf.js loads pdf pages itself
-      const spreadStart = Math.floor(flipbook.currentPageNumber / 2) * 2; // left page of the open spread , same as dflip
-      const first = Math.max(1, spreadStart - 2 * SPREADS_BEHIND);
-      const last = Math.min(source.length, spreadStart + 1 + 2 * SPREADS_AHEAD);
+      const current = flipbook.currentPageNumber; // dflip pages start from 1
+      // single page view shows only the current page , the two page view shows the spread (left page is even , same as dflip)
+      const singlePage = flipbook.viewer?.isBooklet === true;
+      const firstVisible = singlePage ? current : Math.floor(current / 2) * 2;
+      const lastVisible = singlePage ? current : firstVisible + 1;
+      const first = Math.max(1, firstVisible - PAGES_BEHIND);
+      const last = Math.min(source.length, lastVisible + PAGES_AHEAD);
       for (let page = first; page <= last; page++) { // dflip pages start from 1
         if (preloaded.has(page)) continue;
         preloaded.add(page);
@@ -74,6 +87,7 @@ const FlipBook = ({ source, className = "" }) => {
         if (cancelled) return;
         app = $(containerRef.current).flipBook(source, {
           is3D: true,
+          stackCount: STACK_COUNT,
           height: "100%",
           backgroundColor: "transparent",
           showDownloadControl: false,
