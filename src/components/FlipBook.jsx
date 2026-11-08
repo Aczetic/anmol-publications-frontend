@@ -37,12 +37,7 @@ const loadDflip = () => {
       return Promise.all([
         loadScript(DFLIP_LOCATION + "js/libs/three.min.js"),
         loadScript(DFLIP_LOCATION + "js/dflip.min.js"),
-      ]).then(() => {
-        // by default dflip draws pages only when no flip animation is running , so while turning pages fast
-        // the pages stay blank till you stop , this makes it keep drawing them during the animation as well
-        window.DEARFLIP.defaults.instantTextureProcess = true;
-        return jQuery;
-      });
+      ]).then(() => jQuery);
     }).catch((e) => {
       dflipLoader = null; // allow retry
       throw e;
